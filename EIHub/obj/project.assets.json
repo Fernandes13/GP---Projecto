@@ -12539,15 +12539,12 @@
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bruno\\Source\\Repos\\GP--Projecto\\EIHub\\EIHub.csproj",
+      "projectUniqueName": "C:\\Users\\Bruno\\Source\\Repos\\GP-Projecto\\EIHub\\EIHub.csproj",
       "projectName": "EIHub",
-      "projectPath": "C:\\Users\\Bruno\\Source\\Repos\\GP--Projecto\\EIHub\\EIHub.csproj",
+      "projectPath": "C:\\Users\\Bruno\\Source\\Repos\\GP-Projecto\\EIHub\\EIHub.csproj",
       "packagesPath": "C:\\Users\\Bruno\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bruno\\Source\\Repos\\GP--Projecto\\EIHub\\obj\\",
+      "outputPath": "C:\\Users\\Bruno\\Source\\Repos\\GP-Projecto\\EIHub\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
