@@ -2,3 +2,57 @@
     margin: 0;
     padding: 0;
 }
+
+.bg-dark {
+    background-color: #202020 !important;
+}
+
+.navbar-toggler {
+    margin-left: 10%;
+    text-align:center;
+}
+
+.active {
+
+    border-bottom: 1px solid white;
+}
+
+nav a {
+    color: #ddd !important;
+    font-size: 1.19em !important;
+}
+
+nav a:hover{
+    color: white !important;
+}
+
+.navbar-brand {
+    font-size: 1.6em !important;
+}
+
+.navbar-form input {
+    -moz-box-sizing: border-box;
+    height:1.82em;
+    font-size:1em;
+}
+
+.input-group-btn {
+    line-height: 1em !important;
+    font-size: 1em !important;
+}
+
+
+.glyphicon.glyphicon-search {
+    font-size: 1.25em !important;
+}
+
+
+
+/*
+    MEDIUM AND LARGE SCREENS
+*/
+@media only screen and (min-width: 900px) {
+    .navbar-nav .nav-item {
+        margin-left: 18%;
+    }
+}
