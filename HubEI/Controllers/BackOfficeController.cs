@@ -12,5 +12,11 @@ namespace HubEI.Controllers
         {
             return View();
         }
+
+        public IActionResult Students()
+        {
+            return View();
+        }
+
     }
 }

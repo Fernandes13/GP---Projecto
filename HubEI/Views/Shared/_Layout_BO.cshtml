@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>HubEI</title>
+    <title>HubEI - BackOffice</title>
 
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -18,71 +18,67 @@
 
 </head>
 <body class="fixed-nav bg-dark" id="page-top">
-    <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a class="navbar-brand" asp-area="" asp-controller="BackOffice" asp-action="Index">HubEI - BackOffice</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="accordion">
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projectos">
                     <a class="nav-link" href="index.html">
-                        <i class="fa fa-fw fa-dashboard"></i>
-                        <span class="nav-link-text">CENA 0</span>
+                        <i class="fa fa-fw fa-slideshare"></i>
+                        <span class="nav-link-text">PROJECTOS</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fa fa-fw fa-area-chart"></i>
-                        <span class="nav-link-text">CENA 1</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-                    <a class="nav-link" href="tables.html">
-                        <i class="fa fa-fw fa-table"></i>
-                        <span class="nav-link-text">CENA 2</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Colaboradores">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#accordion">
-                        <i class="fa fa-fw fa-wrench"></i>
-                        <span class="nav-link-text">CENA 3</span>
+                        <i class="fa fa-fw fa-users"></i>
+                        <span class="nav-link-text">COLABORADORES</span>
                     </a>
                     <ul class="sidenav-second-level collapse" id="collapseComponents">
-                        <li>
-                            <a href="navbar.html">SUB-CENA 3.1</a>
+                        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estudantes">
+                            <a class="nav-link" asp-area="" asp-controller="BackOffice" asp-action="Students">
+                                <i class="fa fa-fw fa-graduation-cap"></i>
+                                <span class="nav-link-text">ESTUDANTES</span>
+                            </a>
                         </li>
-                        <li>
-                            <a href="cards.html">SUB-CENA 3.2</a>
+                        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Orientadores">
+                            <a class="nav-link" href="tables.html">
+                                <i class="fa fa-fw fa-user"></i>
+                                <span class="nav-link-text">ORIENTADORES</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Empresas">
+                            <a class="nav-link" href="tables.html">
+                                <i class="fa fa-fw fa-building"></i>
+                                <span class="nav-link-text">EMPRESAS</span>
+                            </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estatísticas">
+                    <a class="nav-link" href="tables.html">
+                        <i class="fa fa-fw fa-area-chart"></i>
+                        <span class="nav-link-text">ESTATÍSTICAS</span>
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link back-to-site"  asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="fa fa-fw fa-sign-out"></i>Back To Website
+                    <a class="nav-link back-to-site" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-fw fa-sign-out"></i>Voltar ao Website
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
-
-    @RenderBody();
-
-     <!--
-    <footer class="sticky-footer">
-        <div class="container">
-            <div class="text-center">
-                <small>Copyright © Your Website 2018</small>
-            </div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            @RenderBody()
         </div>
-    </footer>
-    -->
-
-
+    </div>
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
-    <script src="~/js/sb-admin.min.js"></script>    
+    <script src="~/js/sb-admin.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

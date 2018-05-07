@@ -1,19 +1,39 @@
-﻿body {
+﻿:root {
+    --menu-background-color: #343a40;
+    --menu-normal-color: #eee;
+    --menu-active-color: #585858;
 }
 
-
-.navbar {
-    height:8% !important;
+body {
+    
 }
 
 .content-wrapper {
+    min-height: 100vh;
+    background-color: white;
+    z-index:999;
+}
+
+.navbar {
+    height: 7.5% !important;
+    color: var(--menu-normal-color) !important;
+}
+
+.nav-link {
+    color: var(--menu-normal-color) !important;
 }
 
 .navbar-brand {
-    font-size:1.5em;
-    color: #868e96 !important;
+    font-size: 1.5em;
+    color: var(--menu-normal-color) !important;
 }
 
 .back-to-site {
     font-size: 1.15em;
+    color: var(--menu-normal-color) !important;
+}
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
+    background: #343a40;
+    z-index:800 !important;
 }
