@@ -41,8 +41,8 @@
                         <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "BackOffice")" href="#">Projectos</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "BackOffice")" href="#">Empresas</a>
+                    <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
+                        <a class="nav-link" href="#">Empresas</a>
                     </li>
                     @*<li class="nav-item">
                         <a class="nav-link" href="#">Contactos</a>
@@ -57,9 +57,9 @@
 
     @RenderBody()
     @*<hr />
-      <footer>
-          <p>&copy; 2018 - HubEI</p>
-      </footer>
+        <footer>
+            <p>&copy; 2018 - HubEI</p>
+        </footer>
     *@
 
     <script src="~/lib/jquery/jquery.js"></script>
