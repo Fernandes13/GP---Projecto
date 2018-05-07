@@ -38,16 +38,16 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Projectos</a>
+                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "BackOffice")" href="#">Projectos</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Empresas</a>
+                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "BackOffice")" href="#">Empresas</a>
                     </li>
                     @*<li class="nav-item">
                         <a class="nav-link" href="#">Contactos</a>
                     </li>*@
-                    <li id="backoffice-link" class="nav-item @Html.IsSelected(actions: "Index", controllers: "BackOffice")">
+                    <li id="backoffice-link" class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="BackOffice" asp-action="Index">BackOffice</a>
                     </li>
                 </ul>
