@@ -20,6 +20,10 @@ namespace HubEI.Models
         public virtual DbSet<StudentBranch> StudentBranch { get; set; }
         public virtual DbSet<Technology> Technology { get; set; }
 
+        public HUBEI_DBContext(DbContextOptions<HUBEI_DBContext> options)
+        : base(options)
+        { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
