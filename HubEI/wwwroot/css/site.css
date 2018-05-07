@@ -71,3 +71,7 @@ nav a:hover{
 .glyphicon.glyphicon-search {
     font-size: 1.25em !important;
 }
+
+.active-link{
+    font-weight:bold;
+}
