@@ -11,7 +11,7 @@ namespace HubEI.Helpers
 {
     public static class ExtensionMethods
     {
-        public static IHtmlContent IsSelected(this IHtmlHelper html, string controllers = "", string actions = "", string cssClass = "active")
+        public static IHtmlContent IsSelected(this IHtmlHelper html, string controllers = "", string actions = "", string cssClass = "active-link")
         {
             ViewContext viewContext = html.ViewContext;
             //bool isChildAction = viewContext.Controller.ControllerContext.IsChildAction;
