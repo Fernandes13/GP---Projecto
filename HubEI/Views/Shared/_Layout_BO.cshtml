@@ -20,9 +20,9 @@
 <body class="fixed-nav bg-dark" id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <a class="navbar-brand" asp-area="" asp-controller="BackOffice" asp-action="Index">HubEI</a>
+        <a class="navbar-brand" asp-area="" asp-controller="BackOffice" asp-action="Index">HubEI - BackOffice</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+            <ul class="navbar-nav navbar-sidenav" id="accordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="index.html">
                         <i class="fa fa-fw fa-dashboard"></i>
@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#accordion">
                         <i class="fa fa-fw fa-wrench"></i>
                         <span class="nav-link-text">CENA 3</span>
                     </a>
@@ -57,23 +57,9 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <!--
                 <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for...">
-                            <span class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </li>
-                 -->
-                <li class="nav-item">
-                    <a class="nav-link"  asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="fa fa-fw fa-sign-out"></i>Logout
+                    <a class="nav-link back-to-site"  asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-fw fa-sign-out"></i>Back To Website
                     </a>
                 </li>
             </ul>

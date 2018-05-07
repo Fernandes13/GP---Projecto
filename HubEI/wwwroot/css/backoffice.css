@@ -3,9 +3,17 @@
 
 
 .navbar {
-    height:7.5% !important;
+    height:8% !important;
 }
 
-.content-wrapper{
-  
+.content-wrapper {
+}
+
+.navbar-brand {
+    font-size:1.5em;
+    color: #868e96 !important;
+}
+
+.back-to-site {
+    font-size: 1.15em;
 }
