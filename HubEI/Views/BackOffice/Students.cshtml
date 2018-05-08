@@ -1,9 +1,8 @@
-﻿@model Student
+﻿@model IEnumerable<Student>
 @{
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
 }
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
-
 <script type="text/javascript">
     $(document).ready(function () {
         // Activate tooltip
@@ -12,6 +11,7 @@
         // Select/Deselect checkboxes
         var checkbox = $('table tbody input[type="checkbox"]');
         $("#selectAll").click(function () {
+            alert("x");
             if (this.checked) {
                 checkbox.each(function () {
                     this.checked = true;
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-sm-6">
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar</span></a>
+                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
         </div>
@@ -55,32 +55,36 @@
                             <label for="selectAll"></label>
                         </span>
                     </th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.StudentNumber)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.Name)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.Email)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.BirthDate)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.IdStudentBranchNavigation.Description)</th>
-                    <th>Ações</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.FirstOrDefault().StudentNumber)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.FirstOrDefault().Email)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.FirstOrDefault().BirthDate)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.FirstOrDefault().IdStudentBranchNavigation.Description)</th>
+                    <th>Acções</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <span class="custom-checkbox">
-                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                            <label for="checkbox1"></label>
-                        </span>
-                    </td>
-                    <td>150221022</td>
-                    <td>O Carlos</td>
-                    <td>o carlos@mail.com</td>
-                    <td>12/03/1231</td>
-                    <td></td>
-                    <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                    </td>
-                </tr>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => student.StudentNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => student.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => student.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => student.BirthDate)</td>
+                        <td>@Html.DisplayFor(modelItem => student.IdStudentBranchNavigation.Description)</td>
+                        <td></td>
+                        <td>
+                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
         <!-- PAGINATION

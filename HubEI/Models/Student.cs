@@ -22,6 +22,7 @@ namespace HubEI.Models
         [Display(Name = "Contacto")]
         public long? Telephone { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data de Nascimento")]
         public DateTime BirthDate { get; set; }
 
