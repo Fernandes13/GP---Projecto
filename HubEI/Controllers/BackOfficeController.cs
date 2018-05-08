@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HubEI.Models;
+using HubEI.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HubEI.Controllers
@@ -40,6 +42,119 @@ namespace HubEI.Controllers
         public IActionResult Projects()
         {
             return View();
+        }
+
+        public IActionResult CreateProject()
+        {
+            return PartialView("_CreateProject", 
+                new ProjectViewModel{ Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+        }
+
+        private IEnumerable<SelectListItem> PopulateCompanies()
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                List<SelectListItem> lisCompanies = new List<SelectListItem>();
+
+                var listCompanies = context.Company.OrderBy(x => x.Name).ToList();
+
+                foreach (Company n in listCompanies)
+                {
+                    lisCompanies.Add(new SelectListItem { Value = n.IdCompany.ToString(), Text = n.Name });
+                }
+
+                return lisCompanies;
+            }
+        }
+
+        private IEnumerable<SelectListItem> PopulateStudents()
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                List<SelectListItem> lisStudents = new List<SelectListItem>();
+
+                var listStudents = context.Student.OrderBy(x => x.Name).ToList();
+
+                foreach (Student n in listStudents)
+                {
+                    lisStudents.Add(new SelectListItem { Value = n.IdStudent.ToString(), Text = n.Name });
+                }
+
+                return lisStudents;
+            }
+        }
+
+        private IEnumerable<SelectListItem> PopulateProjectTypes()
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                List<SelectListItem> lisProjectTypes = new List<SelectListItem>();
+
+                var listProjectTypes = context.ProjectType.ToList();
+
+                foreach (ProjectType n in listProjectTypes)
+                {
+                    lisProjectTypes.Add(new SelectListItem { Value = n.IdProjectType.ToString(), Text = n.Description });
+                }
+
+                return lisProjectTypes;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProjectViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+                {
+                        var project = new Project
+                        {
+                            Title = model.Title,
+                            Description = model.Description,
+                            Report = model.Report,
+                            ProjectDate = model.ProjectDate,
+                            IsVisible = model.IsVisible,
+                            IdCompany = model.IdCompany,
+                            IdProjectType = model.IdProjectType,
+                            IdStudent = model.IdStudent
+                        };
+
+                        context.Add(project);
+                        await context.SaveChangesAsync();
+
+                        return RedirectToAction("Projects", "BackOffice");
+                }
+                
+            }
+
+            return PartialView("_CreateProject",
+                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Project model)
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                context.Update(model);
+                await context.SaveChangesAsync();
+
+                return RedirectToAction("Projects", "BackOffice");
+            }
+        }
+
+        public void DeleteProject(long idProject)
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                Project project = context.Project.SingleOrDefault(p => p.IdProject == idProject);
+
+                context.Project.Remove(project);
+                context.SaveChanges();
+            }
         }
     }
 }
