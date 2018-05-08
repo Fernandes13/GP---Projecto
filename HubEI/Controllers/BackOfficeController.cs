@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HubEI.Models;
+using HubEI.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HubEI.Controllers
@@ -27,15 +29,32 @@ namespace HubEI.Controllers
 
         public IActionResult Students()
         {
+            BOStudentViewModel viewModel = new BOStudentViewModel();
+            var students = _context.Student.Include(s => s.IdStudentBranchNavigation);
 
-            var students = from s
-                           in _context.Student
-                           select s;
-
+            viewModel.Students = students;
+            viewModel.Branches = PopulateBranches();
+            
             //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
-            return View(students);
+            return View(viewModel);
 
         }
+
+        private IEnumerable<SelectListItem> PopulateBranches()
+        {
+            List<SelectListItem> branchesSelectList = new List<SelectListItem>();
+
+            var branchesList = _context.StudentBranch;
+
+            foreach (StudentBranch sb in branchesList)
+            {
+                branchesSelectList.Add(new SelectListItem { Value = sb.IdStudentBranch.ToString(), Text = sb.Description });
+            }
+
+            return branchesSelectList;
+
+        }
+
 
     }
 }

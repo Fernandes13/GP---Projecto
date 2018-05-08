@@ -2,6 +2,9 @@
 
 namespace HubEI.Models.ViewModels
 {
+    /// <summary>
+    ///  Class used to provide login credentials to the View. It contains the email, password and the remember me option.
+    /// </summary>
     public class LoginViewModel
     {
 
