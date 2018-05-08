@@ -17,19 +17,19 @@
         margin-left: 147%;
     }*/
 
-    #navbar {
-        height: 7.5%;
-    }
+#navbar {
+    height: 7.5%;
+}
 
-    #login-dp {
-        background-color: inherit;
-        color: #fff;
-    }
+#login-dp {
+    background-color: inherit;
+    color: #fff;
+}
 
-        #login-dp .bottom {
-            background-color: inherit;
-            border-top: 0 none;
-        }
+#login-dp .bottom {
+    background-color: inherit;
+    border-top: 0 none;
+}
 }
 
 /*

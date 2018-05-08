@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HubEI.Models
 {
@@ -11,10 +12,20 @@ namespace HubEI.Models
         }
 
         public long IdStudent { get; set; }
+
+        [Display(Name = "Nome")]
         public string Name { get; set; }
+
+        [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "Contacto")]
         public long? Telephone { get; set; }
+
+        [Display(Name = "Data de Nascimento")]
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Número de Estudante")]
         public long StudentNumber { get; set; }
         public long IdStudentBranch { get; set; }
         public long IdAddress { get; set; }
