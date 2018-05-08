@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HubEI.Models
 {
@@ -13,12 +14,20 @@ namespace HubEI.Models
         }
 
         public long IdProject { get; set; }
+
+        [Display(Name = "Título")]
         public string Title { get; set; }
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
+        [Display(Name = "Relatório")]
         public byte[] Report { get; set; }
+        [Display(Name = "Data")]
         public DateTime ProjectDate { get; set; }
+        [Display(Name = "Visível")]
         public byte IsVisible { get; set; }
+        [Display(Name = "Visualizações")]
         public int Views { get; set; }
+        [Display(Name = "Transferências")]
         public int Downloads { get; set; }
         public long IdProjectType { get; set; }
         public long IdStudent { get; set; }

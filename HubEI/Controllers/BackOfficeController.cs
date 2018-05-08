@@ -18,5 +18,9 @@ namespace HubEI.Controllers
             return View();
         }
 
+        public IActionResult Projects()
+        {
+            return View();
+        }
     }
 }
