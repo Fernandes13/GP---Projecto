@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HubEI.Models;
@@ -109,22 +110,30 @@ namespace HubEI.Controllers
             {
                 using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
                 {
-                        var project = new Project
-                        {
-                            Title = model.Title,
-                            Description = model.Description,
-                            Report = model.Report,
-                            ProjectDate = model.ProjectDate,
-                            IsVisible = model.IsVisible,
-                            IdCompany = model.IdCompany,
-                            IdProjectType = model.IdProjectType,
-                            IdStudent = model.IdStudent
-                        };
+                    byte[] file = null;
 
-                        context.Add(project);
-                        await context.SaveChangesAsync();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.Report.CopyToAsync(memoryStream);
+                        file = memoryStream.ToArray();
+                    }
 
-                        return RedirectToAction("Projects", "BackOffice");
+                    var project = new Project
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        Report = file,
+                        ProjectDate = model.ProjectDate,
+                        IsVisible = model.IsVisible,
+                        IdCompany = model.IdCompany,
+                        IdProjectType = model.IdProjectType,
+                        IdStudent = model.IdStudent
+                    };
+
+                    context.Add(project);
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("Projects", "BackOffice");
                 }
                 
             }

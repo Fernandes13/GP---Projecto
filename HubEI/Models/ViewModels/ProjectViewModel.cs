@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,7 @@ namespace HubEI.Models.ViewModels
 
         [Required(ErrorMessage = "É necessário introduzir o relatório do projecto!")]
         [Display(Name = "Relatório")]
-        public byte[] Report { get; set; }
+        public IFormFile Report { get; set; }
 
         [Display(Name = "Data")]
         [DisplayFormat(DataFormatString = "{0:d}")]
