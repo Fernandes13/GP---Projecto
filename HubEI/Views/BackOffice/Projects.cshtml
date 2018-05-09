@@ -3,33 +3,6 @@
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
 }
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        // Activate tooltip
-        $('[data-toggle="tooltip"]').tooltip();
-
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function () {
-            if (this.checked) {
-                checkbox.each(function () {
-                    this.checked = true;
-                });
-            } else {
-                checkbox.each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function () {
-            if (!this.checked) {
-                $("#selectAll").prop("checked", false);
-            }
-        });
-    });
-</script>
-
 <div class="container">
     <div class="table-wrapper">
         <div class="table-title">
@@ -38,8 +11,8 @@
                     <h2><b>Projectos</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar</span></a>
+                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>
+                    <a href="#deleteEmployeeModal" class="btn btn-danger" id="btn-remove-selected" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
         </div>

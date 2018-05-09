@@ -96,6 +96,10 @@ table.table td a {
     outline: none !important;
 }
 
+table.table tbody a i {
+    font-size:18px;
+}
+
 table.table td a:hover {
     color: #2196F3;
 }
@@ -152,6 +156,11 @@ table.table td a.delete {
     margin-top: 10px;
     font-size: 13px;
 }
+
+.tooltip{
+    font-size:12.5px;
+}
+
 
 
 /* Custom checkbox */

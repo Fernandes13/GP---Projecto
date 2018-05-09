@@ -17,6 +17,7 @@ body {
 .navbar {
     height: 7.5% !important;
     color: var(--menu-normal-color) !important;
+    border-bottom:3px solid white;
 }
 
 .nav-link {
@@ -42,8 +43,9 @@ body {
     display:none;
 }
 
-.modal-content{
-    font-size:16px;
+.modal-content,
+.modal-title {
+    font-size: 16px;
 }
 
 .modal-footer input {

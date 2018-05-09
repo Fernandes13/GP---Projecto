@@ -8,6 +8,7 @@ namespace HubEI.Models.ViewModels
 {
     public class BOStudentViewModel
     {
+        public Student Student { get; set; }
         public IEnumerable<Student> Students { get; set; }
         public IEnumerable<SelectListItem> Branches { get; set; }
 
