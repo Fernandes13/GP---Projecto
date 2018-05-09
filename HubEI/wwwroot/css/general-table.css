@@ -49,7 +49,7 @@
 }
 
 table.table{
-    margin-top:6%;
+    margin-top:5%;
 }
 
 
@@ -94,6 +94,10 @@ table.table td a {
     display: inline-block;
     text-decoration: none;
     outline: none !important;
+}
+
+table.table tbody a i {
+    font-size:18px;
 }
 
 table.table td a:hover {
@@ -152,6 +156,11 @@ table.table td a.delete {
     margin-top: 10px;
     font-size: 13px;
 }
+
+.tooltip{
+    font-size:12.5px;
+}
+
 
 
 /* Custom checkbox */

@@ -17,6 +17,7 @@ body {
 .navbar {
     height: 7.5% !important;
     color: var(--menu-normal-color) !important;
+    border-bottom:3px solid white;
 }
 
 .nav-link {
@@ -36,4 +37,23 @@ body {
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
     background: #343a40;
     z-index:800 !important;
+}
+
+#btn-remove-selected{
+    display:none;
+}
+
+.modal-content,
+.modal-title {
+    font-size: 16px;
+}
+
+.modal-footer input {
+    font-size: 14px;
+}
+
+.disabled-input {
+    background-color: #ddd;
+    pointer-events: none;
+    color: black;
 }
