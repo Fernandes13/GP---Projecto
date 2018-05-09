@@ -61,10 +61,17 @@ namespace HubEI.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult CreateProject()
         {
             return PartialView("_CreateProject", 
                 new ProjectViewModel{ Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+        }
+
+        public IActionResult CreateProjectTest()
+        {
+            return View(
+                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
         }
 
         private IEnumerable<SelectListItem> PopulateCompanies()

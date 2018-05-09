@@ -2,7 +2,10 @@
 @{
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
 }
+<script src="@Url.Content("~/js/site.js")"></script>
+
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
+
 <div class="container">
     <div class="table-wrapper">
         <div class="table-title">
@@ -11,7 +14,8 @@
                     <h2><b>Projectos</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>
+                    <a asp-controller="BackOffice" asp-action="CreateProjectTest" class="btn btn-success"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>
+                    @*<a href="#addProjectModal" onclick="showProjectCreate();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>*@
                     <a href="#deleteEmployeeModal" class="btn btn-danger" id="btn-remove-selected" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
@@ -34,8 +38,7 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
         <!-- PAGINATION
         <div class="clearfix">
@@ -54,8 +57,8 @@
     </div>
 </div>
 <!-- ADD Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
-    
+<div id="addProjectModal" class="modal fade">
+
 </div>
 
 <!-- Edit Modal HTML -->
