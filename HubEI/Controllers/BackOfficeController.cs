@@ -31,14 +31,14 @@ namespace HubEI.Controllers
         public IActionResult Students()
         {
             BOStudentViewModel viewModel = new BOStudentViewModel();
-            var students = _context.Student.Include(s => s.IdStudentBranchNavigation);
+            var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s =>s.IdAddressNavigation.IdDistrictNavigation);
 
             viewModel.Students = students;
             viewModel.Branches = PopulateBranches();
-            
+            viewModel.Districts = PopulateDistricts();
+
             //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
             return View(viewModel);
-
         }
 
         private IEnumerable<SelectListItem> PopulateBranches()
@@ -56,6 +56,47 @@ namespace HubEI.Controllers
 
         }
 
+        private IEnumerable<SelectListItem> PopulateDistricts()
+        {
+            List<SelectListItem> districtsSelectList = new List<SelectListItem>();
+
+            var districtList = _context.District;
+
+            foreach (District d in districtList)
+            {
+                districtsSelectList.Add(new SelectListItem { Value = d.IdDistrict.ToString(), Text = d.Description });
+            }
+
+            return districtsSelectList;
+
+        }
+
+        [HttpPost]
+        public IActionResult Student(BOStudentViewModel model)
+        {
+            _context.Address.Add(model.Address);
+
+            Student std = new Student
+            {
+                Email = model.Student.Email,
+                Name = model.Student.Name,
+                BirthDate = model.Student.BirthDate,
+                Telephone = model.Student.Telephone,
+                StudentNumber = model.Student.StudentNumber,
+                IdStudentBranchNavigation = _context.StudentBranch.Where(sb => sb.IdStudentBranch == model.Student.IdStudentBranch).FirstOrDefault(),
+                IdAddressNavigation = model.Address
+                
+            };
+
+            _context.Student.Add(std);
+
+            _context.SaveChanges();
+
+
+            return RedirectToAction("Students", "BackOffice");
+        }
+
+
         public IActionResult Projects()
         {
             return View();
@@ -64,8 +105,8 @@ namespace HubEI.Controllers
         [HttpGet]
         public IActionResult CreateProject()
         {
-            return PartialView("_CreateProject", 
-                new ProjectViewModel{ Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+            return PartialView("_CreateProject",
+                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
         }
 
         public IActionResult CreateProjectTest()
@@ -158,7 +199,7 @@ namespace HubEI.Controllers
 
                     return RedirectToAction("Projects", "BackOffice");
                 }
-                
+
             }
 
             return PartialView("_CreateProject",

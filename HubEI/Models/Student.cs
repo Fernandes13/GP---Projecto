@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HubEI.Models
 {
@@ -20,6 +21,7 @@ namespace HubEI.Models
         public string Email { get; set; }
 
         [Display(Name = "Contacto")]
+        [DataType(DataType.Text)]
         public long? Telephone { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -38,6 +40,8 @@ namespace HubEI.Models
 
         [Display(Name = "Ramo")]
         public StudentBranch IdStudentBranchNavigation { get; set; }
+
+
         public ICollection<Project> Project { get; set; }
     }
 }

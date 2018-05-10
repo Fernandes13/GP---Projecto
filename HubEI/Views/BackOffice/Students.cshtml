@@ -12,8 +12,8 @@
                     <h2><b>Estudantes</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
-                    <a href="#deleteEmployeeModal" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
+                    <a href="#addStudentModal" onclick="clearStudentForm();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
+                    <a href="#deleteStudentModal" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
         </div>
@@ -31,6 +31,7 @@
                     <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().StudentNumber)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().Name)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().Email)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().IdAddressNavigation.IdDistrictNavigation)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().BirthDate)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().IdStudentBranchNavigation.Description)</th>
                     <th>Acções</th>
@@ -49,11 +50,12 @@
                         <td>@Html.DisplayFor(modelItem => student.StudentNumber)</td>
                         <td>@Html.DisplayFor(modelItem => student.Name)</td>
                         <td>@Html.DisplayFor(modelItem => student.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => student.IdAddressNavigation.IdDistrictNavigation.Description)</td>
                         <td>@Html.DisplayFor(modelItem => student.BirthDate)</td>
                         <td>@Html.DisplayFor(modelItem => student.IdStudentBranchNavigation.Description)</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
+                            <a href="#editStudentModal" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#deleteStudentModal" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
                         </td>
                     </tr>
                 }
@@ -76,38 +78,68 @@
     </div>
 </div>
 
-<div id="addEmployeeModal" class="modal fade">
+<div id="addStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form asp-action="Student" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Estudante</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label asp-for="Student.StudentNumber"></label>
-                        <input asp-for="Student.StudentNumber" type="text" />
-                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="Student.Name"></label>
-                        <input asp-for="Student.Name" />
+                        <input class="form-control" asp-for="Student.Name" />
                         <span asp-validation-for="Student.Name" class="error-message"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Student.StudentNumber"></label>
+                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" />
+                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.Email"></label>
+                        <input class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
+                        <span asp-validation-for="Student.Email" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Student.Telephone"></label>
-                        <input asp-for="Student.Telephone" />
+                        <input class="form-control" style="width:7em;" asp-for="Student.Telephone" />
                         <span asp-validation-for="Student.Telephone" class="error-message"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Address.Address1"></label>
+                        <input class="form-control" asp-for="Address.Address1" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input class="form-control" style="width:7em;" asp-for="Address.PostalCode" />
+                    </div>
+                    <div class="form-group" style="display:inline-block;margin-left:5%;">
+                        <label asp-for="Address.Door"></label>
+                        <input class="form-control" style="width:4em;" asp-for="Address.Door" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district" })
+
+                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.Locality"></label>
+                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
+
+                    </div>
+
+                    <div class="form-group">
                         <label asp-for="Student.BirthDate"></label>
-                        <input asp-for="Student.BirthDate" />
+                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
                         <span asp-validation-for="Student.BirthDate" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.IdStudentBranchNavigation"></label>
-                        @Html.DropDownListFor(model => model.Student.IdStudentBranchNavigation.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { })
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
                         <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
                     </div>
                 </div>
@@ -120,7 +152,7 @@
     </div>
 </div>
 
-<div id="editEmployeeModal" class="modal fade">
+<div id="editStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -161,7 +193,7 @@
 </div>
 
 
-<div id="deleteEmployeeModal" class="modal fade">
+<div id="deleteStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>

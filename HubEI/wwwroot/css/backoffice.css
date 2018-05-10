@@ -4,10 +4,6 @@
     --menu-active-color: #585858;
 }
 
-body {
-    
-}
-
 .content-wrapper {
     min-height: 100vh;
     background-color: white;
@@ -56,4 +52,9 @@ body {
     background-color: #ddd;
     pointer-events: none;
     color: black;
+}
+
+
+.form-control{
+    font-size:16px;
 }

@@ -39,8 +39,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdAddress);
 
                 entity.Property(e => e.IdAddress)
-                    .HasColumnName("id_address")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_address");
 
                 entity.Property(e => e.Address1)
                     .IsRequired()
@@ -76,8 +75,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdAdmin);
 
                 entity.Property(e => e.IdAdmin)
-                    .HasColumnName("id_admin")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_admin");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -95,8 +93,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdCompany);
 
                 entity.Property(e => e.IdCompany)
-                    .HasColumnName("id_company")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_company");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -122,8 +119,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdDistrict);
 
                 entity.Property(e => e.IdDistrict)
-                    .HasColumnName("id_district")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_district");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -136,8 +132,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdProject);
 
                 entity.Property(e => e.IdProject)
-                    .HasColumnName("id_project")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_project");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -218,8 +213,7 @@ namespace HubEI.Models
                 entity.ToTable("Project_document");
 
                 entity.Property(e => e.IdProjectDocument)
-                    .HasColumnName("id_project_document")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_project_document");
 
                 entity.Property(e => e.Document)
                     .IsRequired()
@@ -264,8 +258,7 @@ namespace HubEI.Models
                 entity.ToTable("Project_type");
 
                 entity.Property(e => e.IdProjectType)
-                    .HasColumnName("id_project_type")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_project_type");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -280,8 +273,7 @@ namespace HubEI.Models
                 entity.ToTable("School_advisor");
 
                 entity.Property(e => e.IdSchoolAdvisor)
-                    .HasColumnName("id_school_advisor")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_school_advisor");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -299,8 +291,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdStudent);
 
                 entity.Property(e => e.IdStudent)
-                    .HasColumnName("id_student")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_student");
 
                 entity.Property(e => e.BirthDate)
                     .HasColumnName("birth_date")
@@ -344,8 +335,7 @@ namespace HubEI.Models
                 entity.ToTable("Student_branch");
 
                 entity.Property(e => e.IdStudentBranch)
-                    .HasColumnName("id_student_branch")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_student_branch");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -358,8 +348,7 @@ namespace HubEI.Models
                 entity.HasKey(e => e.IdTechnology);
 
                 entity.Property(e => e.IdTechnology)
-                    .HasColumnName("id_technology")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id_technology");
 
                 entity.Property(e => e.Description)
                     .IsRequired()

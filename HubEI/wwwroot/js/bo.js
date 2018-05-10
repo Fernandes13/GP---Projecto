@@ -42,3 +42,23 @@
             $("#btn-remove-selected").hide();
     });
 });
+
+
+function fillStudentEmail() {
+    var number = document.getElementById("student-number").value;
+    console.log(number);
+
+    var txt_email = document.getElementById("student-email");
+
+    txt_email.value = number + "@estudantes.ips.pt";
+}
+
+function clearStudentForm() {
+    document.getElementById("student-number").value = "";
+
+    document.getElementById("student-email").value = "@estudantes.ips.pt";
+
+    document.getElementById("student-contact").value = "";
+
+    document.getElementById("student-birthdate").value = "";
+}
