@@ -1,4 +1,5 @@
-﻿//// Write your JavaScript code.
+﻿
+//// Write your JavaScript code.
 //$(".nav-item").on("click", function () {
 //    $("nav").find(".active").removeClass("active");
 //    $(this).addClass("active");
@@ -29,4 +30,24 @@ function showProjectCreate() {
             error: function (error) {
             }
         });
+}
+
+var egg = new Egg();
+egg
+    .addCode("f,u,n,i,l", function () {
+
+        showFunil();
+
+    })
+    .listen();
+
+
+function showFunil() {
+    var funil = document.getElementById("funil");
+
+    funil.style.display = "block";
+
+    setTimeout(function () {
+        funil.style.display = "none";
+    }, 7500);
 }

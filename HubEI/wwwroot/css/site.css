@@ -135,3 +135,31 @@ nav a:hover{
     color: #fff;
     background-color: #59b5fa;
 }
+
+.funil {
+    position:fixed;
+    margin-top: 14%;
+    width: 55%;
+    display: none;
+    animation: 7.5s ease-in-out  slide-left;
+    background-color:transparent;
+}
+
+@keyframes slide-left {
+    0% {
+        left:-50%;
+    }
+
+    100% {
+        left:150%;
+    }
+}
+
+.funil img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-left:5%;
+    z-index:999;
+}
