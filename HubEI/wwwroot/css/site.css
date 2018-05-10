@@ -32,6 +32,20 @@
 }
 }
 
+.container-style {
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 1.5%;
+}
+
+.show{
+    display:block;
+}
+
+.hide{
+    display:none;
+}
+
 /*
     GENERAL
 */
@@ -134,4 +148,10 @@ nav a:hover{
 .btn-tw:hover {
     color: #fff;
     background-color: #59b5fa;
+}
+
+/*MARGINS*/
+
+.mt-6 {
+    margin-top: 3em;
 }

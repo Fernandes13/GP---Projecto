@@ -61,13 +61,7 @@ namespace HubEI.Controllers
                 }
                 else
                 {
-                    string strAccountId = AccountID(strEmail);
-                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, strAccountId));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, AccountName(strAccountId)));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-
-                    var principal = new ClaimsPrincipal(identity);
+                    var principal = new ClaimsPrincipal();
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = model.RememberMe });
 
