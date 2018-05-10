@@ -54,10 +54,7 @@ namespace HubEI.Controllers
 
                 if (state == LoginState.EMAIL_NOTFOUND || state == LoginState.CONNECTION_FAILED || state == LoginState.WRONG_PASSWORD) //Email não encontrado, ou password inválida
                 {
-                    ViewData["Login-Message"] = state.GetMessage();
-                    ViewData["initial-email"] = strEmail;
-
-                    return View("Login");
+                    return RedirectToAction("Login");
                 }
                 else
                 {
@@ -65,7 +62,7 @@ namespace HubEI.Controllers
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = model.RememberMe });
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "BackOffice");
                 }
             }
             return View(model);
@@ -109,11 +106,16 @@ namespace HubEI.Controllers
                     if (!strBDPW.Equals(EncryptToMD5(_strPassword)))
                         return LoginState.WRONG_PASSWORD;
 
+                   // 0x8E9F6A7E70E6DF1B3E10C81180AA763B
                 }
-
-                return LoginState.EMAIL_NOTFOUND;
-
+                else
+                {
+                    return LoginState.EMAIL_NOTFOUND;
+                }
             }
+
+            return LoginState.CONNECTED;
+
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace HubEI.Controllers
         public byte[] StrToArrByte(string str)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
-            //Console.WriteLine(str);
+
             md5.ComputeHash(Encoding.ASCII.GetBytes(str));
 
             return md5.Hash;

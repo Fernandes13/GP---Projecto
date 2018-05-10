@@ -7,7 +7,7 @@ namespace HubEI.Models
 {
     public enum LoginState
     {
-        EMAIL_NOTFOUND, WRONG_PASSWORD, CONNECTION_FAILED
+        EMAIL_NOTFOUND, WRONG_PASSWORD, CONNECTION_FAILED, CONNECTED
     }
 
     static class LoginStateMethods

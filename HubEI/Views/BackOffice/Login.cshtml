@@ -4,12 +4,12 @@
 *@
 
 
-<div class="col-md-2 offset-md-10 mt-4 container-style toggle">
+<div class="col-md-2 offset-md-10 mt-4 container-style">
     <div class="text-center mb-4">
         <img src="~/images/user.png" class="mt-2" />
     </div>
     
-    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+    <form class="form" role="form" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav">
         <div class="form-group">
             <label asp-for="Email" class="sr-only" for="exampleInputEmail2">Email</label>
             <input asp-for="Email" type="email" class="form-control" id="exampleInputEmail2" placeholder="Email">

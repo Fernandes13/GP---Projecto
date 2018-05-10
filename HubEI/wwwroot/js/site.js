@@ -51,3 +51,16 @@ function showFunil() {
         funil.style.display = "none";
     }, 7500);
 }
+
+function toggleLogin() {
+    let displayState = document.getElementById("loginForm");
+
+
+    if (displayState.classList.contains("show")) {
+        displayState.classList.remove("show");
+        displayState.classList.toggle("hide");
+    } else {
+        displayState.classList.remove("hide");
+        displayState.classList.toggle("show");
+    }
+}
