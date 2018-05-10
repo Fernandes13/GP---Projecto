@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HubEI.Models;
 using HubEI.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -106,13 +107,46 @@ namespace HubEI.Controllers
         public IActionResult CreateProject()
         {
             return PartialView("_CreateProject",
-                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes(), ProjectDate = DateTime.Now.Date });
         }
 
         public IActionResult CreateProjectTest()
         {
             return View(
                 new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+        }
+
+        public async Task<IActionResult> EditProjectTest(long idProject)
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                Project project = await context.Project
+                                        .Include(p => p.IdCompanyNavigation)
+                                        .Include(p => p.IdProjectTypeNavigation)
+                                        .Include(p => p.IdStudentNavigation).SingleOrDefaultAsync();
+
+                if(project == null)
+                    return RedirectToAction("Projects", "BackOffice");
+
+                MemoryStream file = new MemoryStream();
+                file.Write(project.Report, 0, project.Report.Length);
+                file.Close();
+
+                return View(new ProjectViewModel
+                {
+                    IdProject = project.IdProject,
+                    Title = project.Title,
+                    Description = project.Description,
+                    Report = (IFormFile)file,
+                    IsVisible = Convert.ToBoolean(project.IsVisible),
+                    IdProjectType = project.IdProjectType,
+                    IdCompany = project.IdCompany,
+                    IdStudent = project.IdStudent,
+                    Companies = PopulateCompanies(),
+                    Students = PopulateStudents(),
+                    ProjectTypes = PopulateProjectTypes()
+                });
+            }
         }
 
         private IEnumerable<SelectListItem> PopulateCompanies()
@@ -168,7 +202,7 @@ namespace HubEI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProjectViewModel model)
+        public async Task<IActionResult> CreateProject(ProjectViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -188,7 +222,7 @@ namespace HubEI.Controllers
                         Description = model.Description,
                         Report = file,
                         ProjectDate = model.ProjectDate,
-                        IsVisible = model.IsVisible,
+                        IsVisible = Convert.ToByte(model.IsVisible),
                         IdCompany = model.IdCompany,
                         IdProjectType = model.IdProjectType,
                         IdStudent = model.IdStudent
@@ -208,15 +242,39 @@ namespace HubEI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Project model)
+        public async Task<IActionResult> EditProject(ProjectViewModel model)
         {
-            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            if(ModelState.IsValid)
             {
-                context.Update(model);
-                await context.SaveChangesAsync();
+                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+                {
+                    Project oldProject = await context.Project.SingleOrDefaultAsync(p => p.IdProject == model.IdProject);
 
-                return RedirectToAction("Projects", "BackOffice");
+                    byte[] file = null;
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.Report.CopyToAsync(memoryStream);
+                        file = memoryStream.ToArray();
+                    }
+
+                    oldProject.Title = model.Title;
+                    oldProject.Description = model.Description;
+                    oldProject.Report = file;
+                    oldProject.ProjectDate = model.ProjectDate;
+                    oldProject.IsVisible = Convert.ToByte(model.IsVisible);
+                    oldProject.IdCompany = model.IdCompany;
+                    oldProject.IdProjectType = model.IdProjectType;
+                    oldProject.IdStudent = model.IdStudent;
+
+                    context.Update(model);
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("Projects", "BackOffice");
+                }
             }
+
+            return View(model);
         }
 
         public void DeleteProject(long idProject)

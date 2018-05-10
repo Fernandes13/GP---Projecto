@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HubEI.Models.CustomValidations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace HubEI.Models.ViewModels
 {
     public class ProjectViewModel
     {
+        public long IdProject { get; set; }
+
         [Required(ErrorMessage = "É necessário definir o título do projecto!")]
         [Display(Name = "Título")]
         public string Title { get; set; }
@@ -20,6 +23,7 @@ namespace HubEI.Models.ViewModels
 
         [Required(ErrorMessage = "É necessário introduzir o relatório do projecto!")]
         [Display(Name = "Relatório")]
+        [IsFilePDF]
         public IFormFile Report { get; set; }
 
         [Display(Name = "Data")]
@@ -28,7 +32,7 @@ namespace HubEI.Models.ViewModels
         public DateTime ProjectDate { get; set; }
 
         [Display(Name = "Visível")]
-        public byte IsVisible { get; set; }
+        public bool IsVisible { get; set; }
 
         [Display(Name = "Tipo de Projecto")]
         [Required(ErrorMessage = "É necessário definir o tipo de projecto!")]
