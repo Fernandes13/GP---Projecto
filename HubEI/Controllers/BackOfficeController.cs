@@ -31,13 +31,14 @@ namespace HubEI.Controllers
         public IActionResult Students()
         {
             BOStudentViewModel viewModel = new BOStudentViewModel();
-            var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s =>s.IdAddressNavigation.IdDistrictNavigation);
+            var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
 
             viewModel.Students = students;
             viewModel.Branches = PopulateBranches();
             viewModel.Districts = PopulateDistricts();
 
             //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
+
             return View(viewModel);
         }
 
@@ -85,17 +86,31 @@ namespace HubEI.Controllers
                 StudentNumber = model.Student.StudentNumber,
                 IdStudentBranchNavigation = _context.StudentBranch.Where(sb => sb.IdStudentBranch == model.Student.IdStudentBranch).FirstOrDefault(),
                 IdAddressNavigation = model.Address
-                
+
             };
 
             _context.Student.Add(std);
 
             _context.SaveChanges();
 
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Estudante adicionado com sucesso.";
 
             return RedirectToAction("Students", "BackOffice");
         }
 
+        [HttpDelete]
+        public IActionResult Student([FromQuery]string StudentId)
+        {
+            Student aux_std = _context.Student.Where(std => std.IdStudent.ToString() == StudentId).FirstOrDefault();
+            _context.Student.Remove(aux_std);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Estudante eliminado com sucesso.";
+
+            return Json("Success");
+        }
 
         public IActionResult Projects()
         {
