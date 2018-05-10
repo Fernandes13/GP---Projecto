@@ -24,10 +24,10 @@
         }
 
 
-       
+
     });
 
-    checkbox.click(function () { 
+    checkbox.click(function () {
         if (!this.checked) {
             cb_selected_count--;
             $("#selectAll").prop("checked", false);
@@ -38,7 +38,7 @@
         if (cb_selected_count > 0) {
             $("#btn-remove-selected").show();
         }
-        else 
+        else
             $("#btn-remove-selected").hide();
     });
 });
@@ -46,7 +46,6 @@
 
 function fillStudentEmail() {
     var number = document.getElementById("student-number").value;
-    console.log(number);
 
     var txt_email = document.getElementById("student-email");
 
@@ -54,11 +53,61 @@ function fillStudentEmail() {
 }
 
 function clearStudentForm() {
-    document.getElementById("student-number").value = "";
-
-    document.getElementById("student-email").value = "@estudantes.ips.pt";
-
-    document.getElementById("student-contact").value = "";
-
-    document.getElementById("student-birthdate").value = "";
+    /* document.getElementById("student-number").value = "";
+ 
+     document.getElementById("student-email").value = "@estudantes.ips.pt";
+ 
+     document.getElementById("student-contact").value = "";
+ 
+     document.getElementById("student-birthdate").value = "";
+     */
 }
+
+var students_choices = [];
+
+function deleteStudent(id) {
+    students_choices = [id];
+}
+
+
+function eliminatePendingStudents() {
+    students_choices.forEach(function (student) {
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/Student?StudentId=' + student,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+        });
+    });
+
+    setTimeout(function () {
+        $.ajax({
+            type: "GET",
+            url: '/BackOffice/Students',
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+
+        });
+    }, 800);
+
+}
+
+
+
+function deleteStudents() {
+
+    var students = document.getElementsByName('students');
+
+    students.forEach(function(student){
+        if (student.checked)
+            students_choices.push(student.id.replace('cb_', ''));
+    })
+
+    console.log(students_choices);
+}
+
+
+
+

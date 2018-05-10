@@ -24,6 +24,7 @@ namespace HubEI
 
             services.AddDbContext<HUBEI_DBContext>(options => options.UseSqlServer(@"Data Source=tcp:hubei.database.windows.net,1433;Database=HUBEI_DB;Integrated Security=False;User ID=master; Password=k,74MAh123;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
+            
             services.AddSession();
         }
 
@@ -31,7 +32,6 @@ namespace HubEI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -44,6 +44,7 @@ namespace HubEI
 
             app.UseStaticFiles();
 
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
