@@ -79,7 +79,7 @@ namespace HubEI.Controllers
             Student std = _context.Student
                 .Include(s => s.IdStudentBranchNavigation)
                 .Include(s => s.IdAddressNavigation)
-                .Where(st => st.IdAddress.ToString() == student_id).FirstOrDefault();
+                .Where(st => st.IdStudent.ToString() == student_id).FirstOrDefault();
 
             return Json(std);
         }

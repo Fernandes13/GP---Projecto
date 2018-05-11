@@ -77,19 +77,15 @@ function deleteStudent(id) {
 
 function editStudent(id) {
     id = id.replace('edit_', '');
-
     $.ajax({
         type: "GET",
         url: '/BackOffice/GetStudent?student_id=' + id,
         contentType: "application/json; charset=utf-8",
         dataType: "html",
     }).done(function (res) {
-        console.log(JSON.parse(res));
-
         fillStudentForm(JSON.parse(res));
 
     });
-    
 }
 
 function fillStudentForm(student) {
