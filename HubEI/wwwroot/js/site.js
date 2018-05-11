@@ -44,12 +44,16 @@ egg
 
 function showFunil() {
     var funil = document.getElementById("funil");
+    var audio = new Audio('./mp3/sw.mp3');
+    audio.play();
 
     funil.style.display = "block";
 
     setTimeout(function () {
         funil.style.display = "none";
-    }, 7500);
+        audio.pause();
+        audio.currentTime = 0;
+    }, 12500);
 }
 
 function toggleLogin() {

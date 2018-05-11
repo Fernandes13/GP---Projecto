@@ -153,21 +153,21 @@ nav a:hover{
 }
 
 .funil {
-    position:fixed;
-    margin-top: 14%;
+    position: fixed;
+    margin-left: 25%;
     width: 55%;
     display: none;
-    animation: 7.5s ease-in-out  slide-left;
-    background-color:transparent;
+    animation: 15s linear slide-left;
+    background-color: transparent;
 }
 
 @keyframes slide-left {
     0% {
-        left:-50%;
+        bottom: -60%;
     }
 
     100% {
-        left:150%;
+        bottom: 130%;
     }
 }
 
@@ -176,8 +176,8 @@ nav a:hover{
     width: 150px;
     height: 150px;
     object-fit: cover;
-    margin-left:5%;
-    z-index:999;
+    margin-left: 5%;
+    z-index: 999;
 }
 
 /*MARGINS*/

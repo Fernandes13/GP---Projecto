@@ -55,7 +55,7 @@
                         <td>@Html.DisplayFor(modelItem => student.BirthDate)</td>
                         <td>@Html.DisplayFor(modelItem => student.IdStudentBranchNavigation.Description)</td>
                         <td>
-                            <a href="#editStudentModal" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#editStudentModal" id="edit_@student.IdStudent" onclick="editStudent(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
                             <a href="#deleteStudentModal" id="@student.IdStudent" onclick="deleteStudent(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
                         </td>
                     </tr>
@@ -80,7 +80,7 @@
 </div>
 <div id="addStudentModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:125%;">
             <form asp-action="Student" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Estudante</h4>
@@ -97,11 +97,20 @@
                         <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" />
                         <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
                     </div>
-
+                    <div class="form-group">
+                        <label asp-for="Student.IdStudentBranchNavigation"></label>
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
+                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Student.Email"></label>
                         <input class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
                         <span asp-validation-for="Student.Email" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.BirthDate"></label>
+                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
+                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.Telephone"></label>
@@ -121,26 +130,14 @@
                         <input class="form-control" style="width:4em;" asp-for="Address.Door" />
                     </div>
                     <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.Locality"></label>
+                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Address.IdDistrictNavigation"></label>
                         @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district" })
 
                         <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.Locality"></label>
-                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
-
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Student.BirthDate"></label>
-                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
-                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Student.IdStudentBranchNavigation"></label>
-                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
-                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -153,83 +150,69 @@
 </div>
 
 
-@if (TempData["HasAlert"] != null)
-{
-    @if ((string)TempData["HasAlert"] == "true")
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <span id="alert-message">@TempData["AlertMessage"]</span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span class="close-alert" aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
-}
-
-
 <div id="editStudentModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <form asp-action="Student" method="post">
+        <div class="modal-content" style="width:125%;">
+            <form asp-action="EditStudent" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Estudante</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="edit-student-id" asp-for="Student.IdStudent" />
                     <div class="form-group">
                         <label asp-for="Student.Name"></label>
-                        <input class="form-control" asp-for="Student.Name" />
+                        <input class="form-control" id="edit-student-name" asp-for="Student.Name" />
                         <span asp-validation-for="Student.Name" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.StudentNumber"></label>
-                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" />
+                        <input class="form-control" id="edit-student-number" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" asp-for="Student.StudentNumber" type="text" />
                         <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Student.Email"></label>
-                        <input class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
-                        <span asp-validation-for="Student.Email" class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Student.Telephone"></label>
-                        <input class="form-control" style="width:7em;" asp-for="Student.Telephone" />
-                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Address.Address1"></label>
-                        <input class="form-control" asp-for="Address.Address1" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.PostalCode"></label>
-                        <input class="form-control" style="width:7em;" asp-for="Address.PostalCode" />
-                    </div>
-                    <div class="form-group" style="display:inline-block;margin-left:5%;">
-                        <label asp-for="Address.Door"></label>
-                        <input class="form-control" style="width:4em;" asp-for="Address.Door" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.IdDistrictNavigation"></label>
-                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district" })
-
-                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.Locality"></label>
-                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
-
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Student.BirthDate"></label>
-                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
-                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.IdStudentBranchNavigation"></label>
-                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "edit-student-branch" })
                         <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Email"></label>
+                        <input class="form-control disabled-input" id="edit-student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
+                        <span asp-validation-for="Student.Email" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.BirthDate"></label>
+                        <input class="form-control" id="edit-student-birthdate" asp-for="Student.BirthDate" />
+                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Telephone"></label>
+                        <input class="form-control" style="width:7em;" id="edit-student-telephone" asp-for="Student.Telephone" />
+                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
+                    </div>
+                    <input type="hidden" id="edit-student-address-id" asp-for="Student.IdAddress" />
+                    <div class="form-group">
+                        <label asp-for="Address.Address1"></label>
+                        <input class="form-control" id="edit-student-address" asp-for="Address.Address1" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input class="form-control" style="width:7em;" id="edit-student-postalcode" asp-for="Address.PostalCode" />
+                    </div>
+                    <div class="form-group" style="display:inline-block;margin-left:5%;">
+                        <label asp-for="Address.Door"></label>
+                        <input class="form-control" style="width:4em;" id="edit-student-door" asp-for="Address.Door" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.Locality"></label>
+                        <input class="form-control" style="width:12em;" id="edit-student-locality" asp-for="Address.Locality" />
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "edit-address-district" })
+
+                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -262,3 +245,19 @@
         </div>
     </div>
 </div>
+
+
+
+
+@if (TempData["HasAlert"] != null)
+{
+    @if ((string)TempData["HasAlert"] == "true")
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span id="alert-message">@TempData["AlertMessage"]</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span class="close-alert" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+}

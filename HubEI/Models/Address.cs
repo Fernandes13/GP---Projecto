@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,9 +30,11 @@ namespace HubEI.Models
 
         public long IdDistrict { get; set; }
 
-         [Display(Name = "Districto")]
+         [Display(Name = "Distrito")]
         public District IdDistrictNavigation { get; set; }
         public ICollection<Company> Company { get; set; }
+
+        [JsonIgnore] 
         public ICollection<Student> Student { get; set; }
     }
 }

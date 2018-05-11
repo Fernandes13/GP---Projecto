@@ -73,6 +73,17 @@ namespace HubEI.Controllers
 
         }
 
+        [HttpGet]
+        public JsonResult GetStudent([FromQuery] string student_id)
+        {
+            Student std = _context.Student
+                .Include(s => s.IdStudentBranchNavigation)
+                .Include(s => s.IdAddressNavigation)
+                .Where(st => st.IdAddress.ToString() == student_id).FirstOrDefault();
+
+            return Json(std);
+        }
+
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
@@ -96,6 +107,20 @@ namespace HubEI.Controllers
 
             TempData["HasAlert"] = "true";
             TempData["AlertMessage"] = "Estudante adicionado com sucesso.";
+
+            return RedirectToAction("Students", "BackOffice");
+        }
+
+        [HttpPost]
+        public IActionResult EditStudent(BOStudentViewModel model)
+        {
+            model.Student.IdAddressNavigation = model.Address;
+
+            _context.Student.Update(model.Student);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Estudante editado com sucesso.";
 
             return RedirectToAction("Students", "BackOffice");
         }

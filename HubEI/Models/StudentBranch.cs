@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,6 +17,7 @@ namespace HubEI.Models
         [Display(Name = "Ramo")]
         public string Description { get; set; }
 
+        [JsonIgnore] 
         public ICollection<Student> Student { get; set; }
     }
 }
