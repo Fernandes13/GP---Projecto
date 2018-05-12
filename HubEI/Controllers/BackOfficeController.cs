@@ -28,7 +28,7 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -42,7 +42,7 @@ namespace HubEI.Controllers
 
         public IActionResult Students()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -106,7 +106,7 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -141,7 +141,7 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -237,7 +237,7 @@ namespace HubEI.Controllers
         [HttpGet]
         public IActionResult CreateProject()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -257,7 +257,7 @@ namespace HubEI.Controllers
 
         public async Task<IActionResult> EditProjectTest(long idProject)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -351,7 +351,7 @@ namespace HubEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProject(ProjectViewModel model)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
@@ -399,7 +399,7 @@ namespace HubEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProject(ProjectViewModel model)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
