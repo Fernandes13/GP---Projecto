@@ -1,0 +1,169 @@
+﻿@model HubEI.Models.ViewModels.BOMentorViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_BO.cshtml";
+}
+<link href="~/css/general-table.css" rel="stylesheet" type="text/css">
+
+<div class="container">
+
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2><b>Orientadores</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a href="#addStudentModal" onclick="clearStudentForm();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Orientador</span></a>
+                    <a href="#deleteStudentModal" onclick="deleteStudents();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Mentors.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Mentors.FirstOrDefault().Email)</th>
+                    <th>Acções</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mentor in Model.Mentors)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="cb_@mentor.IdSchoolMentor" name="students" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => mentor.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => mentor.Email)</td>
+                        <td>
+                            <a href="#editStudentModal" id="edit_@mentor.IdSchoolMentor" onclick="editStudent(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#deleteStudentModal" id="@mentor.IdSchoolMentor" onclick="deleteStudent(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- PAGINATION
+        <div class="clearfix">
+            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+            <ul class="pagination">
+                <li class="page-item disabled"><a href="#">Previous</a></li>
+                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                <li class="page-item"><a href="#" class="page-link">5</a></li>
+                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+            </ul>
+        </div>
+            -->
+    </div>
+</div>
+<div id="addStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:125%;">
+            <form asp-action="Mentor" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar Orientador</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Mentor.Name"></label>
+                        <input class="form-control" asp-for="Mentor.Name" />
+                        <span asp-validation-for="Mentor.Name" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mentor.Email"></label>
+                        <input class="form-control" id="student-email" style="width:14.65em;text-align:right" asp-for="Mentor.Email" />
+                        <span asp-validation-for="Mentor.Email" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" class="btn btn-success" value="Adicionar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:125%;">
+            <form asp-action="EditStudent" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Orientador</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-student-id" asp-for="Mentor.IdSchoolMentor" />
+                    <div class="form-group">
+                        <label asp-for="Mentor.Name"></label>
+                        <input class="form-control" id="edit-student-name" asp-for="Mentor.Name" />
+                        <span asp-validation-for="Mentor.Name" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mentor.Email"></label>
+                        <input class="form-control" id="edit-student-email" style="width:14.65em;text-align:right" asp-for="Mentor.Email" />
+                        <span asp-validation-for="Mentor.Email" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" class="btn btn-success" value="Editar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="deleteStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar Orientadores(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem a certeza que pretende eliminar o(s) registo(s)?</p>
+                    <p class="text-warning"><small>Atenção! Esta ação é irreversível. </small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" onclick="eliminatePendingStudents()" class="btn btn-danger" value="Eliminar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@if (TempData["HasAlert"] != null)
+{
+    @if ((string)TempData["HasAlert"] == "true")
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span id="alert-message">@TempData["AlertMessage"]</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span class="close-alert" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+}

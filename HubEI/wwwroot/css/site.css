@@ -40,6 +40,11 @@
     padding-top: 1%;
 }
 
+.error-message {
+    color: red;
+    font-size: 0.95vmax;
+}
+
 .show{
     display:block;
 }
@@ -154,7 +159,7 @@ nav a:hover{
 
 .funil {
     position: fixed;
-    margin-left: 25%;
+    margin-left: 28%;
     width: 55%;
     display: none;
     animation: 15s linear slide-left;

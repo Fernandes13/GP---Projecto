@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+
 
 namespace HubEI.Controllers
 {
@@ -26,11 +28,28 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+
             return View();
         }
 
         public IActionResult Students()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             BOStudentViewModel viewModel = new BOStudentViewModel();
             var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
 
@@ -87,6 +106,14 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             _context.Address.Add(model.Address);
 
             Student std = new Student
@@ -114,6 +141,14 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             model.Student.IdAddressNavigation = model.Address;
 
             _context.Student.Update(model.Student);
@@ -138,9 +173,65 @@ namespace HubEI.Controllers
             return Json("Success");
         }
 
+        public IActionResult Mentors()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            BOMentorViewModel viewModel = new BOMentorViewModel();
+            var mentors = _context.SchoolMentor;
+
+            viewModel.Mentors = mentors;
+
+
+            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Mentor(BOMentorViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            SchoolMentor mentor = new SchoolMentor
+            {
+                Name = model.Mentor.Name,
+                Email = model.Mentor.Email,
+            };
+
+            _context.SchoolMentor.Add(mentor);
+
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Orientador adicionado com sucesso.";
+
+            return RedirectToAction("Mentors", "BackOffice");
+        }
+
         public IActionResult Projects()
         {
-            BOProjectViewModel viewModel = new BOProjectViewModel();
+            if (!User.Identity.IsAuthenticated)
+    {
+        ViewData["Got-Error"] = "true";
+        ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    BOProjectViewModel viewModel = new BOProjectViewModel();
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
                                             .Include(s => s.IdProjectTypeNavigation)
                                             .Include(s => s.IdStudentNavigation);
@@ -154,9 +245,20 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
+        
+
+
         public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
-            if(viewModel.Report != null)
+if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }            
+
+if(viewModel.Report != null)
             { 
                 using (var memoryStream = new MemoryStream())
                 {
@@ -239,6 +341,14 @@ namespace HubEI.Controllers
         [HttpPost]
         public async Task<IActionResult> Project(BOProjectViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -277,12 +387,44 @@ namespace HubEI.Controllers
         [HttpDelete]
         public IActionResult Project([FromQuery]string ProjectId)
         {
-            Project aux_project = _context.Project.Where(prj => prj.IdProject.ToString() == ProjectId).FirstOrDefault();
-            _context.Project.Remove(aux_project);
-            _context.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+                {
+                    Project oldProject = await context.Project.SingleOrDefaultAsync(p => p.IdProject == model.IdProject);
 
-            TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Projecto eliminado com sucesso.";
+                    byte[] file = null;
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.Report.CopyToAsync(memoryStream);
+                        file = memoryStream.ToArray();
+                    }
+
+                    oldProject.Title = model.Title;
+                    oldProject.Description = model.Description;
+                    oldProject.Report = file;
+                    oldProject.ProjectDate = model.ProjectDate;
+                    oldProject.IsVisible = Convert.ToByte(model.IsVisible);
+                    oldProject.IdCompany = model.IdCompany;
+                    oldProject.IdProjectType = model.IdProjectType;
+                    oldProject.IdStudent = model.IdStudent;
+
+                    context.Update(model);
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("Projects", "BackOffice");
+                }
+            }
+
+            return View(model);
+        }
+
+        public void DeleteProject(long idProject)
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                Project project = context.Project.SingleOrDefault(p => p.IdProject == idProject);
 
             return Json("Success");
         }
