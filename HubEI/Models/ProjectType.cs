@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace HubEI.Models
@@ -13,6 +14,7 @@ namespace HubEI.Models
         public long IdProjectType { get; set; }
         public string Description { get; set; }
 
+        [JsonIgnore]
         public ICollection<Project> Project { get; set; }
     }
 }

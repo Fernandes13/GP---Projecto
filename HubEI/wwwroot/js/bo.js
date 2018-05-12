@@ -156,8 +156,6 @@ function eliminatePendingStudents() {
 
 }
 
-
-
 function deleteStudents() {
 
     var students = document.getElementsByName('students');
@@ -168,4 +166,91 @@ function deleteStudents() {
     })
 
     console.log(students_choices);
+}
+
+var projects_choices = [];
+
+function deleteProject(id) {
+    projects_choices = [id];
+}
+
+function editProject(id) {
+    id = id.replace('edit_', '');
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/GetProject?project_id=' + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+    }).done(function (res) {
+        fillProjectForm(JSON.parse(res));
+    });
+}
+
+function fillProjectForm(project) {
+    console.log(project);
+    var project_id = document.getElementById("edit-project-id");
+    project_id.value = project.idProject;
+
+    var project_title = document.getElementById("edit-project-title");
+    project_title.value = project.title;
+
+    var project_description = document.getElementById("edit-project-description");
+    project_description.value = project.description;
+
+    var project_date = document.getElementById("edit-project-date");
+    project_date.value = project.projectDate.split("T")[0];
+
+    var project_isVisible = document.getElementById("edit-project-isVisible");
+    project_isVisible.checked = project.isVisible;
+
+    var project_type = document.getElementById("edit-project-type");
+    project_type.value = project.idProjectType;
+
+    var project_student = document.getElementById("edit-project-student");
+    project_student.value = project.idStudent;
+
+    var project_company = document.getElementById("edit-project-company");
+    project_company.value = project.idCompany;
+
+    var project_report = document.getElementById("edit-project-report");
+    project_report.value = "";
+
+    var project_report_backup = document.getElementById("edit-project-report-backup");
+    project_report_backup.value = project.report;
+}
+
+function eliminatePendingProjects() {
+    projects_choices.forEach(function (project) {
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/Project?ProjectId=' + project,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+        });
+    });
+
+    setTimeout(function () {
+        $.ajax({
+            type: "GET",
+            url: '/BackOffice/Projects',
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+
+        });
+    }, 800);
+
+}
+
+function deleteProjects() {
+
+    var projects = document.getElementsByName('projects');
+
+    projects.forEach(function (project) {
+        if (project.checked)
+            projects_choices.push(project.id.replace('cb_', ''));
+    })
+
+    console.log(projects_choices);
 }

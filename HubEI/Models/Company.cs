@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace HubEI.Models
@@ -16,6 +17,8 @@ namespace HubEI.Models
         public long IdAddress { get; set; }
 
         public Address IdAddressNavigation { get; set; }
+
+        [JsonIgnore]
         public ICollection<Project> Project { get; set; }
     }
 }

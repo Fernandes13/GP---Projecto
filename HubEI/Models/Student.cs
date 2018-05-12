@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,7 +42,7 @@ namespace HubEI.Models
         [Display(Name = "Ramo")]
         public StudentBranch IdStudentBranchNavigation { get; set; }
 
-
+        [JsonIgnore]
         public ICollection<Project> Project { get; set; }
     }
 }

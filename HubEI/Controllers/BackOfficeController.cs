@@ -140,53 +140,38 @@ namespace HubEI.Controllers
 
         public IActionResult Projects()
         {
-            return View();
+            BOProjectViewModel viewModel = new BOProjectViewModel();
+            var projects = _context.Project.Include(s => s.IdCompanyNavigation)
+                                            .Include(s => s.IdProjectTypeNavigation)
+                                            .Include(s => s.IdStudentNavigation);
+                    
+
+            viewModel.Projects = projects;
+            viewModel.Companies = PopulateCompanies();
+            viewModel.ProjectTypes = PopulateProjectTypes();
+            viewModel.Students = PopulateStudents();
+
+            return View(viewModel);
         }
 
-        [HttpGet]
-        public IActionResult CreateProject()
+        public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
-            return PartialView("_CreateProject",
-                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes(), ProjectDate = DateTime.Now.Date });
-        }
-
-        public IActionResult CreateProjectTest()
-        {
-            return View(
-                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
-        }
-
-        public async Task<IActionResult> EditProjectTest(long idProject)
-        {
-            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-            {
-                Project project = await context.Project
-                                        .Include(p => p.IdCompanyNavigation)
-                                        .Include(p => p.IdProjectTypeNavigation)
-                                        .Include(p => p.IdStudentNavigation).SingleOrDefaultAsync();
-
-                if(project == null)
-                    return RedirectToAction("Projects", "BackOffice");
-
-                MemoryStream file = new MemoryStream();
-                file.Write(project.Report, 0, project.Report.Length);
-                file.Close();
-
-                return View(new ProjectViewModel
+            if(viewModel.Report != null)
+            { 
+                using (var memoryStream = new MemoryStream())
                 {
-                    IdProject = project.IdProject,
-                    Title = project.Title,
-                    Description = project.Description,
-                    Report = (IFormFile)file,
-                    IsVisible = Convert.ToBoolean(project.IsVisible),
-                    IdProjectType = project.IdProjectType,
-                    IdCompany = project.IdCompany,
-                    IdStudent = project.IdStudent,
-                    Companies = PopulateCompanies(),
-                    Students = PopulateStudents(),
-                    ProjectTypes = PopulateProjectTypes()
-                });
+                    await viewModel.Report.CopyToAsync(memoryStream);
+                    viewModel.Project.Report = memoryStream.ToArray();
+                }
             }
+
+            _context.Project.Update(viewModel.Project);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Projecto editado com sucesso.";
+
+            return RedirectToAction("Projects", "BackOffice");
         }
 
         private IEnumerable<SelectListItem> PopulateCompanies()
@@ -240,9 +225,19 @@ namespace HubEI.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetProject([FromQuery] string project_id)
+        {
+            Project project = _context.Project.Include(s => s.IdCompanyNavigation)
+                                              .Include(s => s.IdProjectTypeNavigation)
+                                              .Include(s => s.IdStudentNavigation)
+                                              .Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
+
+            return Json(project);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProject(ProjectViewModel model)
+        public async Task<IActionResult> Project(BOProjectViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -258,14 +253,14 @@ namespace HubEI.Controllers
 
                     var project = new Project
                     {
-                        Title = model.Title,
-                        Description = model.Description,
+                        Title = model.Project.Title,
+                        Description = model.Project.Description,
                         Report = file,
-                        ProjectDate = model.ProjectDate,
-                        IsVisible = Convert.ToByte(model.IsVisible),
-                        IdCompany = model.IdCompany,
-                        IdProjectType = model.IdProjectType,
-                        IdStudent = model.IdStudent
+                        ProjectDate = model.Project.ProjectDate,
+                        IsVisible = model.Project.IsVisible,
+                        IdCompany = model.Project.IdCompany,
+                        IdProjectType = model.Project.IdProjectType,
+                        IdStudent = model.Project.IdStudent
                     };
 
                     context.Add(project);
@@ -276,56 +271,20 @@ namespace HubEI.Controllers
 
             }
 
-            return PartialView("_CreateProject",
-                new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes() });
+            return RedirectToAction("Projects", "BackOffice");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProject(ProjectViewModel model)
+        [HttpDelete]
+        public IActionResult Project([FromQuery]string ProjectId)
         {
-            if(ModelState.IsValid)
-            {
-                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-                {
-                    Project oldProject = await context.Project.SingleOrDefaultAsync(p => p.IdProject == model.IdProject);
+            Project aux_project = _context.Project.Where(prj => prj.IdProject.ToString() == ProjectId).FirstOrDefault();
+            _context.Project.Remove(aux_project);
+            _context.SaveChanges();
 
-                    byte[] file = null;
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Projecto eliminado com sucesso.";
 
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.Report.CopyToAsync(memoryStream);
-                        file = memoryStream.ToArray();
-                    }
-
-                    oldProject.Title = model.Title;
-                    oldProject.Description = model.Description;
-                    oldProject.Report = file;
-                    oldProject.ProjectDate = model.ProjectDate;
-                    oldProject.IsVisible = Convert.ToByte(model.IsVisible);
-                    oldProject.IdCompany = model.IdCompany;
-                    oldProject.IdProjectType = model.IdProjectType;
-                    oldProject.IdStudent = model.IdStudent;
-
-                    context.Update(model);
-                    await context.SaveChangesAsync();
-
-                    return RedirectToAction("Projects", "BackOffice");
-                }
-            }
-
-            return View(model);
-        }
-
-        public void DeleteProject(long idProject)
-        {
-            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-            {
-                Project project = context.Project.SingleOrDefault(p => p.IdProject == idProject);
-
-                context.Project.Remove(project);
-                context.SaveChanges();
-            }
+            return Json("Success");
         }
     }
 }

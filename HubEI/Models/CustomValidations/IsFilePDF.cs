@@ -15,6 +15,13 @@ namespace HubEI.Models.CustomValidations
         {
             IFormFile file = (IFormFile)value;
 
+            var model = (ViewModels.BOProjectViewModel)validationContext.ObjectInstance;
+
+            if (file == null && model.Project.Report != null)
+            {
+                return ValidationResult.Success;
+            }
+
             if (Path.GetExtension(file.FileName).ToLower() != ".pdf")
             {
                 return new ValidationResult("O ficheiro tem de ser PDF.");
