@@ -54,18 +54,66 @@ namespace HubEI.Controllers
 
                 if (state == LoginState.EMAIL_NOTFOUND || state == LoginState.CONNECTION_FAILED || state == LoginState.WRONG_PASSWORD) //Email não encontrado, ou password inválida
                 {
-                    return RedirectToAction("Login");
+                    ViewData["Login-Message"] = state.GetMessage();
+                    ViewData["Got-Error"] = "true";
+
+                    return View("Index");
                 }
                 else
                 {
-                    var principal = new ClaimsPrincipal();
+                    var claims = new List<Claim>{
+                        new Claim(ClaimTypes.Name, strEmail),
+                        new Claim(ClaimTypes.Role, "Mentor"),
+                    };
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = model.RememberMe });
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+                    var principal = new ClaimsPrincipal(claimsIdentity);
+
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+
+                   
                     return RedirectToAction("Index", "BackOffice");
                 }
             }
-            return View(model);
+            return RedirectToAction("Index","Home");
+        }
+
+        /// <summary>
+        /// Executa um logout, redireciconando o utilizador para a página principal da aplicação.
+        /// </summary>
+        /// <returns>View Home/Index</returns>
+        /// <remarks></remarks>
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        /// <summary>
+        /// Regista um novo técnico na aplicação.
+        /// </summary>
+        /// <param name="model">Modelo</param>
+        /// <returns>Retorna a View com uma mensagem de erro ou sucesso na operação.</returns>
+        /// <remarks></remarks>
+        [HttpPost]
+        public IActionResult RegisterAdmin(LoginViewModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            string strEmail = model.Email;
+            string strPassword = model.Password;
+
+            Admin admin = new Admin { Email = strEmail, Password = StrToArrByte(strPassword) };
+
+            InsertAdmin(admin);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public string AccountID(string strEmail)
@@ -106,7 +154,7 @@ namespace HubEI.Controllers
                     if (!strBDPW.Equals(EncryptToMD5(_strPassword)))
                         return LoginState.WRONG_PASSWORD;
 
-                   // 0x8E9F6A7E70E6DF1B3E10C81180AA763B
+                    // 0x8E9F6A7E70E6DF1B3E10C81180AA763B
                 }
                 else
                 {
@@ -168,6 +216,21 @@ namespace HubEI.Controllers
             md5.ComputeHash(Encoding.ASCII.GetBytes(str));
 
             return md5.Hash;
+        }
+
+        /// <summary>
+        /// Insere um novo técnico do CIMOB na aplicação.
+        /// </summary>
+        /// <param name="technician">Técnico</param>
+        /// <param name="strEmail">Email do Técnico</param>
+        /// <remarks></remarks>
+        private async void InsertAdmin(Admin admin)
+        {
+            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
+            {
+                context.Add(admin);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

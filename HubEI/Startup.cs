@@ -1,4 +1,5 @@
 ﻿using HubEI.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -21,6 +22,13 @@ namespace HubEI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddSessionStateTempDataProvider();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
 
             services.AddDbContext<HUBEI_DBContext>(options => options.UseSqlServer(@"Data Source=tcp:hubei.database.windows.net,1433;Database=HUBEI_DB;Integrated Security=False;User ID=master; Password=k,74MAh123;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 

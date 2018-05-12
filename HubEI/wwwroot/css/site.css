@@ -40,6 +40,11 @@
     padding-top: 1%;
 }
 
+.error-message {
+    color: red;
+    font-size: 0.95vmax;
+}
+
 .show{
     display:block;
 }
