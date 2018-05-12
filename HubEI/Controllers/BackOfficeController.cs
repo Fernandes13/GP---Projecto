@@ -62,27 +62,6 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Mentors()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
-
-                return RedirectToAction("Index", "Home");
-            }
-
-            BOMentorViewModel viewModel = new BOMentorViewModel();
-            var mentors = _context.SchoolMentor;
-
-            viewModel.Mentors = mentors;
-
-
-            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
-
-            return View(viewModel);
-        }
-
         private IEnumerable<SelectListItem> PopulateBranches()
         {
             List<SelectListItem> branchesSelectList = new List<SelectListItem>();
@@ -192,6 +171,54 @@ namespace HubEI.Controllers
             TempData["AlertMessage"] = "Estudante eliminado com sucesso.";
 
             return Json("Success");
+        }
+
+        public IActionResult Mentors()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            BOMentorViewModel viewModel = new BOMentorViewModel();
+            var mentors = _context.SchoolMentor;
+
+            viewModel.Mentors = mentors;
+
+
+            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Mentor(BOMentorViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            SchoolMentor mentor = new SchoolMentor
+            {
+                Name = model.Mentor.Name,
+                Email = model.Mentor.Email,
+            };
+
+            _context.SchoolMentor.Add(mentor);
+
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Orientador adicionado com sucesso.";
+
+            return RedirectToAction("Mentors", "BackOffice");
         }
 
         public IActionResult Projects()
