@@ -140,20 +140,16 @@ function eliminatePendingStudents() {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
+            $.ajax({
+                type: "GET",
+                url: '/BackOffice/Students',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+            }).done(function (res) {
+
+            });
         });
     });
-
-    setTimeout(function () {
-        $.ajax({
-            type: "GET",
-            url: '/BackOffice/Students',
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-        }).done(function (res) {
-
-        });
-    }, 800);
-
 }
 
 
