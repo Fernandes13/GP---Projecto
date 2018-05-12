@@ -224,18 +224,18 @@ namespace HubEI.Controllers
         public IActionResult Projects()
         {
             if (!User.Identity.IsAuthenticated)
-    {
-        ViewData["Got-Error"] = "true";
-        ViewData["Login-Message"] = "É necessário iniciar sessão";
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-        return RedirectToAction("Index", "Home");
-    }
+                return RedirectToAction("Index", "Home");
+            }
 
-    BOProjectViewModel viewModel = new BOProjectViewModel();
+            BOProjectViewModel viewModel = new BOProjectViewModel();
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
                                             .Include(s => s.IdProjectTypeNavigation)
                                             .Include(s => s.IdStudentNavigation);
-                    
+
 
             viewModel.Projects = projects;
             viewModel.Companies = PopulateCompanies();
@@ -245,21 +245,18 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
-        
-
-
         public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
-if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
-            }            
+            }
 
-if(viewModel.Report != null)
-            { 
+            if (viewModel.Report != null)
+            {
                 using (var memoryStream = new MemoryStream())
                 {
                     await viewModel.Report.CopyToAsync(memoryStream);
@@ -387,44 +384,12 @@ if(viewModel.Report != null)
         [HttpDelete]
         public IActionResult Project([FromQuery]string ProjectId)
         {
-            if(ModelState.IsValid)
-            {
-                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-                {
-                    Project oldProject = await context.Project.SingleOrDefaultAsync(p => p.IdProject == model.IdProject);
+            Project project = _context.Project.Where(p => p.IdProject.ToString() == ProjectId).FirstOrDefault();
+            _context.Project.Remove(project);
+            _context.SaveChanges();
 
-                    byte[] file = null;
-
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.Report.CopyToAsync(memoryStream);
-                        file = memoryStream.ToArray();
-                    }
-
-                    oldProject.Title = model.Title;
-                    oldProject.Description = model.Description;
-                    oldProject.Report = file;
-                    oldProject.ProjectDate = model.ProjectDate;
-                    oldProject.IsVisible = Convert.ToByte(model.IsVisible);
-                    oldProject.IdCompany = model.IdCompany;
-                    oldProject.IdProjectType = model.IdProjectType;
-                    oldProject.IdStudent = model.IdStudent;
-
-                    context.Update(model);
-                    await context.SaveChangesAsync();
-
-                    return RedirectToAction("Projects", "BackOffice");
-                }
-            }
-
-            return View(model);
-        }
-
-        public void DeleteProject(long idProject)
-        {
-            using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-            {
-                Project project = context.Project.SingleOrDefault(p => p.IdProject == idProject);
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Projecto eliminado com sucesso.";
 
             return Json("Success");
         }
