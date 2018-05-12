@@ -23,13 +23,5 @@ namespace HubEI.Models.ViewModels
         [Required(ErrorMessage = "Campo password vazio")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether .
-        /// </summary>
-        /// <value> RememberMe credential which maintains the browser login session on, until the user logouts.</value>
-        [Display(Name = "Manter sessão")]
-        public bool RememberMe { get; set; }
-
     }
 }

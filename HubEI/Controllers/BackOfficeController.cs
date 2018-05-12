@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+
 
 namespace HubEI.Controllers
 {
@@ -26,17 +28,55 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+
             return View();
         }
 
         public IActionResult Students()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             BOStudentViewModel viewModel = new BOStudentViewModel();
             var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
 
             viewModel.Students = students;
             viewModel.Branches = PopulateBranches();
             viewModel.Districts = PopulateDistricts();
+
+            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
+
+            return View(viewModel);
+        }
+
+        public IActionResult Mentors()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            BOMentorViewModel viewModel = new BOMentorViewModel();
+            var mentors = _context.SchoolMentor;
+
+            viewModel.Mentors = mentors;
+
 
             //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
 
@@ -87,6 +127,14 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             _context.Address.Add(model.Address);
 
             Student std = new Student
@@ -114,6 +162,14 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             model.Student.IdAddressNavigation = model.Address;
 
             _context.Student.Update(model.Student);
@@ -140,12 +196,28 @@ namespace HubEI.Controllers
 
         public IActionResult Projects()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
         [HttpGet]
         public IActionResult CreateProject()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             return PartialView("_CreateProject",
                 new ProjectViewModel { Companies = PopulateCompanies(), Students = PopulateStudents(), ProjectTypes = PopulateProjectTypes(), ProjectDate = DateTime.Now.Date });
         }
@@ -158,6 +230,14 @@ namespace HubEI.Controllers
 
         public async Task<IActionResult> EditProjectTest(long idProject)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
             {
                 Project project = await context.Project
@@ -244,6 +324,14 @@ namespace HubEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProject(ProjectViewModel model)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -284,7 +372,15 @@ namespace HubEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProject(ProjectViewModel model)
         {
-            if(ModelState.IsValid)
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (ModelState.IsValid)
             {
                 using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
                 {
@@ -319,6 +415,7 @@ namespace HubEI.Controllers
 
         public void DeleteProject(long idProject)
         {
+
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
             {
                 Project project = context.Project.SingleOrDefault(p => p.IdProject == idProject);

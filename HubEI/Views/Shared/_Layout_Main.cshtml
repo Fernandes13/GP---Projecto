@@ -67,9 +67,20 @@
         </div>
     </nav>
 
-    <div class="mt-5 col-md-9 offset-md-3 position-fixed hide" id="loginForm">
-        @Html.Partial("../BackOffice/Login.cshtml")
-    </div>
+   @if(ViewData["Got-Error"] == "true") { 
+        <div class="mt-5 col-md-9 offset-md-3 position-fixed show" id="loginForm">
+            @Html.Partial("../BackOffice/Login.cshtml")
+        </div>
+    
+    }else
+    {
+        <div class="mt-5 col-md-9 offset-md-3 position-fixed hide" id="loginForm">
+            @Html.Partial("../BackOffice/Login.cshtml")
+        </div>
+
+    }
+
+
 
     @RenderBody()
     @*<hr />

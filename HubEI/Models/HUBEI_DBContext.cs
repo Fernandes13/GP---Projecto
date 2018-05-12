@@ -15,7 +15,7 @@ namespace HubEI.Models
         public virtual DbSet<ProjectDocument> ProjectDocument { get; set; }
         public virtual DbSet<ProjectTechnology> ProjectTechnology { get; set; }
         public virtual DbSet<ProjectType> ProjectType { get; set; }
-        public virtual DbSet<SchoolAdvisor> SchoolAdvisor { get; set; }
+        public virtual DbSet<SchoolMentor> SchoolMentor { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudentBranch> StudentBranch { get; set; }
         public virtual DbSet<Technology> Technology { get; set; }
@@ -185,13 +185,13 @@ namespace HubEI.Models
 
             modelBuilder.Entity<ProjectAdvisor>(entity =>
             {
-                entity.HasKey(e => new { e.IdProject, e.IdSchoolAdvisor });
+                entity.HasKey(e => new { e.IdProject, e.IdSchoolMentor });
 
                 entity.ToTable("Project_advisor");
 
                 entity.Property(e => e.IdProject).HasColumnName("id_project");
 
-                entity.Property(e => e.IdSchoolAdvisor).HasColumnName("id_school_advisor");
+                entity.Property(e => e.IdSchoolMentor).HasColumnName("id_school_mentor");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectAdvisor)
@@ -199,9 +199,9 @@ namespace HubEI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PA_project");
 
-                entity.HasOne(d => d.IdSchoolAdvisorNavigation)
+                entity.HasOne(d => d.IdSchoolMentorNavigation)
                     .WithMany(p => p.ProjectAdvisor)
-                    .HasForeignKey(d => d.IdSchoolAdvisor)
+                    .HasForeignKey(d => d.IdSchoolMentor)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PA_advisor");
             });
@@ -266,14 +266,14 @@ namespace HubEI.Models
                     .HasMaxLength(45);
             });
 
-            modelBuilder.Entity<SchoolAdvisor>(entity =>
+            modelBuilder.Entity<SchoolMentor>(entity =>
             {
-                entity.HasKey(e => e.IdSchoolAdvisor);
+                entity.HasKey(e => e.IdSchoolMentor);
 
-                entity.ToTable("School_advisor");
+                entity.ToTable("School_mentor");
 
-                entity.Property(e => e.IdSchoolAdvisor)
-                    .HasColumnName("id_school_advisor");
+                entity.Property(e => e.IdSchoolMentor)
+                    .HasColumnName("id_school_mentor");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
