@@ -191,7 +191,7 @@ namespace HubEI.Models
 
                 entity.Property(e => e.IdProject).HasColumnName("id_project");
 
-                entity.Property(e => e.IdSchoolMentor).HasColumnName("id_school_mentor");
+                entity.Property(e => e.IdSchoolMentor).HasColumnName("id_school_advisor");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectAdvisor)

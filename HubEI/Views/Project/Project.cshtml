@@ -1,41 +1,92 @@
 ﻿@model HubEI.Models.ViewModels.LoginViewModel
 
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
+
 @{
     ViewData["Title"] = "Project";
+
+    var technologyJSON = JsonConvert.SerializeObject(Model.Project.ProjectTechnology);
+    var mentorsJSON = JsonConvert.SerializeObject(Model.Project.ProjectAdvisor);
 }
 <link rel="stylesheet" href="~/css/project.css" />
+<script src="~/js/project.js"></script>
 
 @*https://blackrockdigital.github.io/startbootstrap-blog-post/*@
 @*https://blackrockdigital.github.io/startbootstrap-shop-item/*@
 
-<div id="main-container">
-    <div id="project-container">
-        <h1 id="project_title">@Html.DisplayFor(model => model.Project.Title)</h1>
-        <p>@Html.DisplayFor(model => model.Project.Description)</p>
-    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid" src="~/images/InstitutoPolitecnicoSetubal.jpg" />
+                <div class="card-body">
 
-    <div id="side-menus-container">
-        <div class="side-menu">
-            <div class="side-menu-title">
-                <h3>Tecnologias usadas</h3>
+                    <h1>@Model.Project.Title</h1>
+                    <h3><a href="#">@Model.Project.IdStudentNavigation.Name</a> - @Model.Project.IdProjectTypeNavigation.Description, @Model.Project.ProjectDate.ToString("MMMM yyyy")</h3>
+                    <p class="card-text">@Model.Project.Description</p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <h2 class="card-header">Relatório</h2>
+                <div class="card-body" style="height: 1000px;">
+                    <embed style="height: 100%; width: 100%" src="@Url.Action("GetProjectReport", "Project", new { project_id = Model.Project.IdProject } )" />
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <h2 class="card-header">Anexos</h2>
+                <div class="card-body">
+                    <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-md-4">
+            <div class="card my-4">
+                <h3 class="card-header">Estatísticas</h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    @Model.Project.Views visualizações
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    @Model.Project.Downloads transferências
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card my-4">
+                <h3 class="card-header">Tecnologias Usadas</h3>
+                <div class="card-body" id="technologiesBody" onload="renderTechnologies(@technologyJSON)">
+                </div>
+            </div>
+
+            <div class="card my-4">
+                <h3 class="card-header">Docentes Orientadores</h3>
+                <div class="card-body" id="mentorsBody" onload="renderMentors(@mentorsJSON)">
+                </div>
+            </div>
+
+            <div class="card my-4">
+                <h3 class="card-header">Empresa Associada</h3>
+                <div class="card-body">
+                    <a href="#">@Model.Project.IdCompanyNavigation.Name</a>
+                </div>
             </div>
         </div>
-        <div class="side-menu">
-            <div class="side-menu-title">
-                <h3>Docentes orientadores</h3>
-            </div>
-            <div class="side-menu-body">
-                <a>meu puto quim</a>
-            </div>
-        </div>
-        <div class="side-menu">
-            <div class="side-menu-title">
-                <h3>Empresa associada</h3>
-            </div>
-            <div class="side-menu-body">
-                <a>catota inc</a>
-            </div>
-        </div>
+
     </div>
 </div>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +20,7 @@ namespace HubEI.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [JsonIgnore]
         public ICollection<ProjectAdvisor> ProjectAdvisor { get; set; }
     }
 }
