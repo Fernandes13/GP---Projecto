@@ -223,7 +223,7 @@ namespace HubEI.Controllers
 
         public IActionResult Projects()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 ViewData["Got-Error"] = "true";
                 ViewData["Login-Message"] = "É necessário iniciar sessão";

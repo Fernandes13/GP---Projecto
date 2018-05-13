@@ -190,3 +190,9 @@ nav a:hover{
 .mt-6 {
     margin-top: 3em;
 }
+
+
+.dropdown a
+.dropdown a:hover {
+    text-decoration: none;
+}

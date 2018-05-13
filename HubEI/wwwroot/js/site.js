@@ -18,7 +18,7 @@ egg
 
 function showFunil() {
     var funil = document.getElementById("funil");
-    var audio = new Audio('./mp3/sw.mp3');
+    var audio = new Audio('../mp3/sw.mp3');
     audio.play();
     audio.volume = 0.4;
 

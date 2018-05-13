@@ -6,6 +6,7 @@ using HubEI.Models;
 using HubEI.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HubEI.Controllers
@@ -70,5 +71,19 @@ namespace HubEI.Controllers
 
             return File(project.Report, "application/pdf", project.Title + ".pdf");
         }
+
+
+        public IActionResult List()
+        {
+            var projects = _context.Project.Include(s => s.IdCompanyNavigation)
+                                            .Include(s => s.IdProjectTypeNavigation)
+                                            .Include(s => s.IdStudentNavigation);
+
+
+
+            return View(projects.ToList());
+        }
+
+
     }
 }
