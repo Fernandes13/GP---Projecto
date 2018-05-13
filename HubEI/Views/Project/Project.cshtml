@@ -34,13 +34,6 @@
                     <embed style="height: 100%; width: 100%" src="@Url.Action("GetProjectReport", "Project", new { project_id = Model.Project.IdProject } )" />
                 </div>
             </div>
-
-            <div class="card mt-4">
-                <h2 class="card-header">Anexos</h2>
-                <div class="card-body">
-                    <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
-                </div>
-            </div>
             <br />
         </div>
 
@@ -82,79 +75,24 @@
             <div class="card my-4">
                 <h3 class="card-header">Empresa Associada</h3>
                 <div class="card-body">
-                    <a href="#">@Model.Project.IdCompanyNavigation.Name</a>
+                    @if(Model.Project.IdCompanyNavigation != null)
+                    {
+                        <a href="#">@Model.Project.IdCompanyNavigation.Name</a>
+                    }
+                    else
+                    {
+                        <p>Sem empresa associada.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="card my-4">
+                <h2 class="card-header">Anexos</h2>
+                <div class="card-body">
+                    <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
-
-<!--
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Description)
-        </dd>
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Project.Report)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Report)
-        </dd>*@
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.ProjectDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.ProjectDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.IsVisible)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.IsVisible)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Views)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Views)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Downloads)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Downloads)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.IdCompanyNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.IdCompanyNavigation.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.IdProjectTypeNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.IdProjectTypeNavigation.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.IdStudentNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.IdStudentNavigation.Email)
-        </dd>
-    </dl>
-</div>
-    -->
