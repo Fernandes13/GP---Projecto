@@ -1,0 +1,43 @@
+﻿#main-container {
+    height: 100%;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+
+#project-container {
+    background-color: green;
+    height: 100%;
+    width: 65%;
+    margin-right: 2%;
+    display: inline-block;
+}
+
+#side-menus-container {
+    height: 100%;
+    width: 32.5%;
+    display: inline-block;
+}
+
+.side-menu {
+    background-color: white;
+    border: 1px solid;
+    border-color: lightgrey;
+    width: 100%;
+    height: auto;
+    border-radius: 2%;
+    overflow: hidden;
+    margin-bottom: 5%;
+}
+
+.side-menu-title {
+    background-color: #F7F7F7;
+    border-bottom: 1px solid;
+    border-color: lightgray;
+    padding-left: 1.3em;
+    padding-top: 0.7em;
+}
+
+.side-menu-body {
+    padding: 1.3em;
+}

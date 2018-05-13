@@ -23,5 +23,8 @@ namespace HubEI.Models.ViewModels
         [Required(ErrorMessage = "Campo password vazio")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+
+        public Project Project { get; set; }
     }
 }

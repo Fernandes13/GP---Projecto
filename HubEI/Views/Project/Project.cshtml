@@ -1,0 +1,109 @@
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Project";
+}
+<link rel="stylesheet" href="~/css/project.css" />
+
+@*https://blackrockdigital.github.io/startbootstrap-blog-post/*@
+@*https://blackrockdigital.github.io/startbootstrap-shop-item/*@
+
+<div id="main-container">
+    <div id="project-container">
+        <h1 id="project_title">@Html.DisplayFor(model => model.Project.Title)</h1>
+        <p>@Html.DisplayFor(model => model.Project.Description)</p>
+    </div>
+
+    <div id="side-menus-container">
+        <div class="side-menu">
+            <div class="side-menu-title">
+                <h3>Tecnologias usadas</h3>
+            </div>
+        </div>
+        <div class="side-menu">
+            <div class="side-menu-title">
+                <h3>Docentes orientadores</h3>
+            </div>
+            <div class="side-menu-body">
+                <a>meu puto quim</a>
+            </div>
+        </div>
+        <div class="side-menu">
+            <div class="side-menu-title">
+                <h3>Empresa associada</h3>
+            </div>
+            <div class="side-menu-body">
+                <a>catota inc</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Description)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Project.Report)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Report)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.ProjectDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.ProjectDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.IsVisible)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.IsVisible)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Views)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Views)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Downloads)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Downloads)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.IdCompanyNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.IdCompanyNavigation.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.IdProjectTypeNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.IdProjectTypeNavigation.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.IdStudentNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.IdStudentNavigation.Email)
+        </dd>
+    </dl>
+</div>
+    -->
