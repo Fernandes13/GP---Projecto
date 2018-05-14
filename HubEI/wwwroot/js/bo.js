@@ -41,6 +41,8 @@
         else
             $("#btn-remove-selected").hide();
     });
+
+
 });
 
 function countUpInsert() {
@@ -256,7 +258,6 @@ function editProject(id) {
 }
 
 function fillProjectForm(project) {
-    console.log(project);
     var project_id = document.getElementById("edit-project-id");
     project_id.value = project.idProject;
 
@@ -288,6 +289,23 @@ function fillProjectForm(project) {
     project_report_backup.value = project.report;
 
     countUpEdit();
+    fillMentorsList(project.projectAdvisor);
+}
+
+function fillMentorsList(mentors) {
+    var checkboxes = document.querySelectorAll('*[id^="edit-project-mentor"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    mentors.forEach(mentor => {
+        var checkbox = document.getElementById("edit-project-mentor-" + mentor.idSchoolMentor);
+        if (checkbox != null)
+        {
+            checkbox.checked = true;
+        }
+    });
 }
 
 function eliminatePendingProjects() {
@@ -325,3 +343,9 @@ function deleteProjects() {
 
     console.log(projects_choices);
 }
+
+$("#add-project-form").keypress(function (e) {
+    if (e.which == 13) {
+        return false;
+    }
+});
