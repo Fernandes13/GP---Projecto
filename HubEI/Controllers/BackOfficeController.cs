@@ -28,13 +28,13 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
 
             return View();
@@ -42,13 +42,13 @@ namespace HubEI.Controllers
 
         public IActionResult Students()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             BOStudentViewModel viewModel = new BOStudentViewModel();
             var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
@@ -106,13 +106,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             _context.Address.Add(model.Address);
 
@@ -141,13 +141,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             model.Student.IdAddressNavigation = model.Address;
 
@@ -175,13 +175,13 @@ namespace HubEI.Controllers
 
         public IActionResult Mentors()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             BOMentorViewModel viewModel = new BOMentorViewModel();
             var mentors = _context.SchoolMentor;
@@ -197,13 +197,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Mentor(BOMentorViewModel model)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             SchoolMentor mentor = new SchoolMentor
             {
@@ -223,13 +223,13 @@ namespace HubEI.Controllers
 
         public IActionResult Projects()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             BOProjectViewModel viewModel = new BOProjectViewModel();
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
@@ -247,13 +247,13 @@ namespace HubEI.Controllers
 
         public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             if (viewModel.Report != null)
             {
@@ -338,13 +338,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public async Task<IActionResult> Project(BOProjectViewModel model)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-                return RedirectToAction("Index", "Home");
-            }
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             if (ModelState.IsValid)
             {
