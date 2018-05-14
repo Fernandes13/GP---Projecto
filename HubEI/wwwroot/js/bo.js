@@ -218,7 +218,6 @@ function eliminatePendingMentors() {
             $.ajax({
                 type: "GET",
                 url: '/BackOffice/Mentors',
-                contentType: "application/json; charset=utf-8",
                 dataType: "html",
             }).done(function (res) {
 
