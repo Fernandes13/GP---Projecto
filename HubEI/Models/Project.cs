@@ -21,6 +21,7 @@ namespace HubEI.Models
 
         [Required(ErrorMessage = "É necessário definir a descrição do projecto!")]
         [Display(Name = "Descrição")]
+        [MaxLength(999)]
         public string Description { get; set; }
 
         [Display(Name = "Relatório")]

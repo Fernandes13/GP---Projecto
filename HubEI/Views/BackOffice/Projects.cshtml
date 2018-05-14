@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" asp-for="Project.Description" />
+                        <input class="form-control" asp-for="Project.Description"/>
                         <span asp-validation-for="Project.Description" class="error-message"></span>
                     </div>
                     <div class="form-group">
@@ -112,15 +112,15 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdProjectType"></label>
-                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --")
+                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdStudent"></label>
-                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --")
+                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --")
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="modal-footer">

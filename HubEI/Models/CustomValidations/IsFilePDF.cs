@@ -21,6 +21,10 @@ namespace HubEI.Models.CustomValidations
             {
                 return ValidationResult.Success;
             }
+            else if(file == null)
+            {
+                return new ValidationResult("É necessário introduzir o relatório do projecto.");
+            }
 
             if (Path.GetExtension(file.FileName).ToLower() != ".pdf")
             {
