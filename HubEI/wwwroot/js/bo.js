@@ -45,6 +45,17 @@
 
 });
 
+function countUpInsert() {
+    var length = $('#project-insert-description').val().length;
+    var maxLength = document.getElementById("project-insert-description").maxLength;
+    var myCounter = document.getElementById("insert-desc-count").textContent = length + "/" + maxLength;
+}
+
+function countUpEdit() {
+    var length = $('#edit-project-description').val().length;
+    var maxLength = document.getElementById("edit-project-description").maxLength;
+    var myCounter = document.getElementById("edit-desc-count").textContent = length + "/" + maxLength;
+}
 
 function fillStudentEmail() {
     var number = document.getElementById("student-number").value;
@@ -185,7 +196,6 @@ function editProject(id) {
 }
 
 function fillProjectForm(project) {
-    console.log(project);
     var project_id = document.getElementById("edit-project-id");
     project_id.value = project.idProject;
 
@@ -215,6 +225,25 @@ function fillProjectForm(project) {
 
     var project_report_backup = document.getElementById("edit-project-report-backup");
     project_report_backup.value = project.report;
+
+    countUpEdit();
+    fillMentorsList(project.projectAdvisor);
+}
+
+function fillMentorsList(mentors) {
+    var checkboxes = document.querySelectorAll('*[id^="edit-project-mentor"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    mentors.forEach(mentor => {
+        var checkbox = document.getElementById("edit-project-mentor-" + mentor.idSchoolMentor);
+        if (checkbox != null)
+        {
+            checkbox.checked = true;
+        }
+    });
 }
 
 function eliminatePendingProjects() {

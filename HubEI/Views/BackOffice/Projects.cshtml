@@ -2,7 +2,10 @@
 @{
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
 }
+
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
+<link href="~/css/dropzone.css" rel="stylesheet" type="text/css"/>
+<script src="~/js/dropzone.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/css/tagsinput.css">
 
@@ -97,8 +100,8 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" asp-for="Project.Description" />
-                        <span asp-validation-for="Project.Description" class="error-message"></span>
+                        <textarea class="form-control" id="project-insert-description" style="resize:none;" onkeyup="countUpInsert()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <span asp-validation-for="Project.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label>
@@ -130,6 +133,23 @@
                         <label asp-for="Project.IdCompany"></label>
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control" })
                     </div>
+                    @*<div class="form-group">
+                        <label>Anexos</label>
+                        <div class="dz-message needsclick">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <label asp-for="Mentors"></label>
+                            @for (var i = 0; i < Model.Mentors.Count; i++)
+                            {    
+                            <p>
+                                <input type="checkbox" asp-for="@Model.Mentors[i].Selected" />
+                                <label asp-for="@Model.Mentors[i].Selected">@Model.Mentors[i].SchoolMentor.Name</label>
+                                <input type="hidden" asp-for="@Model.Mentors[i].SchoolMentor.IdSchoolMentor" />
+                            </p>
+                            }
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -159,8 +179,8 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" id="edit-project-description" asp-for="Project.Description" />
-                        <span asp-validation-for="Project.Description" class="error-message"></span>
+                        <textarea class="form-control" id="edit-project-description" style="resize:none;" onkeyup="countUpEdit()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <span asp-validation-for="Project.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label>
@@ -189,6 +209,18 @@
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control", @id = "edit-project-company" })
+                    </div>
+
+                    <div class="form-group" id="edit-project-mentorslist"> 
+                        <label asp-for="Mentors"></label>
+                            @for (var i = 0; i < Model.Mentors.Count; i++)
+                            {    
+                            <p>
+                                <input type="checkbox" asp-for="@Model.Mentors[i].Selected" id="edit-project-mentor-@(Model.Mentors[i].SchoolMentor.IdSchoolMentor)"/>
+                                <label asp-for="@Model.Mentors[i].Selected">@Model.Mentors[i].SchoolMentor.Name</label>
+                                <input type="hidden" asp-for="@Model.Mentors[i].SchoolMentor.IdSchoolMentor" />
+                            </p>
+                            }
                     </div>
                 </div>
                 <div class="modal-footer">
