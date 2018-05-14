@@ -23,52 +23,56 @@
                     <p>@project.Description</p>
                     <a class="btn btn-primary" href="#">View Project</a>
                 </div>*@
-            <div class="col-lg-4 col-sm-6 portfolio-item">
-                <div class="card h-100">
-                    <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
-                        </h4>
-                        <h4 class="card-sub-title">
-                            @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
-                        </h4>
+            if (project.IsVisible)
+            {
 
-                        @if (project.ProjectAdvisor.Count > 0)
-                        {
-                            <b>Orientadores: </b>
-                        }
+                <div class="col-lg-4 col-sm-6 portfolio-item">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                            </h4>
+                            <h4 class="card-sub-title">
+                                @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
+                            </h4>
 
-                        @foreach (var mentor in project.ProjectAdvisor)
-                        {
-                            if (project.ProjectAdvisor.Count == 1)
+                            @if (project.ProjectAdvisor.Count > 0)
                             {
-                                <span>
-                                    @mentor.IdSchoolMentorNavigation.Name
-                                </span>
+                                <b>Orientadores: </b>
                             }
-                            else
-                            {
-                                <span>
-                                    @mentor.IdSchoolMentorNavigation.Name ;
-                                </span>
-                            }
-                        }
-                        <br />
-                        <b>Empresa: </b>
-                        @project.IdCompanyNavigation.Name
 
-                        <br />
-                        <br />
-                        <p class="card-text">@project.Description</p>
-                    </div>
-                    <div class="card">
-                        <h3 class="card-header">Tecnologias Usadas</h3>
-                        <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
+                            @foreach (var mentor in project.ProjectAdvisor)
+                            {
+                                if (project.ProjectAdvisor.Count == 1)
+                                {
+                                    <span>
+                                        @mentor.IdSchoolMentorNavigation.Name
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @mentor.IdSchoolMentorNavigation.Name ;
+                                    </span>
+                                }
+                            }
+                            <br />
+                            <b>Empresa: </b>
+                            @project.IdCompanyNavigation.Name
+
+                            <br />
+                            <br />
+                            <p class="card-text">@project.Description</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-header">Tecnologias Usadas</h3>
+                            <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     </div>
 
