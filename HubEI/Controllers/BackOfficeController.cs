@@ -275,12 +275,12 @@ namespace HubEI.Controllers
 
             viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
 
-            foreach(var advisor in viewModel.Project.ProjectAdvisor)
+            foreach (var advisor in viewModel.Project.ProjectAdvisor)
             {
                 _context.ProjectAdvisor.Remove(advisor);
                 await _context.SaveChangesAsync();
             }
-            
+
 
             foreach (var mentor in viewModel.Mentors)
             {
@@ -364,6 +364,10 @@ namespace HubEI.Controllers
 
             project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject).ToList();
 
+
+            project.ProjectTechnology = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject)
+                                                                .Include(pt => pt.IdTechnologyNavigation).ToList();
+
             return Json(project);
         }
 
@@ -405,9 +409,9 @@ namespace HubEI.Controllers
                     context.Add(project);
                     await context.SaveChangesAsync();
 
-                    foreach(MentorsCheckBox mentor in model.Mentors)
+                    foreach (MentorsCheckBox mentor in model.Mentors)
                     {
-                        if(mentor.Selected)
+                        if (mentor.Selected)
                         {
                             var newMentor = new ProjectAdvisor
                             {
@@ -437,7 +441,7 @@ namespace HubEI.Controllers
 
             project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject).ToList();
 
-            foreach(var advisor in project.ProjectAdvisor)
+            foreach (var advisor in project.ProjectAdvisor)
             {
                 _context.ProjectAdvisor.Remove(advisor);
             }

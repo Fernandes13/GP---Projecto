@@ -165,9 +165,9 @@
 
             if (self.objectItems) {
                 if (typeof item === "object")
-                    item = $.grep(self.itemsArray, function (other) { return self.options.itemValue(other) == self.options.itemValue(item); });
+                    item = $.grep(self.itemsArray, function (other) { return self.options.itemValue(other) === self.options.itemValue(item); });
                 else
-                    item = $.grep(self.itemsArray, function (other) { return self.options.itemValue(other) == item; });
+                    item = $.grep(self.itemsArray, function (other) { return self.options.itemValue(other) === item; });
 
                 item = item[item.length - 1];
             }

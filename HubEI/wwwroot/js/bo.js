@@ -2,10 +2,7 @@
     // Activate tooltip
     //$('[data-toggle="tooltip"]').tooltip();
 
-
-
     var cb_selected_count = 0;
-
 
     // Select/Deselect checkboxes
     var checkbox = $('table tbody input[type="checkbox"]');
@@ -22,9 +19,6 @@
                 $("#btn-remove-selected").hide();
             });
         }
-
-
-
     });
 
     checkbox.click(function () {
@@ -156,7 +150,6 @@ function eliminatePendingStudents() {
             $.ajax({
                 type: "GET",
                 url: '/BackOffice/Students',
-                contentType: "application/json; charset=utf-8",
                 dataType: "html",
             }).done(function (res) {
 
@@ -196,6 +189,8 @@ function editProject(id) {
 }
 
 function fillProjectForm(project) {
+    $('#input-technologies-edit').tagsinput('removeAll');
+    console.log(project);
     var project_id = document.getElementById("edit-project-id");
     project_id.value = project.idProject;
 
@@ -228,6 +223,10 @@ function fillProjectForm(project) {
 
     countUpEdit();
     fillMentorsList(project.projectAdvisor);
+
+    project.projectTechnology.forEach(function (tech) {
+        $('#input-technologies-edit').tagsinput('add', tech.idTechnologyNavigation.description);
+    })
 }
 
 function fillMentorsList(mentors) {
@@ -254,20 +253,15 @@ function eliminatePendingProjects() {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
+            $.ajax({
+                type: "GET",
+                url: '/BackOffice/Projects',
+                dataType: "html",
+            }).done(function (res) {
+
+            });
         });
     });
-
-    setTimeout(function () {
-        $.ajax({
-            type: "GET",
-            url: '/BackOffice/Projects',
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-        }).done(function (res) {
-
-        });
-    }, 800);
-
 }
 
 function deleteProjects() {
@@ -278,11 +272,16 @@ function deleteProjects() {
         if (project.checked)
             projects_choices.push(project.id.replace('cb_', ''));
     })
-
-    console.log(projects_choices);
 }
 
 $("#add-project-form").keypress(function (e) {
+    if (e.which == 13) {
+        return false;
+    }
+});
+
+
+$("#edit-project-form").keypress(function (e) {
     if (e.which == 13) {
         return false;
     }
