@@ -4,8 +4,12 @@
 }
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
 
-<div class="container">
+<link rel="stylesheet" href="/css/tagsinput.css">
 
+<script src="https://rawgit.com/twitter/typeahead.js/master/dist/bloodhound.min.js"></script>
+<script src="~/js/typeahead.js"></script>
+<script src="/js/tagsinput.js"></script>
+<div class="container">
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
@@ -40,24 +44,24 @@
             <tbody>
                 @foreach (var project in Model.Projects)
                 {
-                <tr>
-                    <td>
-                        <span class="custom-checkbox">
-                            <input type="checkbox" id="cb_@project.IdProject" name="projects" value="1">
-                            <label for="checkbox1"></label>
-                        </span>
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => project.Title)</td>
-                    <td>@Html.DisplayFor(modelItem => project.ProjectDate)</td>
-                    <td>@Html.DisplayFor(modelItem => project.IdStudentNavigation.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => project.IdCompanyNavigation.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => project.IdProjectTypeNavigation.Description)</td>
-                    <td>@Html.DisplayFor(modelItem => project.IsVisible)</td>
-                    <td>
-                        <a href="#editProjectModal" id="edit_@project.IdProject" onclick="editProject(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
-                        <a href="#deleteProjectModal" id="@project.IdProject" onclick="deleteProject(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="cb_@project.IdProject" name="projects" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => project.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => project.ProjectDate)</td>
+                        <td>@Html.DisplayFor(modelItem => project.IdStudentNavigation.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => project.IdCompanyNavigation.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => project.IdProjectTypeNavigation.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => project.IsVisible)</td>
+                        <td>
+                            <a href="#editProjectModal" id="edit_@project.IdProject" onclick="editProject(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#deleteProjectModal" id="@project.IdProject" onclick="deleteProject(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -80,7 +84,7 @@
 <div id="addProjectModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="Project" method="post" enctype="multipart/form-data">
+            <form asp-action="Project" method="post" enctype="multipart/form-data" id="add-project-form">
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Projecto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -93,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" asp-for="Project.Description"/>
+                        <input class="form-control" asp-for="Project.Description" />
                         <span asp-validation-for="Project.Description" class="error-message"></span>
                     </div>
                     <div class="form-group">
@@ -105,6 +109,10 @@
                         <label asp-for="Project.ProjectDate"></label>
                         <input class="form-control" asp-for="Project.ProjectDate" />
                         <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Tecnologias Associadas</label>
+                        <input type="text" name="technologies" id="input-technologies" class="form-control" data-role="tagsinput" />
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -136,14 +144,14 @@
 <div id="editProjectModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="EditProject" method="post"  enctype="multipart/form-data">
+            <form asp-action="EditProject" method="post" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Projecto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="edit-project-id" asp-for="Project.IdProject" />
-                    <input type="hidden" id="edit-project-report-backup" asp-for="Project.Report"/>
+                    <input type="hidden" id="edit-project-report-backup" asp-for="Project.Report" />
                     <div class="form-group">
                         <label asp-for="Project.Title"></label>
                         <input class="form-control" id="edit-project-title" asp-for="Project.Title" />

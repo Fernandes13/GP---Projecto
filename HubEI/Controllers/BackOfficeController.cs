@@ -332,6 +332,8 @@ namespace HubEI.Controllers
                                               .Include(s => s.IdStudentNavigation)
                                               .Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
+           // var technologies = _context.ProjectTechnology.Where()
+
             return Json(project);
         }
 
@@ -393,5 +395,16 @@ namespace HubEI.Controllers
 
             return Json("Success");
         }
+
+        public IActionResult Technologies()
+        {
+            var technologies = _context.Technology.ToList();
+
+
+
+            return Json(technologies);
+        }
+
     }
+
 }

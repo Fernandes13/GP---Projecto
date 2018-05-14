@@ -41,6 +41,8 @@
         else
             $("#btn-remove-selected").hide();
     });
+
+
 });
 
 
@@ -250,3 +252,9 @@ function deleteProjects() {
 
     console.log(projects_choices);
 }
+
+$("#add-project-form").keypress(function (e) {
+    if (e.which == 13) {
+        return false;
+    }
+});
