@@ -242,6 +242,15 @@ namespace HubEI.Controllers
             viewModel.ProjectTypes = PopulateProjectTypes();
             viewModel.Students = PopulateStudents();
 
+            var mentors = _context.SchoolMentor.ToList();
+
+            viewModel.Mentors = new List<MentorsCheckBox>();
+
+            foreach (SchoolMentor mentor in mentors)
+            {
+                viewModel.Mentors.Add(new MentorsCheckBox { SchoolMentor = mentor, Selected = false });
+            }
+
             return View(viewModel);
         }
 
@@ -263,6 +272,27 @@ namespace HubEI.Controllers
                     viewModel.Project.Report = memoryStream.ToArray();
                 }
             }
+
+            viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
+
+            foreach(var advisor in viewModel.Project.ProjectAdvisor)
+            {
+                _context.ProjectAdvisor.Remove(advisor);
+                await _context.SaveChangesAsync();
+            }
+            
+
+            foreach (var mentor in viewModel.Mentors)
+            {
+                if (mentor.Selected)
+                {
+                    var advisor = new ProjectAdvisor { IdProject = viewModel.Project.IdProject, IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor };
+                    await _context.ProjectAdvisor.AddAsync(advisor);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
 
             _context.Project.Update(viewModel.Project);
             _context.SaveChanges();
@@ -332,6 +362,8 @@ namespace HubEI.Controllers
                                               .Include(s => s.IdStudentNavigation)
                                               .Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
+            project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject).ToList();
+
             return Json(project);
         }
 
@@ -373,6 +405,23 @@ namespace HubEI.Controllers
                     context.Add(project);
                     await context.SaveChangesAsync();
 
+                    foreach(MentorsCheckBox mentor in model.Mentors)
+                    {
+                        if(mentor.Selected)
+                        {
+                            var newMentor = new ProjectAdvisor
+                            {
+                                IdProject = project.IdProject,
+                                IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
+                            };
+
+                            context.Add(newMentor);
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+
+
                     return RedirectToAction("Projects", "BackOffice");
                 }
 
@@ -385,6 +434,16 @@ namespace HubEI.Controllers
         public IActionResult Project([FromQuery]string ProjectId)
         {
             Project project = _context.Project.Where(p => p.IdProject.ToString() == ProjectId).FirstOrDefault();
+
+            project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject).ToList();
+
+            foreach(var advisor in project.ProjectAdvisor)
+            {
+                _context.ProjectAdvisor.Remove(advisor);
+            }
+
+            project.ProjectAdvisor = new List<ProjectAdvisor>();
+
             _context.Project.Remove(project);
             _context.SaveChanges();
 
