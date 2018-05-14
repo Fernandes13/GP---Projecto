@@ -221,6 +221,48 @@ namespace HubEI.Controllers
             return RedirectToAction("Mentors", "BackOffice");
         }
 
+        [HttpGet]
+        public JsonResult GetMentor([FromQuery] string mentor_id)
+        {
+            SchoolMentor std = _context.SchoolMentor.Where(st => st.IdSchoolMentor.ToString() == mentor_id).FirstOrDefault();
+
+            return Json(std);
+        }
+
+        [HttpPost]
+        public IActionResult EditMentor(BOMentorViewModel model)
+        {
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    ViewData["Got-Error"] = "true";
+            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+
+            //    return RedirectToAction("Index", "Home");
+            //}
+
+            _context.SchoolMentor.Update(model.Mentor);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Orientador editado com sucesso.";
+
+            return RedirectToAction("Mentors", "BackOffice");
+        }
+
+        [HttpDelete]
+        public IActionResult Mentor([FromQuery]string MentorId)
+        {
+            SchoolMentor aux_mentor = _context.SchoolMentor.Where(std => std.IdSchoolMentor.ToString() == MentorId).FirstOrDefault();
+            Console.WriteLine(aux_mentor);
+            _context.SchoolMentor.Remove(aux_mentor);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Orientador eliminado com sucesso.";
+
+            return Json("Success");
+        }
+
         public IActionResult Projects()
         {
             //if (!User.Identity.IsAuthenticated)
