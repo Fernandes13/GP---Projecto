@@ -93,8 +93,8 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" asp-for="Project.Description"/>
-                        <span asp-validation-for="Project.Description" class="error-message"></span>
+                        <textarea class="form-control" id="project-insert-description" style="resize:none;" onkeyup="countUpInsert()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <span asp-validation-for="Project.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label>
@@ -151,8 +151,8 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <input class="form-control" id="edit-project-description" asp-for="Project.Description" />
-                        <span asp-validation-for="Project.Description" class="error-message"></span>
+                        <textarea class="form-control" id="edit-project-description" style="resize:none;" onkeyup="countUpEdit()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <span asp-validation-for="Project.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label>
