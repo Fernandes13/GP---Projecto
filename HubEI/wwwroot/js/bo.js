@@ -170,6 +170,67 @@ function deleteStudents() {
     console.log(students_choices);
 }
 
+var mentors_choices = [];
+
+function deleteMentor(id) {
+    mentors_choices = [id];
+}
+
+function editMentor(id) {
+    id = id.replace('edit_', '');
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/GetMentor?mentor_id=' + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+    }).done(function (res) {
+        fillMentorForm(JSON.parse(res));
+    });
+}
+
+
+function fillMentorForm(mentor) {
+    var mentor_id = document.getElementById("edit-mentor-id");
+    mentor.value = mentor.IdSchoolMentor;
+
+    var mentor_name = document.getElementById("edit-mentor-name");
+    mentor_name.value = mentor.name;
+
+    var mentor_email = document.getElementById("edit-mentor-email");
+    mentor_email.value = mentor.email;
+}
+
+function eliminatePendingMentors() {
+    mentors_choices.forEach(function (mentor) {
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/Mentor?MentorId=' + mentor,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+            $.ajax({
+                type: "GET",
+                url: '/BackOffice/Mentors',
+                dataType: "html",
+            }).done(function (res) {
+
+            });
+        });
+    });
+}
+
+function deleteMentors() {
+
+    var mentors = document.getElementsByName('mentors');
+
+    mentors.forEach(function (mentor) {
+        if (mentor.checked)
+            mentors_choices.push(mentor.id.replace('cb_', ''));
+    })
+
+    console.log(mentors_choices);
+}
+
 var projects_choices = [];
 
 function deleteProject(id) {

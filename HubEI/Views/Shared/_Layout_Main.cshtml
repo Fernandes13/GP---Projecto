@@ -52,27 +52,35 @@
                     @*<li class="nav-item">
                             <a class="nav-link" href="#">Contactos</a>
                         </li>*@
-                    <li id="backoffice-link" class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="BackOffice" asp-action="Index">BackOffice</a>
-                    </li>
                 </ul>
             </div>
         </div>
-        <div class="mr-5">
+        <div class="mr-4">
             <ul class="navbar-nav">
                 <li class="dropdown">
-                    <a href="#" id="loginText" onclick="toggleLogin();">Login <!--<span class="caret"></span>--></a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="BackOffice" id="loginText"> <i class="glyphicon glyphicon-log-in"></i> BackOffice</a>
+                    }
+                    else
+                    {
+                        <a href="#" id="loginText" onclick="toggleLogin();"> <i class="glyphicon glyphicon-log-in"></i> BackOffice</a>
+
+                    }
+
                 </li>
             </ul>
         </div>
     </nav>
 
-   @if(ViewData["Got-Error"] == "true") { 
+    @if (ViewData["Got-Error"] == "true")
+    {
         <div class="mt-5 col-md-9 offset-md-3 position-fixed show" id="loginForm">
             @Html.Partial("../BackOffice/Login.cshtml")
         </div>
-    
-    }else
+
+    }
+    else
     {
         <div class="mt-5 col-md-9 offset-md-3 position-fixed hide" id="loginForm">
             @Html.Partial("../BackOffice/Login.cshtml")
