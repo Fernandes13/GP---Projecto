@@ -2,9 +2,13 @@
     $('div[onload]').trigger('onload');
 });
 
-function renderTechnologies(technologies)
-{
-    var body = document.getElementById("technologiesBody");
+function renderTechnologies(id, technologies)
+{   
+    console.log(technologies);
+    if(id)
+        var body = document.getElementById("technologiesBody_" + id);
+    else
+        var body = document.getElementById("technologiesBody");
 
     while (body.firstChild) {
         body.removeChild(body.firstChild);
@@ -35,7 +39,7 @@ function renderTechnologies(technologies)
         }
 
         if (technologies.length > 1) {
-            var half = parseInt(technologies.length / 2) % 2 == 0 ? parseInt(technologies.length / 2) : parseInt(technologies.length / 2) + 1;
+            var half = parseInt(technologies.length / 2) % 2 === 0 ? parseInt(technologies.length / 2) : parseInt(technologies.length / 2) + 1;
 
             for (var i = half; i < technologies.length; i++) {
                 var li = document.createElement("li");
@@ -95,7 +99,7 @@ function renderMentors(mentors)
         }
 
         if (mentors.length > 1) {
-            var half = parseInt(mentors.length / 2) % 2 == 0 ? parseInt(mentors.length / 2) : parseInt(mentors.length / 2) + 1;
+            var half = parseInt(mentors.length / 2) % 2 === 0 ? parseInt(mentors.length / 2) : parseInt(mentors.length / 2) + 1;
 
             for (var i = half; i < mentors.length; i++) {
                 var li = document.createElement("li");

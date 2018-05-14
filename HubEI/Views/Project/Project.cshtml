@@ -4,8 +4,6 @@
 @using Newtonsoft.Json
 
 @{
-    ViewData["Title"] = "Project";
-
     var technologyJSON = JsonConvert.SerializeObject(Model.Project.ProjectTechnology);
     var mentorsJSON = JsonConvert.SerializeObject(Model.Project.ProjectAdvisor);
 }
@@ -62,7 +60,7 @@
 
             <div class="card my-4">
                 <h3 class="card-header">Tecnologias Usadas</h3>
-                <div class="card-body" id="technologiesBody" onload="renderTechnologies(@technologyJSON)">
+                <div class="card-body" id="technologiesBody" onload="renderTechnologies(0, @technologyJSON)">
                 </div>
             </div>
 

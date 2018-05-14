@@ -75,13 +75,34 @@ namespace HubEI.Controllers
 
         public IActionResult List()
         {
+            LoginViewModel viewModel = new LoginViewModel();
+
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
                                             .Include(s => s.IdProjectTypeNavigation)
                                             .Include(s => s.IdStudentNavigation);
 
 
+            var maxChars = 360;
 
-            return View(projects.ToList());
+
+            foreach (var project in projects)
+            {
+                project.Description = project.Description.Length <= maxChars ? project.Description : project.Description.Substring(0, maxChars) + "...";
+
+                var projectAdvisors = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject)
+                                            .Include(pa => pa.IdSchoolMentorNavigation).ToList();
+
+                var projectTechnologies = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject)
+                                                                    .Include(pt => pt.IdTechnologyNavigation).ToList();
+
+                project.ProjectAdvisor = projectAdvisors;
+                project.ProjectTechnology = projectTechnologies;
+            }
+
+
+            viewModel.Projects = projects.ToList();
+
+            return View(viewModel);
         }
 
 

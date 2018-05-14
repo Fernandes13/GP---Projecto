@@ -1,33 +1,79 @@
-﻿@model IEnumerable<HubEI.Models.Project>
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
 
+<link rel="stylesheet" href="~/css/project.css" />
+<script src="~/js/project.js"></script>
 <div class="container">
-    <br />
-    <br />
     <!-- Page Heading -->
     <h1 class="my-4">
-        Listagem de Projectos
+        Projectos
         @*<small>Secondary Text</small>*@
     </h1>
+    <div class="row">
+        @foreach (Project project in Model.Projects)
+        {
+            @*<div class="col-md-7">
+                    <a href="#" class="project-list-image">
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
+                    </a>
+                </div>
+                <div class="col-md-5">
+                    <h3>@project.Title</h3>
+                    <p>@project.Description</p>
+                    <a class="btn btn-primary" href="#">View Project</a>
+                </div>*@
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                    <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                        </h4>
+                        <h4 class="card-sub-title">
+                            @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
+                        </h4>
 
-    @foreach (var project in Model)
-    {
-        <div class="row">
-            <div class="col-md-7">
-                <a href="#">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-                </a>
+                        @if (project.ProjectAdvisor.Count > 0)
+                        {
+                            <b>Orientadores: </b>
+                        }
+
+                        @foreach (var mentor in project.ProjectAdvisor)
+                        {
+                            if (project.ProjectAdvisor.Count == 1)
+                            {
+                                <span>
+                                    @mentor.IdSchoolMentorNavigation.Name
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    @mentor.IdSchoolMentorNavigation.Name ;
+                                </span>
+                            }
+                        }
+                        <br />
+                        <b>Empresa: </b>
+                        @project.IdCompanyNavigation.Name
+
+                        <br />
+                        <br />
+                        <p class="card-text">@project.Description</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-header">Tecnologias Usadas</h3>
+                        <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5">
-                <h3>Project One</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                <a class="btn btn-primary" href="#">View Project</a>
-            </div>
-        </div>
-        <hr>
-    }
+        }
+    </div>
 
     <!-- Pagination -->
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center" style="margin-top:3%;">
         <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HubEI.Models.ViewModels
 {
@@ -26,5 +27,6 @@ namespace HubEI.Models.ViewModels
 
 
         public Project Project { get; set; }
+        public IEnumerable <Project> Projects { get; set; }
     }
 }
