@@ -13,20 +13,10 @@
     <div class="row">
         @foreach (Project project in Model.Projects)
         {
-            @*<div class="col-md-7">
-                    <a href="#" class="project-list-image">
-                        <img class="img-fluid rounded mb-3 mb-md-0" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
-                    </a>
-                </div>
-                <div class="col-md-5">
-                    <h3>@project.Title</h3>
-                    <p>@project.Description</p>
-                    <a class="btn btn-primary" href="#">View Project</a>
-                </div>*@
             if (project.IsVisible)
             {
 
-                <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="col-lg-4 col-sm-6 portfolio-item"  style="margin-top:3.5%;">
                     <div class="card h-100">
                         <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
                         <div class="card-body">
