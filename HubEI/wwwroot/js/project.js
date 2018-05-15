@@ -4,7 +4,6 @@
 
 function renderTechnologies(id, technologies)
 {   
-    console.log(technologies);
     if(id)
         var body = document.getElementById("technologiesBody_" + id);
     else
@@ -28,10 +27,10 @@ function renderTechnologies(id, technologies)
     secondRowUl.setAttribute("class", "list-unstyled mb-0");
 
     if (technologies.length > 0) {
-        for (var i = 0; i < technologies.length / 2; i++) {
+
+        for (var i = 0; i < parseInt(technologies.length / 2); i++) {
             var li = document.createElement("li");
             var a = document.createElement("a");
-            console.log(i);
             a.textContent = technologies[i].IdTechnologyNavigation.Description;
             a.setAttribute("href", "#");
             li.appendChild(a);
@@ -39,12 +38,10 @@ function renderTechnologies(id, technologies)
         }
 
         if (technologies.length > 1) {
-            var half = parseInt(technologies.length / 2) % 2 === 0 ? parseInt(technologies.length / 2) : parseInt(technologies.length / 2) + 1;
 
-            for (var i = half; i < technologies.length; i++) {
+            for (var i = parseInt(technologies.length / 2); i < technologies.length; i++) {
                 var li = document.createElement("li");
                 var a = document.createElement("a");
-                console.log(i);
                 a.textContent = technologies[i].IdTechnologyNavigation.Description;
                 a.setAttribute("href", "#");
                 li.appendChild(a);
@@ -99,9 +96,8 @@ function renderMentors(mentors)
         }
 
         if (mentors.length > 1) {
-            var half = parseInt(mentors.length / 2) % 2 === 0 ? parseInt(mentors.length / 2) : parseInt(mentors.length / 2) + 1;
 
-            for (var i = half; i < mentors.length; i++) {
+            for (var i = parseInt(mentors.length / 2); i < mentors.length; i++) {
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 a.textContent = mentors[i].IdSchoolMentorNavigation.Name;
