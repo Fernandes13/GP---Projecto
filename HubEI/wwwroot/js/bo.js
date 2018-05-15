@@ -191,7 +191,7 @@ function editMentor(id) {
 
 function fillMentorForm(mentor) {
     var mentor_id = document.getElementById("edit-mentor-id");
-    mentor.value = mentor.IdSchoolMentor;
+    mentor_id.value = mentor.idSchoolMentor;
 
     var mentor_name = document.getElementById("edit-mentor-name");
     mentor_name.value = mentor.name;

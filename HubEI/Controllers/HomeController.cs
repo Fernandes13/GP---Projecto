@@ -57,7 +57,7 @@ namespace HubEI.Controllers
                     ViewData["Login-Message"] = state.GetMessage();
                     ViewData["Got-Error"] = "true";
 
-                    return View();
+                    //return View();
                 }
                 else
                 {
