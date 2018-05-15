@@ -31,6 +31,8 @@ namespace HubEI.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Número de Estudante")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "O número de estudante é expresso em algarismos.")]
+        [Range(0, int.MaxValue, ErrorMessage = "O número de estudante é expresso em algarismos.")]
         public long StudentNumber { get; set; }
 
 

@@ -95,7 +95,7 @@ namespace HubEI.Controllers
                                             .Include(s => s.IdProjectTypeNavigation)
                                             .Include(s => s.IdStudentNavigation);
 
-            var maxChars = 360;
+            var maxChars = 300;
 
             foreach (var project in projects)
             {

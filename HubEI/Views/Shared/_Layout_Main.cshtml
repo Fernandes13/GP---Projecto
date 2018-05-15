@@ -73,16 +73,16 @@
         </div>
     </nav>
 
-    @if (ViewData["Got-Error"] == "true")
+    @if (TempData["Got-Error"] == "true")
     {
-        <div class="mt-5 col-md-9 offset-md-3 position-fixed show" id="loginForm">
+        <div class="mt-6 col-md-9 offset-md-3 fixed-top show" id="loginForm">
             @Html.Partial("../BackOffice/Login.cshtml")
         </div>
 
     }
     else
     {
-        <div class="mt-5 col-md-9 offset-md-3 position-fixed hide" id="loginForm">
+        <div class="mt-6 col-md-9 offset-md-3 fixed-top show" id="loginForm">
             @Html.Partial("../BackOffice/Login.cshtml")
         </div>
 

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    // Activate tooltip
-    //$('[data-toggle="tooltip"]').tooltip();
+
+    $('[data-toggle="tooltip"]').tooltip({ 'trigger': 'hover' });
 
     var cb_selected_count = 0;
 

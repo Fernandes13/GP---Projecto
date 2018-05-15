@@ -30,8 +30,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -44,8 +44,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -108,8 +108,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -143,8 +143,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -177,8 +177,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -199,8 +199,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -236,8 +236,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -269,8 +269,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -302,8 +302,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -451,8 +451,8 @@ namespace HubEI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ViewData["Got-Error"] = "true";
-                ViewData["Login-Message"] = "É necessário iniciar sessão";
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
                 return RedirectToAction("Index", "Home");
             }
