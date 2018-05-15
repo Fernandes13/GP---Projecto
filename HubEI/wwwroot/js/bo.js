@@ -155,7 +155,7 @@ function deleteStudents() {
 
     var students = document.getElementsByName('students');
 
-    students.forEach(function(student){
+    students.forEach(function (student) {
         if (student.checked)
             students_choices.push(student.id.replace('cb_', ''));
     })
@@ -231,9 +231,13 @@ var projects_choices = [];
 function deleteProject(id) {
     projects_choices = [id];
 }
+var pendingEditProject;
 
 function editProject(id) {
     id = id.replace('edit_', '');
+
+    pendingEditProject = id;
+
     $.ajax({
         type: "GET",
         url: '/BackOffice/GetProject?project_id=' + id,
@@ -294,8 +298,7 @@ function fillMentorsList(mentors) {
 
     mentors.forEach(mentor => {
         var checkbox = document.getElementById("edit-project-mentor-" + mentor.idSchoolMentor);
-        if (checkbox != null)
-        {
+        if (checkbox != null) {
             checkbox.checked = true;
         }
     });
@@ -320,14 +323,39 @@ function eliminatePendingProjects() {
     });
 }
 
-function deleteProjects() {
+function editProjectTechnologies() {
+    setTimeout(function () {
+        var technologies_list;
 
-    var projects = document.getElementsByName('projects');
+        technologies_list = document.getElementById("input-technologies-edit").value.trim().split(',');
 
-    projects.forEach(function (project) {
-        if (project.checked)
-            projects_choices.push(project.id.replace('cb_', ''));
-    })
+        console.log(technologies_list);
+
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/ClearProjectTechnologies?project_id=' + pendingEditProject,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        })
+    }, 500);
+
+
+    setTimeout(function () {
+        var technologies_list;
+
+        technologies_list = document.getElementById("input-technologies-edit").value.trim().split(',');
+
+        console.log(technologies_list);
+
+        technologies_list.forEach(function (tech) {
+            $.ajax({
+                type: "POST",
+                url: '/BackOffice/EditProjectTechnology?project_id=' + pendingEditProject + '&tech=' + tech,
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+            })
+        })
+    }, 1000);
 }
 
 function addTechnologies() {
@@ -346,9 +374,18 @@ function addTechnologies() {
                 dataType: "html",
             })
         })
-    },1000);
+    }, 1000);
 }
 
+function deleteProjects() {
+
+    var projects = document.getElementsByName('projects');
+
+    projects.forEach(function (project) {
+        if (project.checked)
+            projects_choices.push(project.id.replace('cb_', ''));
+    })
+}
 
 $("#add-project-form").keypress(function (e) {
     if (e.which == 13) {

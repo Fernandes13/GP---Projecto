@@ -317,26 +317,26 @@ namespace HubEI.Controllers
                 }
             }
 
-            viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
+            //viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
 
-            foreach (var advisor in viewModel.Project.ProjectAdvisor)
-            {
-                _context.ProjectAdvisor.Remove(advisor);
-                await _context.SaveChangesAsync();
-            }
+            //foreach (var advisor in viewModel.Project.ProjectAdvisor)
+            //{
+            //    _context.ProjectAdvisor.Remove(advisor);
+            //    await _context.SaveChangesAsync();
+            //}
 
 
-            foreach (var mentor in viewModel.Mentors)
-            {
-                if (mentor.Selected)
-                {
-                    var advisor = new ProjectAdvisor { IdProject = viewModel.Project.IdProject, IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor };
-                    await _context.ProjectAdvisor.AddAsync(advisor);
-                    await _context.SaveChangesAsync();
-                }
-            }
+            ////foreach (var mentor in viewModel.Mentors)
+            ////{
+            ////    if (mentor.Selected)
+            ////    {
+            ////        var advisor = new ProjectAdvisor { IdProject = viewModel.Project.IdProject, IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor };
+            ////        await _context.ProjectAdvisor.AddAsync(advisor);
+            ////        await _context.SaveChangesAsync();
+            ////    }
+            ////}
 
-            viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
+            ////viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
 
             _context.Project.Update(viewModel.Project);
             _context.SaveChanges();
@@ -428,48 +428,48 @@ namespace HubEI.Controllers
 
             if (ModelState.IsValid)
             {
-                    byte[] file = null;
+                byte[] file = null;
 
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.Report.CopyToAsync(memoryStream);
-                        file = memoryStream.ToArray();
-                    }
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.Report.CopyToAsync(memoryStream);
+                    file = memoryStream.ToArray();
+                }
 
-                    var project = new Project
-                    {
-                        Title = model.Project.Title,
-                        Description = model.Project.Description,
-                        Report = file,
-                        ProjectDate = model.Project.ProjectDate,
-                        IsVisible = model.Project.IsVisible,
-                        IdCompany = model.Project.IdCompany,
-                        IdProjectType = model.Project.IdProjectType,
-                        IdStudent = model.Project.IdStudent
-                    };
+                var project = new Project
+                {
+                    Title = model.Project.Title,
+                    Description = model.Project.Description,
+                    Report = file,
+                    ProjectDate = model.Project.ProjectDate,
+                    IsVisible = model.Project.IsVisible,
+                    IdCompany = model.Project.IdCompany,
+                    IdProjectType = model.Project.IdProjectType,
+                    IdStudent = model.Project.IdStudent
+                };
 
-                    _context.Add(project);
-                    _context.SaveChanges();
+                _context.Add(project);
+                _context.SaveChanges();
 
-                    //foreach (MentorsCheckBox mentor in model.Mentors)
-                    //{
-                    //    if (mentor.Selected)
-                    //    {
-                    //        var newMentor = new ProjectAdvisor
-                    //        {
-                    //            IdProject = project.IdProject,
-                    //            IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
-                    //        };
+                //foreach (MentorsCheckBox mentor in model.Mentors)
+                //{
+                //    if (mentor.Selected)
+                //    {
+                //        var newMentor = new ProjectAdvisor
+                //        {
+                //            IdProject = project.IdProject,
+                //            IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
+                //        };
 
-                    //        _context.Add(newMentor);
-                    //    }
-                    //}
+                //        _context.Add(newMentor);
+                //    }
+                //}
 
-                    //_context.SaveChanges();
+                //_context.SaveChanges();
 
 
-                    return RedirectToAction("Projects", "BackOffice");
-               
+                return RedirectToAction("Projects", "BackOffice");
+
             }
 
             return RedirectToAction("Projects", "BackOffice");
@@ -513,6 +513,53 @@ namespace HubEI.Controllers
 
             return Json("");
         }
+
+        [HttpDelete]
+        public IActionResult ClearProjectTechnologies([FromQuery] string project_id)
+        {
+            _context.Database.ExecuteSqlCommand("DELETE Project_technology WHERE id_project = " + project_id);
+
+            _context.SaveChanges();
+            return Json("");
+        }
+
+        [HttpPost]
+        public IActionResult EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
+        {
+            var project = _context.Project.Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
+
+            var technology = _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefault();
+
+            if (technology == null)
+            {
+                //CREATE TECHNOLOGY
+                _context.Technology.Add(new Technology
+                {
+                    Description = tech
+                });
+                _context.SaveChanges();
+
+                var last_technology = _context.Technology.OrderByDescending(t => t.IdTechnology).FirstOrDefault();
+                _context.ProjectTechnology.Add(new ProjectTechnology
+                {
+                    IdProject = project.IdProject,
+                    IdTechnology = last_technology.IdTechnology
+                });
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                _context.ProjectTechnology.Add(new ProjectTechnology
+                {
+                    IdProject = project.IdProject,
+                    IdTechnology = technology.IdTechnology
+                });
+                _context.SaveChanges();
+            }
+            return Json("");
+        }
+
 
         [HttpDelete]
         public IActionResult Project([FromQuery]string ProjectId)
