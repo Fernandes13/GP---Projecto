@@ -1,0 +1,94 @@
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
+
+<link rel="stylesheet" href="~/css/project.css" />
+<script src="~/js/project.js"></script>
+<div class="container">
+    <!-- Page Heading -->
+<!--<h1 class="my-4">
+        Projectos
+        @*<small>Secondary Text</small>*@
+    </h1>-->
+    <div class="row" style="padding-bottom:3%;">
+        @foreach (Project project in Model.Projects)
+        {
+            if (project.IsVisible)
+            {
+
+                <div class="col-lg-4 col-sm-6 portfolio-item"  style="margin-top:3.5%;">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                            </h4>
+                            <h4 class="card-sub-title">
+                                @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
+                            </h4>
+
+                            @if (project.ProjectAdvisor.Count > 0)
+                            {
+                                <b>Orientadores: </b>
+                            }
+
+                            @foreach (var mentor in project.ProjectAdvisor)
+                            {
+                                if (project.ProjectAdvisor.Count == 1)
+                                {
+                                    <span>
+                                        @mentor.IdSchoolMentorNavigation.Name
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @mentor.IdSchoolMentorNavigation.Name ;
+                                    </span>
+                                }
+                            }
+                            <br />
+                            <b>Empresa: </b>
+                            @project.IdCompanyNavigation.Name
+
+                            <br />
+                            <br />
+                            <p class="card-text">@project.Description</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-header">Tecnologias Usadas</h3>
+                            <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Pagination -->
+    @*<ul class="pagination justify-content-center" style="margin-top:3%;">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>*@
+
+</div>

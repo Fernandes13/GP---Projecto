@@ -1,0 +1,262 @@
+﻿@model HubEI.Models.ViewModels.BOStudentViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_BO.cshtml";
+}
+<link href="~/css/general-table.css" rel="stylesheet" type="text/css">
+
+<div class="container">
+
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2><b>Estudantes</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a href="#addStudentModal" onclick="clearStudentForm();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
+                    <a href="#deleteStudentModal" onclick="deleteStudents();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().StudentNumber)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().Email)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().IdAddressNavigation.IdDistrictNavigation)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().BirthDate)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Students.FirstOrDefault().IdStudentBranchNavigation.Description)</th>
+                    <th>Acções</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.Students)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="cb_@student.IdStudent" name="students" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => student.StudentNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => student.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => student.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => student.IdAddressNavigation.IdDistrictNavigation.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => student.BirthDate)</td>
+                        <td>@Html.DisplayFor(modelItem => student.IdStudentBranchNavigation.Description)</td>
+                        <td>
+                            <a href="#editStudentModal" id="edit_@student.IdStudent" onclick="editStudent(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#deleteStudentModal" id="@student.IdStudent" onclick="deleteStudent(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- PAGINATION
+        <div class="clearfix">
+            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+            <ul class="pagination">
+                <li class="page-item disabled"><a href="#">Previous</a></li>
+                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                <li class="page-item"><a href="#" class="page-link">5</a></li>
+                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+            </ul>
+        </div>
+            -->
+    </div>
+</div>
+<div id="addStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:125%;">
+            <form asp-action="Student" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar Estudante</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Student.Name"></label>
+                        <input class="form-control" asp-for="Student.Name" />
+                        <span asp-validation-for="Student.Name" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.StudentNumber"></label>
+                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" />
+                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.IdStudentBranchNavigation"></label>
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
+                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Email"></label>
+                        <input class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
+                        <span asp-validation-for="Student.Email" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.BirthDate"></label>
+                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
+                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Telephone"></label>
+                        <input class="form-control" style="width:7em;" asp-for="Student.Telephone" />
+                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.Address1"></label>
+                        <input class="form-control" asp-for="Address.Address1" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input class="form-control" style="width:7em;" asp-for="Address.PostalCode" />
+                    </div>
+                    <div class="form-group" style="display:inline-block;margin-left:5%;">
+                        <label asp-for="Address.Door"></label>
+                        <input class="form-control" style="width:4em;" asp-for="Address.Door" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.Locality"></label>
+                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district" })
+
+                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" class="btn btn-success" value="Adicionar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:125%;">
+            <form asp-action="EditStudent" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Estudante</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-student-id" asp-for="Student.IdStudent" />
+                    <div class="form-group">
+                        <label asp-for="Student.Name"></label>
+                        <input class="form-control" id="edit-student-name" asp-for="Student.Name" />
+                        <span asp-validation-for="Student.Name" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.StudentNumber"></label>
+                        <input class="form-control" id="edit-student-number" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" asp-for="Student.StudentNumber" type="text" />
+                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.IdStudentBranchNavigation"></label>
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "edit-student-branch" })
+                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Email"></label>
+                        <input class="form-control disabled-input" id="edit-student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
+                        <span asp-validation-for="Student.Email" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.BirthDate"></label>
+                        <input class="form-control" id="edit-student-birthdate" asp-for="Student.BirthDate" />
+                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Student.Telephone"></label>
+                        <input class="form-control" style="width:7em;" id="edit-student-telephone" asp-for="Student.Telephone" />
+                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
+                    </div>
+                    <input type="hidden" id="edit-student-address-id" asp-for="Student.IdAddress" />
+                    <div class="form-group">
+                        <label asp-for="Address.Address1"></label>
+                        <input class="form-control" id="edit-student-address" asp-for="Address.Address1" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input class="form-control" style="width:7em;" id="edit-student-postalcode" asp-for="Address.PostalCode" />
+                    </div>
+                    <div class="form-group" style="display:inline-block;margin-left:5%;">
+                        <label asp-for="Address.Door"></label>
+                        <input class="form-control" style="width:4em;" id="edit-student-door" asp-for="Address.Door" />
+                    </div>
+                    <div class="form-group" style="display:inline-block">
+                        <label asp-for="Address.Locality"></label>
+                        <input class="form-control" style="width:12em;" id="edit-student-locality" asp-for="Address.Locality" />
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "edit-address-district" })
+
+                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" class="btn btn-success" value="Editar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="deleteStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar Estudante(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem a certeza que pretende eliminar o(s) registo(s)?</p>
+                    <p class="text-warning"><small>Atenção! Esta ação é irreversível. </small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                    <input type="submit" onclick="eliminatePendingStudents()" class="btn btn-danger" value="Eliminar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@if (TempData["HasAlert"] != null)
+{
+    @if ((string)TempData["HasAlert"] == "true")
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span id="alert-message">@TempData["AlertMessage"]</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span class="close-alert" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+}

@@ -1,0 +1,199 @@
+﻿:root {
+    --menu-background-color:#343a40;
+    --menu-normal-color: #eee;
+    --menu-active-color: #585858;
+}
+
+
+/*
+    MEDIUM AND LARGE SCREENS
+*/
+@media only screen and (min-width: 900px) {
+    .navbar-nav .nav-item {
+        margin-left: 18%;
+    }
+
+    /*#backoffice-link {
+        margin-left: 147%;
+    }*/
+
+#navbar {
+    height: 7.5%;
+}
+
+#login-dp {
+    background-color: inherit;
+    color: #fff;
+}
+
+#login-dp .bottom {
+    background-color: inherit;
+    border-top: 0 none;
+}
+}
+
+.container-style {
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 1.5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.95vmax;
+}
+
+.show{
+    display:block;
+}
+
+.hide{
+    display:none;
+}
+
+/*
+    GENERAL
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color:#eee;
+}
+
+.bg-dark {
+    background-color: var(--menu-background-color) !important;
+}
+
+.navbar-toggler {
+    margin-left: 10%;
+    text-align:center;
+}
+
+
+nav a {
+    color: var(--menu-normal-color) !important;
+    font-size: 1.25em !important;
+}
+
+nav a:hover{
+    color: white !important;
+}
+
+.navbar-brand {
+    font-size: 1.6em !important;
+}
+
+.navbar-form input {
+    -moz-box-sizing: border-box;
+    height: 2em;
+    font-size: 1.1em;
+    border: none;
+    transition: all 0.3s linear;
+}
+
+.input-group-btn button {
+    height: 3.1em;
+    border-radius:1px;
+}
+
+.glyphicon.glyphicon-search {
+    font-size: 1.25em !important;
+}
+
+.active-link{
+    font-weight:bold;
+}
+
+#login-dp {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: rgba(255,255,255,.8);
+}
+
+    #login-dp .help-block {
+        font-size: 12px
+    }
+
+    #login-dp .bottom {
+        background-color: rgba(255,255,255,.8);
+        border-top: 1px solid #ddd;
+        clear: both;
+        padding: 14px;
+    }
+
+    #login-dp .social-buttons {
+        margin: 12px 0
+    }
+
+        #login-dp .social-buttons a {
+            width: 49%;
+        }
+
+    #login-dp .form-group {
+        margin-bottom: 10px;
+    }
+
+.btn-fb {
+    color: #fff;
+    background-color: #3b5998;
+}
+
+    .btn-fb:hover {
+        color: #fff;
+        background-color: #496ebc
+    }
+
+.btn-tw {
+    color: #fff;
+    background-color: #55acee;
+}
+
+.btn-tw:hover {
+    color: #fff;
+    background-color: #59b5fa;
+}
+
+.funil {
+    position: fixed;
+    margin-left: 28%;
+    width: 55%;
+    display: none;
+    animation: 15s linear slide-left;
+    background-color: transparent;
+}
+
+@keyframes slide-left {
+    0% {
+        bottom: -60%;
+    }
+
+    100% {
+        bottom: 130%;
+    }
+}
+
+.funil img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-left: 5%;
+    z-index: 999;
+}
+
+/*MARGINS*/
+
+.mt-6 {
+    margin-top: 2.3em;
+}
+
+
+.dropdown a
+.dropdown a:hover {
+    text-decoration: none;
+}
+
