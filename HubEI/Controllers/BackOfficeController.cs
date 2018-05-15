@@ -317,26 +317,26 @@ namespace HubEI.Controllers
                 }
             }
 
-            //viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
+            viewModel.Project.ProjectAdvisor = _context.ProjectAdvisor.Where(pa => pa.IdProject == viewModel.Project.IdProject).ToList();
 
-            //foreach (var advisor in viewModel.Project.ProjectAdvisor)
-            //{
-            //    _context.ProjectAdvisor.Remove(advisor);
-            //    await _context.SaveChangesAsync();
-            //}
+            foreach (var advisor in viewModel.Project.ProjectAdvisor)
+            {
+                _context.ProjectAdvisor.Remove(advisor);
+                await _context.SaveChangesAsync();
+            }
 
 
-            ////foreach (var mentor in viewModel.Mentors)
-            ////{
-            ////    if (mentor.Selected)
-            ////    {
-            ////        var advisor = new ProjectAdvisor { IdProject = viewModel.Project.IdProject, IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor };
-            ////        await _context.ProjectAdvisor.AddAsync(advisor);
-            ////        await _context.SaveChangesAsync();
-            ////    }
-            ////}
+            foreach (var mentor in viewModel.Mentors)
+            {
+                if (mentor.Selected)
+                {
+                    var advisor = new ProjectAdvisor { IdProject = viewModel.Project.IdProject, IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor };
+                    await _context.ProjectAdvisor.AddAsync(advisor);
+                    await _context.SaveChangesAsync();
+                }
+            }
 
-            ////viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
+            viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
 
             _context.Project.Update(viewModel.Project);
             _context.SaveChanges();
@@ -451,21 +451,21 @@ namespace HubEI.Controllers
                 _context.Add(project);
                 _context.SaveChanges();
 
-                //foreach (MentorsCheckBox mentor in model.Mentors)
-                //{
-                //    if (mentor.Selected)
-                //    {
-                //        var newMentor = new ProjectAdvisor
-                //        {
-                //            IdProject = project.IdProject,
-                //            IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
-                //        };
+                foreach (MentorsCheckBox mentor in model.Mentors)
+                {
+                    if (mentor.Selected)
+                    {
+                        var newMentor = new ProjectAdvisor
+                        {
+                            IdProject = project.IdProject,
+                            IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
+                        };
 
-                //        _context.Add(newMentor);
-                //    }
-                //}
+                        _context.Add(newMentor);
+                    }
+                }
 
-                //_context.SaveChanges();
+                _context.SaveChanges();
 
 
                 return RedirectToAction("Projects", "BackOffice");
