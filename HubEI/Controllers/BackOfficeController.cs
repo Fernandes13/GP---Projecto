@@ -28,13 +28,13 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
 
             return View();
@@ -42,13 +42,13 @@ namespace HubEI.Controllers
 
         public IActionResult Students()
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             BOStudentViewModel viewModel = new BOStudentViewModel();
             var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
@@ -106,13 +106,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             _context.Address.Add(model.Address);
 
@@ -141,13 +141,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             model.Student.IdAddressNavigation = model.Address;
 
@@ -175,13 +175,13 @@ namespace HubEI.Controllers
 
         public IActionResult Mentors()
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             BOMentorViewModel viewModel = new BOMentorViewModel();
             var mentors = _context.SchoolMentor;
@@ -197,13 +197,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult Mentor(BOMentorViewModel model)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             SchoolMentor mentor = new SchoolMentor
             {
@@ -232,13 +232,13 @@ namespace HubEI.Controllers
         [HttpPost]
         public IActionResult EditMentor(BOMentorViewModel model)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             _context.SchoolMentor.Update(model.Mentor);
             _context.SaveChanges();
@@ -265,13 +265,13 @@ namespace HubEI.Controllers
 
         public IActionResult Projects()
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             BOProjectViewModel viewModel = new BOProjectViewModel();
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
@@ -298,13 +298,13 @@ namespace HubEI.Controllers
 
         public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             if (viewModel.Report != null)
             {
@@ -416,18 +416,16 @@ namespace HubEI.Controllers
         [HttpPost]
         public async Task<IActionResult> Project(BOProjectViewModel model)
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    ViewData["Got-Error"] = "true";
-            //    ViewData["Login-Message"] = "É necessário iniciar sessão";
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewData["Got-Error"] = "true";
+                ViewData["Login-Message"] = "É necessário iniciar sessão";
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
-                using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
-                {
                     byte[] file = null;
 
                     using (var memoryStream = new MemoryStream())
@@ -448,32 +446,70 @@ namespace HubEI.Controllers
                         IdStudent = model.Project.IdStudent
                     };
 
-                    context.Add(project);
-                    await context.SaveChangesAsync();
+                    _context.Add(project);
+                    _context.SaveChanges();
 
-                    foreach (MentorsCheckBox mentor in model.Mentors)
-                    {
-                        if (mentor.Selected)
-                        {
-                            var newMentor = new ProjectAdvisor
-                            {
-                                IdProject = project.IdProject,
-                                IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
-                            };
+                    //foreach (MentorsCheckBox mentor in model.Mentors)
+                    //{
+                    //    if (mentor.Selected)
+                    //    {
+                    //        var newMentor = new ProjectAdvisor
+                    //        {
+                    //            IdProject = project.IdProject,
+                    //            IdSchoolMentor = mentor.SchoolMentor.IdSchoolMentor
+                    //        };
 
-                            context.Add(newMentor);
-                        }
-                    }
+                    //        _context.Add(newMentor);
+                    //    }
+                    //}
 
-                    await context.SaveChangesAsync();
+                    //_context.SaveChanges();
 
 
                     return RedirectToAction("Projects", "BackOffice");
-                }
-
+               
             }
 
             return RedirectToAction("Projects", "BackOffice");
+        }
+
+        [HttpPost]
+        public IActionResult AddProjectTechnology([FromQuery] string tech)
+        {
+            var last_project = _context.Project.OrderByDescending(p => p.IdProject).FirstOrDefault();
+
+            var technology = _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefault();
+
+            if (technology == null)
+            {
+                //CREATE TECHNOLOGY
+                _context.Technology.Add(new Technology
+                {
+                    Description = tech
+                });
+                _context.SaveChanges();
+
+                var last_technoloy = _context.Technology.OrderByDescending(t => t.IdTechnology).FirstOrDefault();
+                _context.ProjectTechnology.Add(new ProjectTechnology
+                {
+                    IdProject = last_project.IdProject,
+                    IdTechnology = last_technoloy.IdTechnology
+                });
+
+                _context.SaveChanges();
+            }
+
+            else
+            {
+                _context.ProjectTechnology.Add(new ProjectTechnology
+                {
+                    IdProject = last_project.IdProject,
+                    IdTechnology = technology.IdTechnology
+                });
+                _context.SaveChanges();
+            }
+
+            return Json("");
         }
 
         [HttpDelete]

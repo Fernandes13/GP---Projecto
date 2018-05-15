@@ -81,9 +81,7 @@ namespace HubEI.Controllers
                                             .Include(s => s.IdProjectTypeNavigation)
                                             .Include(s => s.IdStudentNavigation);
 
-
             var maxChars = 360;
-
 
             foreach (var project in projects)
             {
@@ -99,12 +97,8 @@ namespace HubEI.Controllers
                 project.ProjectTechnology = projectTechnologies;
             }
 
-
             viewModel.Projects = projects.ToList();
-
             return View(viewModel);
         }
-
-
     }
 }

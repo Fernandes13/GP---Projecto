@@ -147,13 +147,6 @@ function eliminatePendingStudents() {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
-            $.ajax({
-                type: "GET",
-                url: '/BackOffice/Students',
-                dataType: "html",
-            }).done(function (res) {
-
-            });
         });
     });
 }
@@ -217,6 +210,8 @@ function eliminatePendingMentors() {
             });
         });
     });
+
+    setTimeout()
 }
 
 function deleteMentors() {
@@ -335,6 +330,26 @@ function deleteProjects() {
     })
 }
 
+function addTechnologies() {
+    setTimeout(function () {
+        var technologies_list;
+
+        technologies_list = document.getElementById("input-technologies").value.trim().split(',');
+
+        console.log(technologies_list);
+
+        technologies_list.forEach(function (tech) {
+            $.ajax({
+                type: "POST",
+                url: '/BackOffice/AddProjectTechnology?tech=' + tech,
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+            })
+        })
+    },1000);
+}
+
+
 $("#add-project-form").keypress(function (e) {
     if (e.which == 13) {
         return false;
@@ -347,3 +362,4 @@ $("#edit-project-form").keypress(function (e) {
         return false;
     }
 });
+

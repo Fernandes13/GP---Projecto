@@ -238,11 +238,11 @@ namespace HubEI.Models
 
                 entity.Property(e => e.IdTechnology).HasColumnName("id_technology");
 
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectTechnology)
-                    .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PT_project");
+                //entity.HasOne(d => d.IdProjectNavigation)
+                //    .WithMany(p => p.ProjectTechnology)
+                //    .HasForeignKey(d => d.IdProject)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("fk_PT_project");
 
                 entity.HasOne(d => d.IdTechnologyNavigation)
                     .WithMany(p => p.ProjectTechnology)
