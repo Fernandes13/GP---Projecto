@@ -207,8 +207,10 @@ namespace HubEI.Controllers
 
             SchoolMentor mentor = new SchoolMentor
             {
+                IdSchoolMentor = model.Mentor.IdSchoolMentor,
                 Name = model.Mentor.Name,
                 Email = model.Mentor.Email,
+                ProjectAdvisor = model.Mentor.ProjectAdvisor
             };
 
             _context.SchoolMentor.Add(mentor);
