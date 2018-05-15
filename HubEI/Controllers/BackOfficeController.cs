@@ -325,7 +325,6 @@ namespace HubEI.Controllers
                 await _context.SaveChangesAsync();
             }
 
-
             foreach (var mentor in viewModel.Mentors)
             {
                 if (mentor.Selected)
@@ -337,6 +336,38 @@ namespace HubEI.Controllers
             }
 
             viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
+
+            if(viewModel.Attachments.Count > 0)
+            {
+                viewModel.Project.ProjectDocument = _context.ProjectDocument.Where(pd => pd.IdProject == viewModel.Project.IdProject).ToList();
+
+                foreach (var document in viewModel.Project.ProjectDocument)
+                {
+                    _context.ProjectDocument.Remove(document);
+                    await _context.SaveChangesAsync();
+                }
+
+                foreach (var formFile in viewModel.Attachments)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await formFile.CopyToAsync(memoryStream);
+                            var document = new ProjectDocument
+                            {
+                                IdProject = viewModel.Project.IdProject,
+                                Document = memoryStream.ToArray()
+                            };
+
+                            await _context.ProjectDocument.AddAsync(document);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
+
+            viewModel.Project.ProjectDocument = new List<ProjectDocument>();
 
             _context.Project.Update(viewModel.Project);
             _context.SaveChanges();
@@ -429,6 +460,19 @@ namespace HubEI.Controllers
             if (ModelState.IsValid)
             {
                 byte[] file = null;
+                List<byte[]> attachments = null;
+
+                foreach (var formFile in model.Attachments)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await formFile.CopyToAsync(memoryStream);
+                            attachments.Add(memoryStream.ToArray());
+                        }
+                    }
+                }
 
                 using (var memoryStream = new MemoryStream())
                 {
@@ -449,6 +493,19 @@ namespace HubEI.Controllers
                 };
 
                 _context.Add(project);
+                _context.SaveChanges();
+
+                foreach(var attachment in attachments)
+                {
+                    var projectDocument = new ProjectDocument
+                    {
+                        IdProject = project.IdProject,
+                        Document = attachment
+                    };
+
+                    _context.Add(projectDocument);
+                }
+
                 _context.SaveChanges();
 
                 foreach (MentorsCheckBox mentor in model.Mentors)
@@ -574,6 +631,15 @@ namespace HubEI.Controllers
             }
 
             project.ProjectAdvisor = new List<ProjectAdvisor>();
+
+            project.ProjectDocument = _context.ProjectDocument.Where(pd => pd.IdProject == project.IdProject).ToList();
+
+            foreach (var document in project.ProjectDocument)
+            {
+                _context.ProjectDocument.Remove(document);
+            }
+
+            project.ProjectDocument = new List<ProjectDocument>();
 
             _context.Project.Remove(project);
             _context.SaveChanges();

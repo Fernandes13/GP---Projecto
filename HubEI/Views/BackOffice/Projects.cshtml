@@ -103,8 +103,8 @@
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Report"></label>
-                        <input class="form-control" asp-for="Report" />
+                        <label asp-for="Report"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="O relatório do projecto é um ficheiro único que terá de estar em PDF." class="question-mark"/>
+                        <input class="form-control" asp-for="Report" /> 
                         <span asp-validation-for="Report" class="error-message"></span>
                     </div>
                     <div class="form-group">
@@ -132,12 +132,10 @@
                         <label asp-for="Project.IdCompany"></label>
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control" })
                     </div>
-                    @*<div class="form-group">
-                            <label>Anexos</label>
-                            <div class="dz-message needsclick">
-                                <input name="file" type="file" multiple />
-                            </div>
-                        </div>*@
+                    <div class="form-group">
+                        <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Documentos extra relativos ao projecto, como atas. Seleccione todos os ficheiros que pretenda (terão de ser estar em formato PDF)." class="question-mark" />
+                        <input class="form-control" asp-for="Attachments" name="file" multiple />
+                    </div>
                     <div class="form-group">
                             <label asp-for="Mentors"></label>
                                 @for (var i = 0; i < Model.Mentors.Count; i++)
@@ -182,7 +180,7 @@
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Report"></label>
+                        <label asp-for="Report"></label><img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Caso não introduza outro documento, permanecerá o ficheiro anterior." class="question-mark" />
                         <input asp-for="Report" id="edit-project-report" type="file" />
                         <span asp-validation-for="Report" class="error-message"></span>
                     </div>
@@ -213,7 +211,10 @@
                         <label asp-for="Project.IdCompany"></label>
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control", @id = "edit-project-company" })
                     </div>
-
+                    <div class="form-group">
+                        <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Caso não introduza outros documentos, permanecerão os ficheiros anteriores." class="question-mark" />
+                        <input class="form-control" asp-for="Attachments" name="file" multiple />
+                    </div>
                     <div class="form-group" id="edit-project-mentorslist">
                             <label asp-for="Mentors"></label>
                                 @for (var i = 0; i < Model.Mentors.Count; i++)

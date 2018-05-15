@@ -36,6 +36,8 @@ namespace HubEI.Controllers
             var projectTechnologies = _context.ProjectTechnology.Where(pt => pt.IdProject.ToString() == project_id)
                                                                 .Include(pt => pt.IdTechnologyNavigation).ToList();
 
+            var projectDocument = _context.ProjectDocument.Where(pt => pt.IdProject.ToString() == project_id).ToList();
+
             project.ProjectAdvisor = projectAdvisors;
             project.ProjectTechnology = projectTechnologies;
 
@@ -72,6 +74,18 @@ namespace HubEI.Controllers
             return File(project.Report, "application/pdf", project.Title + ".pdf");
         }
 
+        public FileResult DownloadAttachment(int projectId)
+        {
+            Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();
+
+            project.Downloads += 1;
+            _context.Project.Update(project);
+            _context.SaveChanges();
+
+            var document = _context.ProjectDocument.Where(p => p.IdProject == projectId).FirstOrDefault();
+
+            return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
+        }
 
         public IActionResult List()
         {

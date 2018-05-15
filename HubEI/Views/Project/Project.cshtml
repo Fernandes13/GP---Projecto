@@ -88,6 +88,10 @@
                 <h2 class="card-header">Anexos</h2>
                 <div class="card-body">
                     <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
+                    @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
+                    {
+                        <a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>Anexo @(i+1)</a>
+                    }
                 </div>
             </div>
         </div>

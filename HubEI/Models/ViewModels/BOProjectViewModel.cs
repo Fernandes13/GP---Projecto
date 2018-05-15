@@ -26,5 +26,9 @@ namespace HubEI.Models.ViewModels
 
         [Display(Name = "Docentes Orientadores")]
         public List<MentorsCheckBox> Mentors { get; set; }
+
+        [Display(Name = "Anexos")]
+        [IsFileListPDF]
+        public List<IFormFile> Attachments { get; set; }
     }
 }
