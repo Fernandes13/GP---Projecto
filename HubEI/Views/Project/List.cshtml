@@ -10,7 +10,7 @@
         Projectos
         @*<small>Secondary Text</small>*@
     </h1>-->
-    <div class="row">
+    <div class="row" style="padding-bottom:3%;">
         @foreach (Project project in Model.Projects)
         {
             if (project.IsVisible)
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Pagination -->
-    <ul class="pagination justify-content-center" style="margin-top:3%;">
+    @*<ul class="pagination justify-content-center" style="margin-top:3%;">
         <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -89,6 +89,6 @@
                 <span class="sr-only">Next</span>
             </a>
         </li>
-    </ul>
+    </ul>*@
 
 </div>
