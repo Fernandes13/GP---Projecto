@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CIMOB_IPS.Models.CustomValidations;
 using HubEI.Models.CustomValidations;
 
 namespace HubEI.Models
@@ -32,6 +33,7 @@ namespace HubEI.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "É necessário definir a data do projecto!")]
         [DataType(DataType.Date)]
+        [IsDateBeforeToday]
         public DateTime ProjectDate { get; set; }
 
         [Display(Name = "Visível")]

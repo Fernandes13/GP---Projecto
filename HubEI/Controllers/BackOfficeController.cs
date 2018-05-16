@@ -337,37 +337,42 @@ namespace HubEI.Controllers
 
             viewModel.Project.ProjectAdvisor = new List<ProjectAdvisor>();
 
-            if(viewModel.Attachments.Count > 0)
+            if(viewModel.Attachments != null)
             {
-                viewModel.Project.ProjectDocument = _context.ProjectDocument.Where(pd => pd.IdProject == viewModel.Project.IdProject).ToList();
-
-                foreach (var document in viewModel.Project.ProjectDocument)
+                if (viewModel.Attachments.Count() > 0)
                 {
-                    _context.ProjectDocument.Remove(document);
-                    await _context.SaveChangesAsync();
-                }
+                    viewModel.Project.ProjectDocument = _context.ProjectDocument.Where(pd => pd.IdProject == viewModel.Project.IdProject).ToList();
 
-                foreach (var formFile in viewModel.Attachments)
-                {
-                    if (formFile.Length > 0)
+                    foreach (var document in viewModel.Project.ProjectDocument)
                     {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await formFile.CopyToAsync(memoryStream);
-                            var document = new ProjectDocument
-                            {
-                                IdProject = viewModel.Project.IdProject,
-                                Document = memoryStream.ToArray()
-                            };
+                        _context.ProjectDocument.Remove(document);
+                        await _context.SaveChangesAsync();
+                    }
 
-                            await _context.ProjectDocument.AddAsync(document);
-                            await _context.SaveChangesAsync();
+                    foreach (var formFile in viewModel.Attachments)
+                    {
+                        if (formFile.Length > 0)
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await formFile.CopyToAsync(memoryStream);
+                                var document = new ProjectDocument
+                                {
+                                    IdProject = viewModel.Project.IdProject,
+                                    Document = memoryStream.ToArray()
+                                };
+
+                                await _context.ProjectDocument.AddAsync(document);
+                                await _context.SaveChangesAsync();
+                            }
                         }
                     }
+
+                    viewModel.Project.ProjectDocument = new List<ProjectDocument>();
                 }
             }
 
-            viewModel.Project.ProjectDocument = new List<ProjectDocument>();
+            
 
             _context.Project.Update(viewModel.Project);
             _context.SaveChanges();
@@ -460,7 +465,7 @@ namespace HubEI.Controllers
             if (ModelState.IsValid)
             {
                 byte[] file = null;
-                List<byte[]> attachments = null;
+                List<byte[]> attachments = new List<byte[]>();
 
                 foreach (var formFile in model.Attachments)
                 {
@@ -533,7 +538,7 @@ namespace HubEI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProjectTechnology([FromQuery] string tech)
+        public async Task<IActionResult> AddProjectTechnology([FromQuery] string tech)
         {
             var last_project = _context.Project.OrderByDescending(p => p.IdProject).FirstOrDefault();
 
@@ -542,30 +547,32 @@ namespace HubEI.Controllers
             if (technology == null)
             {
                 //CREATE TECHNOLOGY
-                _context.Technology.Add(new Technology
+                await _context.Technology.AddAsync(new Technology
                 {
                     Description = tech
                 });
-                _context.SaveChanges();
 
-                var last_technoloy = _context.Technology.OrderByDescending(t => t.IdTechnology).FirstOrDefault();
-                _context.ProjectTechnology.Add(new ProjectTechnology
+                await _context.SaveChangesAsync();
+
+                var last_technoloy = await _context.Technology.OrderByDescending(t => t.IdTechnology).FirstOrDefaultAsync();
+                await _context.ProjectTechnology.AddAsync(new ProjectTechnology
                 {
                     IdProject = last_project.IdProject,
                     IdTechnology = last_technoloy.IdTechnology
                 });
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             else
             {
-                _context.ProjectTechnology.Add(new ProjectTechnology
+                await _context.ProjectTechnology.AddAsync(new ProjectTechnology
                 {
                     IdProject = last_project.IdProject,
                     IdTechnology = technology.IdTechnology
                 });
-                _context.SaveChanges();
+
+                await _context.SaveChangesAsync();
             }
 
             return Json("");
@@ -640,6 +647,15 @@ namespace HubEI.Controllers
             }
 
             project.ProjectDocument = new List<ProjectDocument>();
+
+            project.ProjectTechnology = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject).ToList();
+
+            foreach (var technology in project.ProjectTechnology)
+            {
+                _context.ProjectTechnology.Remove(technology);
+            }
+
+            project.ProjectTechnology = new List<ProjectTechnology>();
 
             _context.Project.Remove(project);
             _context.SaveChanges();
