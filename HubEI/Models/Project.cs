@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using HubEI.Models.CustomValidations;
 
 namespace HubEI.Models
 {

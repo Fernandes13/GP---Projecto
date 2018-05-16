@@ -18,6 +18,7 @@ namespace HubEI.Models
         public string Name { get; set; }
 
         [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "O campo tem de ser um email")]
         public string Email { get; set; }
 
         [JsonIgnore]
