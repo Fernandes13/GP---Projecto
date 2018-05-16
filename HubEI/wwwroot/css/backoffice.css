@@ -1,0 +1,101 @@
+﻿:root {
+    --menu-background-color: #343a40;
+    --menu-normal-color: #eee;
+    --menu-active-color: #585858;
+}
+
+.content-wrapper {
+    min-height: 100vh;
+    background-color: white;
+    z-index:999;
+}
+
+.navbar {
+    height: 7.5% !important;
+    color: var(--menu-normal-color) !important;
+}
+
+.question-mark {
+    width: 5%;
+    height: 5%;
+}
+
+.nav-link {
+    font-size:16px;
+    color: var(--menu-normal-color) !important;
+}
+
+.navbar-brand {
+    margin-top:1%;
+    font-size: 1.75em;
+    color: var(--menu-normal-color) !important;
+}
+
+.navbar-brand img {
+    height:32px;
+    width:32px;
+}
+
+
+.back-to-site {
+    color: var(--menu-normal-color) !important;
+}
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
+    background: #343a40;
+    margin-top: 7%;
+    font-size:16px;
+    z-index: 800 !important;
+}
+
+#btn-remove-selected{
+    display:none;
+}
+
+.modal-content,
+.modal-title {
+    font-size: 16px;
+}
+
+.modal-footer input {
+    font-size: 14px;
+}
+
+.disabled-input {
+    background-color: #ddd;
+    pointer-events: none;
+    color: black;
+}
+
+
+.form-control{
+    font-size:16px;
+}
+
+.alert {
+    width: 30%;
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    animation: 0.3s ease-in-out fade-in;
+
+}
+
+.close-alert {
+    font-size: 20px;
+}
+
+#tooltipTechnology {
+    padding-bottom: 6%;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity:0;
+    }
+
+    100% {
+        opacity:1;
+    }
+}
