@@ -1,0 +1,18 @@
+﻿body {
+    padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+    .card-title a {
+        font-size: 20px !important;
+        color: #007bff;
+    }
+
+    .card-sub-title a {
+        font-size: 15px !important;
+        color: #007bff;
+    }
+}
