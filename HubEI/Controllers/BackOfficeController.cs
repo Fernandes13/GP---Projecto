@@ -23,7 +23,7 @@ namespace HubEI.Controllers
         public BackOfficeController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
         {
             _context = context;
-            _hostingEnvironment = HostingEnvironment;
+            _hostingEnvironment = HostingEnvironment; 
         }
 
         public IActionResult Index()
