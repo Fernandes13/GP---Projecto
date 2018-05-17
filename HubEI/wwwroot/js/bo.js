@@ -35,8 +35,28 @@
         else
             $("#btn-remove-selected").hide();
     });
+    var technologies = [];
+
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/Technologies',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        async: false,
+    }).done(function (res) {
+        JSON.parse(res).forEach(function (tech) {
+            technologies.push(tech.description);
+        });
+    });
 
 
+    $('#input-technologies').tagator({
+        autocomplete: technologies
+    });
+
+    $('#input-technologies-edit').tagator({
+        autocomplete: technologies
+    });
 });
 
 function countUpInsert() {
@@ -249,7 +269,7 @@ function editProject(id) {
 }
 
 function fillProjectForm(project) {
-    $('#input-technologies-edit').tagsinput('removeAll');
+    
     console.log(project);
     var project_id = document.getElementById("edit-project-id");
     project_id.value = project.idProject;
@@ -284,9 +304,14 @@ function fillProjectForm(project) {
     countUpEdit();
     fillMentorsList(project.projectAdvisor);
 
+    var technologies = [];
     project.projectTechnology.forEach(function (tech) {
-        $('#input-technologies-edit').tagsinput('add', tech.idTechnologyNavigation.description);
-    })
+        technologies.push(tech.idTechnologyNavigation.description);
+   })
+
+   document.getElementById("input-technologies-edit").value = technologies.join(',');
+    $('#input-technologies-edit').tagator('refresh');
+
 }
 
 function fillMentorsList(mentors) {

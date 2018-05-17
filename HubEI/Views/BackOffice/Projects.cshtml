@@ -9,6 +9,10 @@
 
 <link rel="stylesheet" href="/css/tagsinput.css">
 
+<link rel="stylesheet" href="/css/fm.tagator.jquery.css" />
+<script src="/js/fm.tagator.jquery.js"></script>
+
+
 <script src="~/js/typeahead.js"></script>
 <script src="/js/tagsinput.js"></script>
 <div class="container">
@@ -112,9 +116,9 @@
                         <input class="form-control" asp-for="Project.ProjectDate" />
                         <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
                     </div>
-                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da(s) mesma(s) e pressione <u>Enter</u>">
+                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
-                        <input type="text" name="technologies" id="input-technologies" class="form-control" data-role="tagsinput"/>
+                        <input type="text" name="technologies" id="input-technologies" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -189,9 +193,9 @@
                         <input asp-for="Project.ProjectDate" id="edit-project-date" />
                         <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
                     </div>
-                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da(s) mesma(s) e pressione <u>Enter</u>">
+                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
-                        <input type="text" name="technologies" id="input-technologies-edit" class="form-control" data-role="tagsinput" />
+                        <input type="text" name="technologies" id="input-technologies-edit" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>

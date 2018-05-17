@@ -670,8 +670,6 @@ namespace HubEI.Controllers
         {
             var technologies = _context.Technology.ToList();
 
-
-
             return Json(technologies);
         }
 
