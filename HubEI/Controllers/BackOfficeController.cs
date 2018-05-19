@@ -359,7 +359,9 @@ namespace HubEI.Controllers
                                 var document = new ProjectDocument
                                 {
                                     IdProject = viewModel.Project.IdProject,
-                                    Document = memoryStream.ToArray()
+                                    Document = memoryStream.ToArray(),
+                                    FileName = formFile.FileName,
+                                    FileSize = formFile.Length/1024/1024
                                 };
 
                                 await _context.ProjectDocument.AddAsync(document);
@@ -465,7 +467,7 @@ namespace HubEI.Controllers
             if (ModelState.IsValid)
             {
                 byte[] file = null;
-                List<byte[]> attachments = new List<byte[]>();
+                List<ProjectDocument> attachments = new List<ProjectDocument>();
 
                 foreach (var formFile in model.Attachments)
                 {
@@ -474,7 +476,12 @@ namespace HubEI.Controllers
                         using (var memoryStream = new MemoryStream())
                         {
                             await formFile.CopyToAsync(memoryStream);
-                            attachments.Add(memoryStream.ToArray());
+                            attachments.Add(new ProjectDocument
+                            {
+                                Document = memoryStream.ToArray(),
+                                FileName = formFile.FileName,
+                                FileSize = formFile.Length/1024/1024
+                            });
                         }
                     }
                 }
@@ -502,13 +509,7 @@ namespace HubEI.Controllers
 
                 foreach(var attachment in attachments)
                 {
-                    var projectDocument = new ProjectDocument
-                    {
-                        IdProject = project.IdProject,
-                        Document = attachment
-                    };
-
-                    _context.Add(projectDocument);
+                    _context.Add(attachment);
                 }
 
                 _context.SaveChanges();
