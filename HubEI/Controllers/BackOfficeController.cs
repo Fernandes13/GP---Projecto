@@ -509,11 +509,12 @@ namespace HubEI.Controllers
                 };
 
                 _context.Add(project);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 foreach(var attachment in attachments)
                 {
-                    _context.Add(attachment);
+                    attachment.IdProject = project.IdProject;
+                    await _context.AddAsync(attachment);
                 }
 
                 _context.SaveChanges();

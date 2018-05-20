@@ -28,7 +28,6 @@ namespace HubEI.Models.ViewModels
         public List<MentorsCheckBox> Mentors { get; set; }
 
         [Display(Name = "Anexos")]
-        [IsFileListPDFXSL]
         public List<IFormFile> Attachments { get; set; }
     }
 }
