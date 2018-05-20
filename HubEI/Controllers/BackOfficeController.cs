@@ -36,6 +36,10 @@ namespace HubEI.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewData["projects"] = _context.Project.Count();
+            ViewData["students"] = _context.Student.Count();
+            ViewData["mentors"] = _context.SchoolMentor.Count();
+            ViewData["companies"] = _context.Company.Count();
 
             return View();
         }
