@@ -21,6 +21,26 @@
 
   <ItemGroup>
     <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\js\bootstrap-validator-master\.gitignore" />
+    <None Include="wwwroot\js\bootstrap-validator-master\CHANGELOG.md" />
+    <None Include="wwwroot\js\bootstrap-validator-master\dist\validator.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\dist\validator.min.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\docs\assets\js\application.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\docs\dist\validator.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\docs\dist\validator.min.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\docs\LICENSE" />
+    <None Include="wwwroot\js\bootstrap-validator-master\Gruntfile.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\.jshintrc" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\unit\phantom.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\unit\validator.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\vendor\jquery-1.10.2.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\vendor\jquery-3.1.1.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\vendor\jquery.mockjax.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\tests\vendor\qunit.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\js\validator.js" />
+    <None Include="wwwroot\js\bootstrap-validator-master\LICENSE" />
+    <None Include="wwwroot\js\bootstrap-validator-master\README.md" />
+    <None Include="wwwroot\js\bootstrap-validator-master\_config.yml" />
   </ItemGroup>
 
 </Project>
