@@ -22,6 +22,7 @@ namespace HubEI.Controllers
             _hostingEnvironment = HostingEnvironment;
         }
 
+        [Route("Project")]
         [HttpGet]
         public IActionResult Project([FromQuery] string project_id)
         {
