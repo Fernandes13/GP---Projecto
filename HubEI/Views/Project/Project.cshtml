@@ -113,7 +113,7 @@
 
                     @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
                     {
-                    <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
+                    <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject asp-route-documentId=@Model.Project.ProjectDocument.ElementAt(i).IdProjectDocument>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
                     }
                 </div>
             </div>

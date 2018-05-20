@@ -75,7 +75,7 @@ namespace HubEI.Controllers
             return File(project.Report, "application/pdf", project.Title + ".pdf");
         }
 
-        public FileResult DownloadAttachment(int projectId)
+        public FileResult DownloadAttachment(int projectId, int documentId)
         {
             Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();
 
@@ -83,9 +83,20 @@ namespace HubEI.Controllers
             _context.Project.Update(project);
             _context.SaveChanges();
 
-            var document = _context.ProjectDocument.Where(p => p.IdProject == projectId).FirstOrDefault();
+            var document = _context.ProjectDocument.Where(p => p.IdProject == projectId && p.IdProjectDocument == documentId).FirstOrDefault();
 
-            return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
+            if(document.FileName.Substring(document.FileName.Length - 5) == ".xls")
+            {
+                return File(document.Document, "application/vnd.ms-excel", "Anexo de " + project.Title + ".xls");
+            }
+            else if(document.FileName.Substring(document.FileName.Length - 5) == ".xlsx")
+            {
+                return File(document.Document, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Anexo de " + project.Title + ".xlsx");
+            }
+            else
+            {
+                return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
+            }
         }
 
         public IActionResult List([FromQuery] string search_by)
