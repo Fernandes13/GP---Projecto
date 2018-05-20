@@ -162,11 +162,11 @@ nav a:hover{
     margin-left: 28%;
     width: 55%;
     display: none;
-    animation: 15s linear slide-left;
+    animation: 15s linear sw;
     background-color: transparent;
 }
 
-@keyframes slide-left {
+@keyframes sw {
     0% {
         bottom: -60%;
     }
@@ -197,3 +197,33 @@ nav a:hover{
     text-decoration: none;
 }
 
+#login-nav input{
+    font-size:13px;
+    width:100%;
+}
+
+.list-group{
+    z-index:999;
+    position:absolute;
+    width:84%;
+}
+
+
+.list-group-item {
+    color: dimgrey !important;
+    font-size: 14px !important;
+}
+
+.list-group-item:hover {
+    background-color: #E8E8E8 !important;
+    transition: 0.1s linear;
+    color: var(--blue) !important;
+}
+
+.project-title-search {
+    color: var(--blue) !important;
+}
+
+.project-title-search span {
+    color: dimgrey !important;
+}

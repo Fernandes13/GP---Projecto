@@ -269,8 +269,6 @@ function editProject(id) {
 }
 
 function fillProjectForm(project) {
-    
-    console.log(project);
     var project_id = document.getElementById("edit-project-id");
     project_id.value = project.idProject;
 

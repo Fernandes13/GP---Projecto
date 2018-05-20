@@ -87,15 +87,29 @@ namespace HubEI.Controllers
             return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
         }
 
-        public IActionResult List()
+        public IActionResult List([FromQuery] string search_by)
         {
             LoginViewModel viewModel = new LoginViewModel();
 
-            var projects = _context.Project.Include(s => s.IdCompanyNavigation)
-                                            .Include(s => s.IdProjectTypeNavigation)
-                                            .Include(s => s.IdStudentNavigation);
+            var projects = _context.Project.AsQueryable();
 
-            var maxChars = 300;
+            if (search_by == null)
+            {
+                projects = projects.Include(s => s.IdCompanyNavigation)
+                                                .Include(s => s.IdProjectTypeNavigation)
+                                                .Include(s => s.IdStudentNavigation);
+            }
+            else
+            {
+                projects = projects.Where(p => p.Title.Contains(search_by))
+                                                .Include(s => s.IdCompanyNavigation)
+                                                .Include(s => s.IdProjectTypeNavigation)
+                                                .Include(s => s.IdStudentNavigation);
+            }
+
+
+
+            var maxChars = 100;
 
             foreach (var project in projects)
             {
@@ -110,6 +124,10 @@ namespace HubEI.Controllers
                 project.ProjectAdvisor = projectAdvisors;
                 project.ProjectTechnology = projectTechnologies;
             }
+
+
+
+
 
             viewModel.Projects = projects.ToList();
             return View(viewModel);

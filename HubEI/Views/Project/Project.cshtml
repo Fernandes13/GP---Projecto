@@ -27,7 +27,8 @@
             </div>
 
             <div class="card mt-4">
-                <h2 class="card-header">Relatório</h2>
+                <h2 class="card-header">Relatório  
+                <a asp-controller="Project" class="float-lg-right" style="font-size:14px;margin-top:0.5%;" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a></h2>
                 <div class="card-body" style="height: 1000px;">
                     <embed style="height: 100%; width: 100%" src="@Url.Action("GetProjectReport", "Project", new { project_id = Model.Project.IdProject } )" />
                 </div>
@@ -87,7 +88,7 @@
             <div class="card my-4">
                 <h2 class="card-header">Anexos</h2>
                 <div class="card-body">
-                    <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
+
                     @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
                     {
                         <a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>Anexo @(i+1)</a>
