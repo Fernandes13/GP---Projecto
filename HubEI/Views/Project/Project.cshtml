@@ -6,6 +6,28 @@
 @{
     var technologyJSON = JsonConvert.SerializeObject(Model.Project.ProjectTechnology);
     var mentorsJSON = JsonConvert.SerializeObject(Model.Project.ProjectAdvisor);
+
+
+    string getFileSize(double fileSize)
+    {
+        if (fileSize >= 0.01)
+            return fileSize.ToString("0.##") + " MB";
+        else
+            return (fileSize * 1024).ToString("0.##") + " KB";
+    }
+
+    string shortenFileName(string filename)
+    {
+        if (filename.Length <= 47)
+            return filename;
+        else
+        {
+            var split = filename.Split(".");
+            var extension = "." + split[split.Length - 1];
+
+            return filename.Substring(0, 41) + "..." + extension;
+        }
+    }
 }
 <link rel="stylesheet" href="~/css/project.css" />
 <script src="~/js/project.js"></script>
@@ -27,7 +49,8 @@
             </div>
 
             <div class="card mt-4">
-                <h2 class="card-header">Relatório</h2>
+                <h2 class="card-header">Relatório  
+                <a asp-controller="Project" class="float-lg-right" style="font-size:14px;margin-top:0.5%;" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a></h2>
                 <div class="card-body" style="height: 1000px;">
                     <embed style="height: 100%; width: 100%" src="@Url.Action("GetProjectReport", "Project", new { project_id = Model.Project.IdProject } )" />
                 </div>
@@ -87,10 +110,10 @@
             <div class="card my-4">
                 <h2 class="card-header">Anexos</h2>
                 <div class="card-body">
-                    <a asp-controller="Project" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a>
+
                     @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
                     {
-                        <a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>Anexo @(i+1)</a>
+                    <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
                     }
                 </div>
             </div>

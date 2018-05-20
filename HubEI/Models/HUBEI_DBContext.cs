@@ -141,6 +141,8 @@ namespace HubEI.Models
 
                 entity.Property(e => e.Downloads).HasColumnName("downloads");
 
+                entity.Property(e => e.Grade).HasColumnName("grade");
+
                 entity.Property(e => e.IdCompany).HasColumnName("id_company");
 
                 entity.Property(e => e.IdProjectType).HasColumnName("id_project_type");
@@ -220,6 +222,10 @@ namespace HubEI.Models
                     .HasColumnName("document");
 
                 entity.Property(e => e.IdProject).HasColumnName("id_project");
+
+                entity.Property(e => e.FileName).HasColumnName("file_name");
+
+                entity.Property(e => e.FileSize).HasColumnName("file_size");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectDocument)

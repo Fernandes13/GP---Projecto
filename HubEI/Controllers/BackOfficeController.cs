@@ -36,6 +36,10 @@ namespace HubEI.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewData["projects"] = _context.Project.Count();
+            ViewData["students"] = _context.Student.Count();
+            ViewData["mentors"] = _context.SchoolMentor.Count();
+            ViewData["companies"] = _context.Company.Count();
 
             return View();
         }
@@ -359,7 +363,9 @@ namespace HubEI.Controllers
                                 var document = new ProjectDocument
                                 {
                                     IdProject = viewModel.Project.IdProject,
-                                    Document = memoryStream.ToArray()
+                                    Document = memoryStream.ToArray(),
+                                    FileName = formFile.FileName,
+                                    FileSize = Convert.ToDouble(Convert.ToDecimal(formFile.Length)/1024m/1024m)
                                 };
 
                                 await _context.ProjectDocument.AddAsync(document);
@@ -465,7 +471,7 @@ namespace HubEI.Controllers
             if (ModelState.IsValid)
             {
                 byte[] file = null;
-                List<byte[]> attachments = new List<byte[]>();
+                List<ProjectDocument> attachments = new List<ProjectDocument>();
 
                 foreach (var formFile in model.Attachments)
                 {
@@ -474,7 +480,12 @@ namespace HubEI.Controllers
                         using (var memoryStream = new MemoryStream())
                         {
                             await formFile.CopyToAsync(memoryStream);
-                            attachments.Add(memoryStream.ToArray());
+                            attachments.Add(new ProjectDocument
+                            {
+                                Document = memoryStream.ToArray(),
+                                FileName = formFile.FileName,
+                                FileSize = formFile.Length/1024/1024
+                            });
                         }
                     }
                 }
@@ -502,13 +513,7 @@ namespace HubEI.Controllers
 
                 foreach(var attachment in attachments)
                 {
-                    var projectDocument = new ProjectDocument
-                    {
-                        IdProject = project.IdProject,
-                        Document = attachment
-                    };
-
-                    _context.Add(projectDocument);
+                    _context.Add(attachment);
                 }
 
                 _context.SaveChanges();
@@ -588,11 +593,11 @@ namespace HubEI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
+        public async Task<IActionResult> EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
         {
             var project = _context.Project.Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
-            var technology = _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefault();
+            var technology = await _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefaultAsync();
 
             if (technology == null)
             {
@@ -669,8 +674,6 @@ namespace HubEI.Controllers
         public IActionResult Technologies()
         {
             var technologies = _context.Technology.ToList();
-
-
 
             return Json(technologies);
         }

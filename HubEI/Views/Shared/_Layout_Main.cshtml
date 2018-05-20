@@ -9,13 +9,13 @@
 
     <title>HubEI</title>
 
+    <script type="text/javascript" src="https://cdn.rawgit.com/mikeflynn/egg.js/master/egg.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
-    <script type="text/javascript" src="https://cdn.rawgit.com/mikeflynn/egg.js/master/egg.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -29,9 +29,12 @@
             </button>
 
             <div class="col-md-4">
-                <form class="navbar-form" role="search">
+                <form class="navbar-form" asp-controller="Project" asp-action="Project" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Pesquisa" name="srch-term" id="srch-term">
+                        <input type="text" class="form-control" 
+                               placeholder="Pesquisa" 
+                               onblur="searchSuggestionOut(this)" onfocus="search_suggestion(this);" 
+                               onkeydown="search_suggestion(this);" name="search_by" id="srch-term">
                         <div class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -39,6 +42,18 @@
                         </div>
                     </div>
                 </form>
+                <div class="list-group" id="search-suggestions">
+                    @*<a href="#" class="list-group-item">
+                        *CENA 1
+                        <span class="glyphicon glyphicon-camera"></span> CENA 1 <span class="badge badge-secondary">100</span>
+                        <br />
+                        <span class="float-lg-left"><b>José Pedro Borges</b></span>
+                        <span class="float-lg-right">2017/02/05</span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <span class="glyphicon glyphicon-file"></span> CENA 2 <span class="badge badge-secondary">38</span>
+                    </a>*@
+                </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
@@ -48,6 +63,9 @@
 
                     <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
                         <a class="nav-link" href="#">Empresas</a>
+                    </li>
+                    <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
+                        <a class="nav-link" href="#">Estatísticas</a>
                     </li>
                     @*<li class="nav-item">
                             <a class="nav-link" href="#">Contactos</a>
@@ -107,10 +125,12 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script> 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    
 </body>
 </html>

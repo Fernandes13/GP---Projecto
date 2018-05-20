@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace HubEI.Models.CustomValidations
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class IsFileListPDF : ValidationAttribute
+    public sealed class IsFileListPDFXSL : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -22,9 +22,11 @@ namespace HubEI.Models.CustomValidations
 
             for(var i = 0; i < file.Count; i++)
             {
-                if (Path.GetExtension(file[i].FileName).ToLower() != ".pdf")
+                if (Path.GetExtension(file[i].FileName).ToLower() != ".pdf" 
+                        || Path.GetExtension(file[i].FileName).ToLower() != ".xsl"
+                        || Path.GetExtension(file[i].FileName).ToLower() != ".xslx")
                 {
-                    return new ValidationResult("Todos os ficheiros têm de ser PDF.");
+                    return new ValidationResult("Todos os ficheiros têm de ser PDF ou MS Excel.");
                 }
             }
 

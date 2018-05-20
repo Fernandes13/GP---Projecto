@@ -12,11 +12,22 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HubEI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly HUBEI_DBContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public HomeController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
+        {
+            _context = context;
+            _hostingEnvironment = HostingEnvironment;
+        }
+
+
         public IActionResult Index()
         {
             return View();
@@ -232,5 +243,24 @@ namespace HubEI.Controllers
                 await context.SaveChangesAsync();
             }
         }
+
+        //SEARCH HANDLE
+        public IActionResult SearchSuggestions([FromQuery] string search_by)
+        {
+            var projects = _context.Project.Where(p => p.Title.Contains(search_by))
+                .Include(p => p.IdStudentNavigation)
+                .Include(p => p.IdProjectTypeNavigation)
+                .ToList();
+
+
+            return Json(projects.Take(4));
+        }
+
+
+
+
+
+
+
     }
 }

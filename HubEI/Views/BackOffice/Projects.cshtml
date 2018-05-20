@@ -1,6 +1,8 @@
 ﻿@model HubEI.Models.ViewModels.BOProjectViewModel
 @{
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
+
+    var maxDate = DateTime.Today.ToString("yyyy-MM-dd");
 }
 
 <link href="~/css/general-table.css" rel="stylesheet" type="text/css">
@@ -8,6 +10,10 @@
 <script src="~/js/dropzone.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/css/tagsinput.css">
+
+<link rel="stylesheet" href="/css/fm.tagator.jquery.css" />
+<script src="/js/fm.tagator.jquery.js"></script>
+
 
 <script src="~/js/typeahead.js"></script>
 <script src="/js/tagsinput.js"></script>
@@ -94,27 +100,27 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Project.Title"></label>
-                        <input class="form-control" asp-for="Project.Title" />
+                        <input class="form-control" asp-for="Project.Title" required/>
                         <span asp-validation-for="Project.Title" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <textarea class="form-control" id="project-insert-description" style="resize:none;" onkeyup="countUpInsert()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <textarea required class="form-control" id="project-insert-description" style="resize:none;" onkeyup="countUpInsert()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="O relatório do projecto é um ficheiro único que terá de estar em PDF." class="question-mark"/>
-                        <input class="form-control" asp-for="Report" /> 
+                        <input class="form-control" asp-for="Report" required data-val="true" accept="application/pdf" data-val-accept="Apenas são aceites ficheiros em PDF."/> 
                         <span asp-validation-for="Report" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.ProjectDate"></label>
-                        <input class="form-control" asp-for="Project.ProjectDate" />
+                        <input required class="form-control" asp-for="Project.ProjectDate" max=@maxDate/>
                         <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
                     </div>
-                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da(s) mesma(s) e pressione <u>Enter</u>">
+                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
-                        <input type="text" name="technologies" id="input-technologies" class="form-control" data-role="tagsinput"/>
+                        <input required type="text" name="technologies" id="input-technologies" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -122,11 +128,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdProjectType"></label>
-                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control", required = "required" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdStudent"></label>
-                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control", required = "required" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
@@ -134,7 +140,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Documentos extra relativos ao projecto, como atas. Seleccione todos os ficheiros que pretenda (terão de ser estar em formato PDF)." class="question-mark" />
-                        <input class="form-control" asp-for="Attachments" />
+                        <input class="form-control" asp-for="Attachments" data-val="true" accept="application/pdf,.xsl,.xslx"/>
                     </div>
                     <div class="form-group">
                         <label asp-for="Mentors"></label>
@@ -171,12 +177,12 @@
                     <input type="hidden" id="edit-project-report-backup" asp-for="Project.Report" />
                     <div class="form-group">
                         <label asp-for="Project.Title"></label>
-                        <input class="form-control" id="edit-project-title" asp-for="Project.Title" />
+                        <input required class="form-control" id="edit-project-title" asp-for="Project.Title"/>
                         <span asp-validation-for="Project.Title" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
-                        <textarea class="form-control" id="edit-project-description" style="resize:none;" onkeyup="countUpEdit()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
+                        <textarea required class="form-control" id="edit-project-description" style="resize:none;" onkeyup="countUpEdit()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                     </div>
                     <div class="form-group">
@@ -186,12 +192,12 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.ProjectDate"></label>
-                        <input asp-for="Project.ProjectDate" id="edit-project-date" />
+                        <input required asp-for="Project.ProjectDate" id="edit-project-date" max=@maxDate/>
                         <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
                     </div>
-                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da(s) mesma(s) e pressione <u>Enter</u>">
+                    <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
-                        <input type="text" name="technologies" id="input-technologies-edit" class="form-control" data-role="tagsinput" />
+                        <input required type="text" name="technologies" id="input-technologies-edit" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -199,21 +205,21 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdProjectType"></label>
-                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control", @id = "edit-project-type" })
+                        @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control", @id = "edit-project-type", required = "required" })
                         <span asp-validation-for="Project.IdProjectType" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdStudent"></label>
-                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control", @id = "edit-project-student" })
+                        @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control", @id = "edit-project-student", required = "required" })
                         <span asp-validation-for="Project.IdStudent" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control", @id = "edit-project-company" })
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control", @id = "edit-project-company", required = "required" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Caso não introduza outros documentos, permanecerão os ficheiros anteriores." class="question-mark" />
-                        <input class="form-control" asp-for="Attachments" name="file" multiple />
+                        <input class="form-control" asp-for="Attachments" />
                     </div>
                     <div class="form-group" id="edit-project-mentorslist">
                         <label asp-for="Mentors"></label>
