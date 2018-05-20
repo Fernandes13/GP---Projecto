@@ -39,6 +39,9 @@ namespace HubEI.Models
         [Display(Name = "Visível")]
         public bool IsVisible { get; set; }
 
+        [Display(Name = "Nota")]
+        public short Grade { get; set; }
+
         [Display(Name = "Tipo de Projecto")]
         [Required(ErrorMessage = "É necessário definir o tipo de projecto!")]
         public long IdProjectType { get; set; }
