@@ -75,7 +75,7 @@ body {
 
 nav a {
     color: var(--menu-normal-color) !important;
-    font-size: 1.25em !important;
+    font-size: 1.21em !important;
 }
 
 nav a:hover{
@@ -202,16 +202,18 @@ nav a:hover{
     width:100%;
 }
 
-.list-group{
-    z-index:999;
-    position:absolute;
-    width:84%;
+.list-group {
+    z-index: 999;
+    position: absolute;
+    width: 84%;
+    transition: 0.15s linear;
 }
 
 
 .list-group-item {
     color: dimgrey !important;
     font-size: 14px !important;
+    transition:0.15s linear;
 }
 
 .list-group-item:hover {
