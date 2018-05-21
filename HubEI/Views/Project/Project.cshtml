@@ -6,6 +6,28 @@
 @{
     var technologyJSON = JsonConvert.SerializeObject(Model.Project.ProjectTechnology);
     var mentorsJSON = JsonConvert.SerializeObject(Model.Project.ProjectAdvisor);
+
+
+    string getFileSize(double fileSize)
+    {
+        if (fileSize >= 0.01)
+            return fileSize.ToString("0.##") + " MB";
+        else
+            return (fileSize * 1024).ToString("0.##") + " KB";
+    }
+
+    string shortenFileName(string filename)
+    {
+        if (filename.Length <= 47)
+            return filename;
+        else
+        {
+            var split = filename.Split(".");
+            var extension = "." + split[split.Length - 1];
+
+            return filename.Substring(0, 41) + "..." + extension;
+        }
+    }
 }
 <link rel="stylesheet" href="~/css/project.css" />
 <script src="~/js/project.js"></script>
@@ -91,7 +113,7 @@
 
                     @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
                     {
-                        <a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject>Anexo @(i+1)</a>
+                    <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject asp-route-documentId=@Model.Project.ProjectDocument.ElementAt(i).IdProjectDocument>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
                     }
                 </div>
             </div>

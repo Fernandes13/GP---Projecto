@@ -24,6 +24,13 @@
         HubEI - BackOffice</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="accordion" style="width:15%;">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estatísticas">
+                    <a class="nav-link" asp-controller="BackOffice" asp-action="Index">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">HOME</span>
+                    </a>
+                </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projectos">
                     <a class="nav-link" asp-controller="BackOffice" asp-action="Projects">
                         <i class="fa fa-fw fa-slideshare"></i>
@@ -56,12 +63,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estatísticas">
-                    <a class="nav-link" href="tables.html">
-                        <i class="fa fa-fw fa-area-chart"></i>
-                        <span class="nav-link-text">ESTATÍSTICAS</span>
-                    </a>
-                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li id="backoffice-link" class="nav-item">
@@ -80,6 +81,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script> 
     <script src="~/js/sb-admin.min.js"></script>
     <script src="~/js/bo.js" asp-append-version="true"></script>
+    <script src="~/js/bootstrap-validator-master/dist/validator.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

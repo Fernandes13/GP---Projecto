@@ -36,6 +36,10 @@ namespace HubEI.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewData["projects"] = _context.Project.Count();
+            ViewData["students"] = _context.Student.Count();
+            ViewData["mentors"] = _context.SchoolMentor.Count();
+            ViewData["companies"] = _context.Company.Count();
 
             return View();
         }
@@ -361,7 +365,7 @@ namespace HubEI.Controllers
                                     IdProject = viewModel.Project.IdProject,
                                     Document = memoryStream.ToArray(),
                                     FileName = formFile.FileName,
-                                    FileSize = formFile.Length/1024/1024
+                                    FileSize = Convert.ToDouble(Convert.ToDecimal(formFile.Length)/1024m/1024m)
                                 };
 
                                 await _context.ProjectDocument.AddAsync(document);
@@ -505,11 +509,12 @@ namespace HubEI.Controllers
                 };
 
                 _context.Add(project);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 foreach(var attachment in attachments)
                 {
-                    _context.Add(attachment);
+                    attachment.IdProject = project.IdProject;
+                    await _context.AddAsync(attachment);
                 }
 
                 _context.SaveChanges();
@@ -589,11 +594,11 @@ namespace HubEI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
+        public async Task<IActionResult> EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
         {
             var project = _context.Project.Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
-            var technology = _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefault();
+            var technology = await _context.Technology.Where(t => t.Description.ToLower() == tech.ToLower()).FirstOrDefaultAsync();
 
             if (technology == null)
             {

@@ -14,7 +14,7 @@ namespace HubEI.Models
         public string FileName { get; set; }
 
         [Display(Name = "Tamanho")]
-        public float FileSize { get; set; }
+        public double FileSize { get; set; }
 
         public Project IdProjectNavigation { get; set; }
     }

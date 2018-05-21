@@ -32,6 +32,7 @@
                 <form class="navbar-form" asp-controller="Project" asp-action="Project" role="search">
                     <div class="input-group">
                         <input type="text" class="form-control" 
+                               autocomplete="off"
                                placeholder="Pesquisa" 
                                onblur="searchSuggestionOut(this)" onfocus="search_suggestion(this);" 
                                onkeydown="search_suggestion(this);" name="search_by" id="srch-term">

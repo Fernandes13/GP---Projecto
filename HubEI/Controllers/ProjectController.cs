@@ -22,6 +22,7 @@ namespace HubEI.Controllers
             _hostingEnvironment = HostingEnvironment;
         }
 
+        [Route("Project")]
         [HttpGet]
         public IActionResult Project([FromQuery] string project_id)
         {
@@ -74,7 +75,7 @@ namespace HubEI.Controllers
             return File(project.Report, "application/pdf", project.Title + ".pdf");
         }
 
-        public FileResult DownloadAttachment(int projectId)
+        public FileResult DownloadAttachment(int projectId, int documentId)
         {
             Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();
 
@@ -82,16 +83,29 @@ namespace HubEI.Controllers
             _context.Project.Update(project);
             _context.SaveChanges();
 
-            var document = _context.ProjectDocument.Where(p => p.IdProject == projectId).FirstOrDefault();
+            var document = _context.ProjectDocument.Where(p => p.IdProject == projectId && p.IdProjectDocument == documentId).FirstOrDefault();
 
-            return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
+            if(document.FileName.Substring(document.FileName.Length - 5) == ".xls")
+            {
+                return File(document.Document, "application/vnd.ms-excel", "Anexo de " + project.Title + ".xls");
+            }
+            else if(document.FileName.Substring(document.FileName.Length - 5) == ".xlsx")
+            {
+                return File(document.Document, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Anexo de " + project.Title + ".xlsx");
+            }
+            else
+            {
+                return File(document.Document, "application/pdf", "Anexo de " + project.Title + ".pdf");
+            }
         }
 
+        [Route("Projects")]
         public IActionResult List([FromQuery] string search_by)
         {
             LoginViewModel viewModel = new LoginViewModel();
 
             var projects = _context.Project.AsQueryable();
+            //var projects = _context.Project.AsQueryable();
 
             if (search_by == null)
             {
@@ -129,7 +143,18 @@ namespace HubEI.Controllers
 
 
 
-            viewModel.Projects = projects.ToList();
+            viewModel.Projects = projects.Select(p => new Project {
+                IdProject = p.IdProject,
+                Title = p.Title,
+                Description = p.Description.Length <= maxChars ? p.Description : p.Description.Substring(0, maxChars) + "...",
+                ProjectDate = p.ProjectDate,
+                IsVisible = p.IsVisible,
+                IdCompany = p.IdCompany,
+                IdProjectType = p.IdProjectType,
+                IdStudent = p.IdStudent,
+                IdCompanyNavigation = p.IdCompanyNavigation,
+                IdProjectTypeNavigation = p.IdProjectTypeNavigation,
+                IdStudentNavigation = p.IdStudentNavigation}).ToList();
             return View(viewModel);
         }
     }
