@@ -99,11 +99,13 @@ namespace HubEI.Controllers
             }
         }
 
+        [Route("Projects")]
         public IActionResult List([FromQuery] string search_by)
         {
             LoginViewModel viewModel = new LoginViewModel();
 
             var projects = _context.Project.AsQueryable();
+            //var projects = _context.Project.AsQueryable();
 
             if (search_by == null)
             {
@@ -141,7 +143,18 @@ namespace HubEI.Controllers
 
 
 
-            viewModel.Projects = projects.ToList();
+            viewModel.Projects = projects.Select(p => new Project {
+                IdProject = p.IdProject,
+                Title = p.Title,
+                Description = p.Description.Length <= maxChars ? p.Description : p.Description.Substring(0, maxChars) + "...",
+                ProjectDate = p.ProjectDate,
+                IsVisible = p.IsVisible,
+                IdCompany = p.IdCompany,
+                IdProjectType = p.IdProjectType,
+                IdStudent = p.IdStudent,
+                IdCompanyNavigation = p.IdCompanyNavigation,
+                IdProjectTypeNavigation = p.IdProjectTypeNavigation,
+                IdStudentNavigation = p.IdStudentNavigation}).ToList();
             return View(viewModel);
         }
     }

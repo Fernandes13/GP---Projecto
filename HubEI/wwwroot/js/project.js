@@ -2,6 +2,120 @@
     $('div[onload]').trigger('onload');
 });
 
+function populateTechnologyFilter()
+{
+    var technologies = [];
+
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/Technologies',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        async: false,
+    }).done(function (res) {
+        JSON.parse(res).forEach(function (tech) {
+            technologies.push({ description: tech.description, idTechnology: tech.idTechnology });
+        });
+        });
+
+    var technologyList1 = [];
+    var technologyList2 = [];
+    var technologyList3 = [];
+
+    if (technologies.length >= 3) {
+        for (var i = 0; i < parseInt(technologies.length / 3); i++) {
+            technologyList1.push(technologies[i]);
+        }
+
+        for (var i = parseInt(technologies.length / 3); i < parseInt(technologies.length / 3 * 2); i++) {
+            technologyList2.push(technologies[i]);
+        }
+
+        for (var i = parseInt(technologies.length / 3 * 2); i < technologies.length; i++) {
+            technologyList3.push(technologies[i]);
+        }
+    }
+    else {
+        technologyList1 = technologies;
+    }
+
+    var container = document.getElementById("technology-group");
+
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    if (technologyList1.length > 0)
+    {
+        var mainDiv1 = document.createElement("div");
+        mainDiv1.setAttribute("class", "controls span2");
+
+        technologyList1.forEach(technology => {
+            var label = document.createElement("label");
+            label.setAttribute("class", "checkbox");
+            label.setAttribute("style", "margin-right: 1.5%");
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("value", technology.description);
+            input.setAttribute("id", "technologyFilter" + technology.idTechnology);
+
+            label.appendChild(input);
+            label.insertAdjacentText("beforeend", technology.description);
+
+            mainDiv1.appendChild(label);
+        });
+
+        container.appendChild(mainDiv1);
+    }
+
+    if (technologyList2.length > 0) {
+        var mainDiv2 = document.createElement("div");
+        mainDiv2.setAttribute("class", "controls span2");
+
+        technologyList2.forEach(technology => {
+            var label = document.createElement("label");
+            label.setAttribute("class", "checkbox");
+            label.setAttribute("style", "margin-right: 1.5%");
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("value", technology.description);
+            input.setAttribute("id", "technologyFilter" + technology.idTechnology);
+
+            label.appendChild(input);
+            label.insertAdjacentText("beforeend", technology.description);
+
+            mainDiv2.appendChild(label);
+        });
+
+        container.appendChild(mainDiv2);
+    }
+
+    if (technologyList3.length > 0) {
+        var mainDiv3 = document.createElement("div");
+        mainDiv3.setAttribute("class", "controls span2");
+
+        technologyList3.forEach(technology => {
+            var label = document.createElement("label");
+            label.setAttribute("class", "checkbox");
+            label.setAttribute("style", "margin-right: 1.5%");
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("value", technology.description);
+            input.setAttribute("id", "technologyFilter" + technology.idTechnology);
+
+            label.appendChild(input);
+            label.insertAdjacentText("beforeend", technology.description);
+
+            mainDiv3.appendChild(label);
+        });
+
+        container.appendChild(mainDiv3);
+    }
+}
+
 function renderTechnologies(id, technologies)
 {   
     if(id)
