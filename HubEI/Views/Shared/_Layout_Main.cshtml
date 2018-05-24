@@ -65,8 +65,8 @@
                     <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
                         <a class="nav-link" href="#">Empresas</a>
                     </li>
-                    <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
-                        <a class="nav-link" href="#">Estatísticas</a>
+                    <li class="nav-item">
+                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "Statistics")" asp-area="" asp-controller="Statistics" asp-action="Index">Estatísticas</a>
                     </li>
                     @*<li class="nav-item">
                             <a class="nav-link" href="#">Contactos</a>
