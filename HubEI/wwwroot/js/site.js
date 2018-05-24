@@ -52,7 +52,6 @@ function search_suggestion(search) {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
-            console.log(JSON.parse(res));
             renderSuggestions(search.value, JSON.parse(res));
         });
     }, 30);
@@ -69,7 +68,7 @@ function renderSuggestions(search, projects) {
                 var link = document.createElement("a");
                 link.className += " list-group-item project-title-search";
                 link.innerHTML = project.title;
-                link.href = "/Project/Project/?project_id=" + project.idProject;
+                link.href = "/Project?project_id=" + project.idProject;
 
                 var spanleft = document.createElement("span");
                 spanleft.innerHTML = "<b>" + project.idStudentNavigation.name + "</b>";
