@@ -100,14 +100,14 @@ namespace HubEI.Controllers
         }
 
         [Route("Projects")]
-        public IActionResult List([FromQuery] string search_by)
+        public IActionResult List([FromQuery] string search_by, string technologies)
         {
             LoginViewModel viewModel = new LoginViewModel();
 
             var projects = _context.Project.AsQueryable();
             //var projects = _context.Project.AsQueryable();
 
-            if (search_by == null)
+            if (search_by == null || search_by == "null" || search_by.Trim() == "")
             {
                 projects = projects.Include(s => s.IdCompanyNavigation)
                                                 .Include(s => s.IdProjectTypeNavigation)
@@ -121,7 +121,29 @@ namespace HubEI.Controllers
                                                 .Include(s => s.IdStudentNavigation);
             }
 
+            if(technologies != null && technologies != "null" && technologies.Trim() != "")
+            {
+                foreach(var project in projects)
+                {
+                    var projectTechnologies = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject)
+                                                                    .Include(pt => pt.IdTechnologyNavigation).ToList();
 
+                    project.ProjectTechnology = projectTechnologies;
+                }
+
+                //var technologiesList = "";
+                var technologiesList = new List<Technology>();
+
+                var techQuery = technologies.Split(",");
+
+                foreach(var tech in techQuery)
+                {
+                    //technologiesList += _context.Technology.Where(t => t.Description == tech).Select(p => p.IdTechnology).SingleOrDefault() + ",";
+                    technologiesList.Add(_context.Technology.Where(t => t.Description == tech).SingleOrDefault());
+                }
+
+                projects = projects.Where(p => technologiesList.Any(tl => p.ProjectTechnology.Any(pcat => pcat.IdTechnologyNavigation == tl)));
+            }
 
             var maxChars = 100;
 
@@ -132,16 +154,8 @@ namespace HubEI.Controllers
                 var projectAdvisors = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject)
                                             .Include(pa => pa.IdSchoolMentorNavigation).ToList();
 
-                var projectTechnologies = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject)
-                                                                    .Include(pt => pt.IdTechnologyNavigation).ToList();
-
-                project.ProjectAdvisor = projectAdvisors;
-                project.ProjectTechnology = projectTechnologies;
+                project.ProjectAdvisor = projectAdvisors; 
             }
-
-
-
-
 
             viewModel.Projects = projects.Select(p => new Project {
                 IdProject = p.IdProject,
@@ -155,6 +169,7 @@ namespace HubEI.Controllers
                 IdCompanyNavigation = p.IdCompanyNavigation,
                 IdProjectTypeNavigation = p.IdProjectTypeNavigation,
                 IdStudentNavigation = p.IdStudentNavigation}).ToList();
+
             return View(viewModel);
         }
     }

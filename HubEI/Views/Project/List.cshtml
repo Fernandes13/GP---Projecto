@@ -4,12 +4,18 @@
 
 <link rel="stylesheet" href="~/css/project.css" />
 <script src="~/js/project.js"></script>
+
+<link rel="stylesheet" href="/css/tagsinput.css">
+
+<link rel="stylesheet" href="/css/fm.tagator.jquery.css" />
+<script src="/js/fm.tagator.jquery.js"></script>
+
 <div class="container">
 
     <div class="search-form">
         <form>
             <div class="form-group">
-                <input class="form-control" type="text">
+                <input class="form-control" id="search-query" type="text">
             </div>
 
             @*<div class="form-check form-check-inline">
@@ -30,11 +36,15 @@
         </form>
     </div>
 
-    <div class="control-group">
-        <p class="pull-left">Filtrar por Tecnologias</p>
-        <div id="technology-group" onload="populateTechnologyFilter()" style="overflow-x: auto; white-space: nowrap">
+    <div class="control-group card">
+        <div class="card-body">
+            <p class="pull-left font-weight-bold">Filtrar por Tecnologias</p>
+            <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
+                <label>Tecnologias Associadas</label>
+                <input type="text" name="technologies" id="input-technologies" class="form-control" />
+            </div>
+            <a href='javascript:;' onclick="filterSearch();">Efectuar filtro</a>
         </div>
-        
     </div>
 
 
@@ -45,91 +55,91 @@
         </h1>-->
     @if (Model.Projects.ToList().Count == 0)
     {
-    <div style="margin-top:16%;margin-left:33%;">
-        <h1>Nenhum resultado encontrado</h1>
-    </div>
-}
-else
-{
-    <div class="row" style="padding-bottom:3%;">
-        @foreach (Project project in Model.Projects)
-        {
-            if (project.IsVisible)
+        <div style="margin-top:16%;margin-left:33%;">
+            <h1>Nenhum resultado encontrado</h1>
+        </div>
+    }
+    else
+    {
+        <div class="row" style="padding-bottom:3%;">
+            @foreach (Project project in Model.Projects)
             {
+                if (project.IsVisible)
+                {
 
-                <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item" style="margin-top:3.5%;">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
-                            </h4>
-                            <h4 class="card-sub-title">
-                                <b>Autor: </b>
-                                @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
-                            </h4>
+                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item" style="margin-top:3.5%;">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="~/images/InstitutoPolitecnicoSetubal.jpg" alt="">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                                </h4>
+                                <h4 class="card-sub-title">
+                                    <b>Autor: </b>
+                                    @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
+                                </h4>
 
-                            @if (project.ProjectAdvisor.Count > 0)
-                            {
-                                <b>Orientadores: </b>
-                            }
-
-                            @foreach (var mentor in project.ProjectAdvisor)
-                            {
-                                if (project.ProjectAdvisor.Count == 1 || mentor.Equals(project.ProjectAdvisor.Last()))
+                                @if (project.ProjectAdvisor.Count > 0)
                                 {
-                                    <span>
-                                        @mentor.IdSchoolMentorNavigation.Name
-                                    </span>
+                                    <b>Orientadores: </b>
                                 }
-                                else
+
+                                @foreach (var mentor in project.ProjectAdvisor)
                                 {
-                                    <span>
-                                        @mentor.IdSchoolMentorNavigation.Name e
-                                    </span>
+                                    if (project.ProjectAdvisor.Count == 1 || mentor.Equals(project.ProjectAdvisor.Last()))
+                                    {
+                                        <span>
+                                            @mentor.IdSchoolMentorNavigation.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            @mentor.IdSchoolMentorNavigation.Name e
+                                        </span>
+                                    }
                                 }
-                            }
-                            <br />
-                            <b>Empresa: </b>
-                            @project.IdCompanyNavigation.Name
-                            <p><b>Data: </b>@project.ProjectDate.ToString("dd/MM/yyyy")</p>
-                            <p class="card-text">@project.Description</p>
+                                <br />
+                                <b>Empresa: </b>
+                                @project.IdCompanyNavigation.Name
+                                <p><b>Data: </b>@project.ProjectDate.ToString("dd/MM/yyyy")</p>
+                                <p class="card-text">@project.Description</p>
+                            </div>
+                            @*<div class="card">
+                                    <h3 class="card-header">Tecnologias Usadas</h3>
+                                    <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
+                                    </div>
+                                </div>*@
                         </div>
-                        @*<div class="card">
-                                <h3 class="card-header">Tecnologias Usadas</h3>
-                                <div class="card-body" id="technologiesBody_@project.IdProject" onload="renderTechnologies(@project.IdProject, @JsonConvert.SerializeObject(project.ProjectTechnology))">
-                                </div>
-                            </div>*@
                     </div>
-                </div>
+                }
             }
-        }
-    </div>
-}
+        </div>
+    }
 
-<!-- Pagination -->
-@*<ul class="pagination justify-content-center" style="margin-top:3%;">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">2</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>*@
+    <!-- Pagination -->
+    @*<ul class="pagination justify-content-center" style="margin-top:3%;">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>*@
 
 </div>

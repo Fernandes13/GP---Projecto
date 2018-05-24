@@ -2,6 +2,29 @@
     $('div[onload]').trigger('onload');
 });
 
+$(document).ready(function () {
+    var technologies = [];
+
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/Technologies',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        async: false,
+    }).done(function (res) {
+        JSON.parse(res).forEach(function (tech) {
+            technologies.push(tech.description);
+        });
+    });
+
+    $('#input-technologies').tagator({
+        autocomplete: technologies,
+        allowAutocompleteOnly: true
+    });
+
+
+});
+
 function populateTechnologyFilter()
 {
     var technologies = [];
@@ -10,7 +33,7 @@ function populateTechnologyFilter()
         type: "GET",
         url: '/BackOffice/Technologies',
         contentType: "application/json; charset=utf-8",
-        dataType: "html",
+       ataType: "html",
         async: false,
     }).done(function (res) {
         JSON.parse(res).forEach(function (tech) {
@@ -235,4 +258,24 @@ function renderMentors(mentors)
     row.appendChild(secondRow);
 
     body.appendChild(row);
+}
+
+function filterSearch()
+{
+    var searchQuery = document.getElementById("search-query").value;
+
+    if (searchQuery.trim().length == 0)
+        searchQuery = null;
+
+    var technologyFilters = document.getElementById("input-technologies").value;
+
+    window.location.replace('/Projects?search_by=' + searchQuery + "&technologies=" + technologyFilters);
+
+
+    //$.ajax({
+    //    type: "GET",
+    //    url: '/Projects?search_by=' + searchQuery + "&technologies=" + technologyFilters,
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "html",
+    //})
 }
