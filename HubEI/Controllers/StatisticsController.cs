@@ -65,7 +65,6 @@ namespace HubEI.Controllers
             return Json(stats);
         }
 
-
         [HttpGet]
         public JsonResult Top10Technologies()
         {
@@ -80,6 +79,26 @@ namespace HubEI.Controllers
                         }).ToList();
 
             query = query.OrderByDescending(q => q.Count).Take(10).ToList();
+
+            return Json(query);
+        }
+
+        [HttpGet]
+        public JsonResult Top10MentorsAverage()
+        {
+            //var query = _context.ProjectAdvisor
+            //   .GroupBy(pa =>  pa.IdSchoolMentorNavigation.Name, pa => pa.IdProjectNavigation.Grade)
+            //   .Select(pa => new
+            //   {
+            //       Name = pa.Key,
+            //       Average = pa.Average()
+            //   });
+
+            var query = from a in _context.ProjectAdvisor
+                        group a by a.IdSchoolMentorNavigation.Name into mentorGroup
+                        select new { name = mentorGroup.Key, Average = mentorGroup.Average(x => x.IdProjectNavigation.Grade)};
+
+            query = query.OrderByDescending(q => q.Average).Take(10);
 
             return Json(query);
         }
