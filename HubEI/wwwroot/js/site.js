@@ -1,11 +1,4 @@
-﻿//$(".nav-item").on("click", function () {
-//$(".nav-item").on("click", function () {
-//    $("nav").find(".active").removeClass("active");
-//    $(this).addClass("active");
-//});
-
-
-var egg = new Egg();
+﻿var egg = new Egg();
 egg
     .addCode("f,u,n,i,l", function () {
 
@@ -124,3 +117,6 @@ function searchSuggestionOut(search) {
     }, 100);
     
 }
+
+
+

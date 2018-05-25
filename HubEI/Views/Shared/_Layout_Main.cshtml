@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -66,7 +67,8 @@
                         <a class="nav-link" href="#">Empresas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "Statistics")" asp-area="" asp-controller="Statistics" asp-action="Index">Estatísticas</a>
+                        <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "Statistics")" asp-area="" asp-controller="Statistics" asp-action="Index">
+                        Estatísticas</a>
                     </li>
                     @*<li class="nav-item">
                             <a class="nav-link" href="#">Contactos</a>
@@ -83,7 +85,7 @@
                     }
                     else
                     {
-                        <a href="#" id="loginText" onclick="toggleLogin();"> <i class="glyphicon glyphicon-log-in"></i> BackOffice</a>
+                        <a href="#" id="loginText" onclick="toggleLogin();">BackOffice <i class="glyphicon glyphicon-log-in"></i></a>
 
                     }
 
