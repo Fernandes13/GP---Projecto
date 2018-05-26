@@ -16,18 +16,27 @@
         dataType: "html",
     }).done(function (res) {
         renderProjectMarks(JSON.parse(res));
-    });
-    
+        });
 
     $.ajax({
         type: "GET",
         url: '/Statistics/Top10Technologies',
         contentType: "application/json; charset=utf-8",
         dataType: "html",
+        async: false,
     }).done(function (res) {
         renderProjectTechnologies(JSON.parse(res));
     });
-    
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/Top10MentorsAverage',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        async: false,
+    }).done(function (res) {
+        renderMentorsAverage(JSON.parse(res));
+    });
 }
 
 function renderStudentsDistricts(stats) {
@@ -58,6 +67,7 @@ function renderStudentsDistricts(stats) {
         }
     });
 }
+
 function renderProjectMarks(marks) {
     var context = document.getElementById("project_marks_chart").getContext('2d');
 
@@ -84,13 +94,13 @@ function renderProjectMarks(marks) {
     });
 }
 
-function renderProjectTechnologies(technologies) {
+function renderProjectTechnologies(stats) {
     var context = document.getElementById("project_technologies_chart").getContext('2d');
 
     var technologyNames = [];
     var technologyCount = [];
 
-    technologies.forEach(technology => {
+    stats.forEach(technology => {
         technologyNames.push(technology.description);
         technologyCount.push(technology.count);
     });
@@ -143,6 +153,38 @@ function renderProjectTechnologies(technologies) {
         }
     });
 }
+
+function renderMentorsAverage(stats) {
+    var mentors = [];
+    var counts = [];
+
+    stats.forEach(function (stat) {
+        mentors.push(stat.name);
+        counts.push(Math.round(stat.average * 100) / 100);
+    });
+
+    var context = document.getElementById("mentors_average_chart").getContext('2d');
+
+    var myLineChart = new Chart(context, {
+        type: 'pie',
+        data: {
+            labels: mentors,
+            datasets: [
+                {
+                    data: counts,
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
+
+
+
 
 
 $(document).ready(function () {
