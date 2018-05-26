@@ -30,13 +30,13 @@
             </button>
 
             <div class="col-md-4">
-                <form class="navbar-form" asp-controller="Project" asp-action="Project" role="search">
+                <form class="navbar-form" action="/Projects" method="get" role="search">
                     <div class="input-group">
                         <input type="text" class="form-control" 
                                autocomplete="off"
                                placeholder="Pesquisa" 
                                onblur="searchSuggestionOut(this)" onfocus="search_suggestion(this);" 
-                               onkeydown="search_suggestion(this);" name="search_by" id="srch-term">
+                               onkeydown="search_suggestion(this);" name="q" id="srch-term">
                         <div class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>

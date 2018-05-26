@@ -3,6 +3,28 @@
 });
 
 $(document).ready(function () {
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    var x = document.getElementById('marks_range');
+    if (x) {
+        var param = getUrlParameter('marks');
+        if (param)
+            x.value = param;
+    }
+
     var technologies = [];
 
     $.ajax({
@@ -23,23 +45,26 @@ $(document).ready(function () {
     });
 
 
+
+
 });
 
-function populateTechnologyFilter()
-{
+
+
+function populateTechnologyFilter() {
     var technologies = [];
 
     $.ajax({
         type: "GET",
         url: '/BackOffice/Technologies',
         contentType: "application/json; charset=utf-8",
-       ataType: "html",
+        ataType: "html",
         async: false,
     }).done(function (res) {
         JSON.parse(res).forEach(function (tech) {
             technologies.push({ description: tech.description, idTechnology: tech.idTechnology });
         });
-        });
+    });
 
     var technologyList1 = [];
     var technologyList2 = [];
@@ -68,8 +93,7 @@ function populateTechnologyFilter()
         container.removeChild(container.firstChild);
     }
 
-    if (technologyList1.length > 0)
-    {
+    if (technologyList1.length > 0) {
         var mainDiv1 = document.createElement("div");
         mainDiv1.setAttribute("class", "controls span2");
 
@@ -139,9 +163,8 @@ function populateTechnologyFilter()
     }
 }
 
-function renderTechnologies(id, technologies)
-{   
-    if(id)
+function renderTechnologies(id, technologies) {
+    if (id)
         var body = document.getElementById("technologiesBody_" + id);
     else
         var body = document.getElementById("technologiesBody");
@@ -201,8 +224,7 @@ function renderTechnologies(id, technologies)
     body.appendChild(row);
 }
 
-function renderMentors(mentors)
-{
+function renderMentors(mentors) {
     var body = document.getElementById("mentorsBody");
 
     while (body.firstChild) {
@@ -249,7 +271,7 @@ function renderMentors(mentors)
         p.textContent = "Sem orientadores associados.";
         firstRowUl.appendChild(p);
     }
-    
+
 
     firstRow.appendChild(firstRowUl);
     secondRow.appendChild(secondRowUl);
@@ -260,16 +282,16 @@ function renderMentors(mentors)
     body.appendChild(row);
 }
 
-function filterSearch()
-{
+function filterSearch() {
     var searchQuery = document.getElementById("search-query").value;
 
     if (searchQuery.trim().length == 0)
-        searchQuery = null;
+        searchQuery = "";
 
     var technologyFilters = document.getElementById("input-technologies").value;
+    var marksRange = document.getElementById("marks_range").value;
 
-    window.location.replace('/Projects?search_by=' + searchQuery + "&technologies=" + technologyFilters);
+    window.location.replace('/Projects?q=' + searchQuery + "&technologies=" + technologyFilters + "&marks=" + marksRange);
 
 
     //$.ajax({

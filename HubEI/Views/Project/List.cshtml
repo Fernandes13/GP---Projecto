@@ -5,57 +5,51 @@
 <link rel="stylesheet" href="~/css/project.css" />
 <script src="~/js/project.js"></script>
 
-<link rel="stylesheet" href="/css/tagsinput.css">
-
 <link rel="stylesheet" href="/css/fm.tagator.jquery.css" />
 <script src="/js/fm.tagator.jquery.js"></script>
 
 <div class="container">
-    <div class="search-form">
-        <form>
-            <div class="form-group">
-                <input class="form-control" id="search-query" type="text">
-            </div>
+    <div class="row">
+        <div class="project-list-title col-lg-6">
+            <h1>Lista de Projectos Submetidos</h1>
+        </div>
+        <div class="search-form col-lg-6">
+            <div class="card" style="padding:0%;">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Título</label>
+                        <input class="form-control" type="text" id="search-query" name="q" value="@Context.Request.Query["q"]">
+                    </div>
 
-            @*<div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">1</label>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Tecnologias</label>
+                        <br />
+                        <input type="text" class="form-control" name="technologies" id="input-technologies" value="@Context.Request.Query["technologies"]" />
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Avaliação (valores)</label>
+                        <br />
+                        <select class="form-control marks-filter" id="marks_range" name="marks" value="@Context.Request.Query["marks"]">
+                            <option value="0_20" >0 - 20 </option>
+                            <option value="0_5">0 - 5 </option>
+                            <option value="6_10">6 - 10 </option>
+                            <option value="11_15">11 - 15 </option>
+                            <option value="16_20">16 - 20 </option>
+                        </select>
+                    </div>
+                    <button href='javascript:;' onclick="filterSearch();" class="search-filter-button btn btn-primary float-lg-right">Pesquisar</button>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>
-                    <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-                </div>*@
-            <div class="form-group">
 
             </div>
-        </form>
-    </div>
-
-    <div class="control-group card">
-        <div class="card-body">
-            <p class="pull-left font-weight-bold">Filtrar por Tecnologias</p>
-            <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
-                <label>Tecnologias Associadas</label>
-                <input type="text" name="technologies" id="input-technologies" class="form-control" />
-            </div>
-            <a href='javascript:;' onclick="filterSearch();">Efectuar filtro</a>
         </div>
     </div>
 
-
-    <!-- Page Heading -->
-    <!--<h1 class="my-4">
-            Projectos
-            @*<small>Secondary Text</small>*@
-        </h1>-->
     @if (Model.Projects.ToList().Count == 0)
     {
-        <div style="margin-top:16%;margin-left:33%;">
-            <h1>Nenhum resultado encontrado</h1>
+        <div class="card col-lg-12" style="margin-top:7%;">
+            <div>
+                <h1 style="margin-left:33%;">Nenhum resultado encontrado</h1>
+            </div>
         </div>
     }
     else

@@ -245,9 +245,9 @@ namespace HubEI.Controllers
         }
 
         //SEARCH HANDLE
-        public IActionResult SearchSuggestions([FromQuery] string search_by)
+        public IActionResult SearchSuggestions([FromQuery] string q)
         {
-            var projects = _context.Project.Where(p => p.Title.Contains(search_by))
+            var projects = _context.Project.Where(p => p.Title.Contains(q))
                 .Include(p => p.IdStudentNavigation)
                 .Include(p => p.IdProjectTypeNavigation)
                 .ToList();

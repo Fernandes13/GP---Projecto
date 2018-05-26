@@ -85,11 +85,11 @@ namespace HubEI.Controllers
 
             var document = _context.ProjectDocument.Where(p => p.IdProject == projectId && p.IdProjectDocument == documentId).FirstOrDefault();
 
-            if(document.FileName.Substring(document.FileName.Length - 5) == ".xls")
+            if (document.FileName.Substring(document.FileName.Length - 5) == ".xls")
             {
                 return File(document.Document, "application/vnd.ms-excel", "Anexo de " + project.Title + ".xls");
             }
-            else if(document.FileName.Substring(document.FileName.Length - 5) == ".xlsx")
+            else if (document.FileName.Substring(document.FileName.Length - 5) == ".xlsx")
             {
                 return File(document.Document, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Anexo de " + project.Title + ".xlsx");
             }
@@ -100,14 +100,14 @@ namespace HubEI.Controllers
         }
 
         [Route("Projects")]
-        public IActionResult List([FromQuery] string search_by, string technologies)
+        public IActionResult List([FromQuery] string q, string technologies, string marks)
         {
             LoginViewModel viewModel = new LoginViewModel();
 
             var projects = _context.Project.AsQueryable();
             //var projects = _context.Project.AsQueryable();
 
-            if (search_by == null || search_by == "null" || search_by.Trim() == "")
+            if (q == null || q == "" || q.Trim() == "")
             {
                 projects = projects.Include(s => s.IdCompanyNavigation)
                                                 .Include(s => s.IdProjectTypeNavigation)
@@ -115,15 +115,15 @@ namespace HubEI.Controllers
             }
             else
             {
-                projects = projects.Where(p => p.Title.Contains(search_by))
+                projects = projects.Where(p => p.Title.Contains(q))
                                                 .Include(s => s.IdCompanyNavigation)
                                                 .Include(s => s.IdProjectTypeNavigation)
                                                 .Include(s => s.IdStudentNavigation);
             }
 
-            if(technologies != null && technologies != "null" && technologies.Trim() != "")
+            if (technologies != null && technologies != "null" && technologies.Trim() != "")
             {
-                foreach(var project in projects)
+                foreach (var project in projects)
                 {
                     var projectTechnologies = _context.ProjectTechnology.Where(pt => pt.IdProject == project.IdProject)
                                                                     .Include(pt => pt.IdTechnologyNavigation).ToList();
@@ -136,7 +136,7 @@ namespace HubEI.Controllers
 
                 var techQuery = technologies.Split(",");
 
-                foreach(var tech in techQuery)
+                foreach (var tech in techQuery)
                 {
                     //technologiesList += _context.Technology.Where(t => t.Description == tech).Select(p => p.IdTechnology).SingleOrDefault() + ",";
                     technologiesList.Add(_context.Technology.Where(t => t.Description == tech).SingleOrDefault());
@@ -144,6 +144,14 @@ namespace HubEI.Controllers
 
                 projects = projects.Where(p => technologiesList.Any(tl => p.ProjectTechnology.Any(pcat => pcat.IdTechnologyNavigation == tl)));
             }
+
+            if (marks != null && marks != "null")
+            {
+                
+                var marks_str = marks.Split('_');
+                projects = projects.Where(p => p.Grade >= Int32.Parse(marks_str[0]) && p.Grade <= Int32.Parse(marks_str[1]));
+            }
+
 
             var maxChars = 100;
 
@@ -154,10 +162,11 @@ namespace HubEI.Controllers
                 var projectAdvisors = _context.ProjectAdvisor.Where(pa => pa.IdProject == project.IdProject)
                                             .Include(pa => pa.IdSchoolMentorNavigation).ToList();
 
-                project.ProjectAdvisor = projectAdvisors; 
+                project.ProjectAdvisor = projectAdvisors;
             }
 
-            viewModel.Projects = projects.Select(p => new Project {
+            viewModel.Projects = projects.Select(p => new Project
+            {
                 IdProject = p.IdProject,
                 Title = p.Title,
                 Description = p.Description.Length <= maxChars ? p.Description : p.Description.Substring(0, maxChars) + "...",
@@ -168,7 +177,8 @@ namespace HubEI.Controllers
                 IdStudent = p.IdStudent,
                 IdCompanyNavigation = p.IdCompanyNavigation,
                 IdProjectTypeNavigation = p.IdProjectTypeNavigation,
-                IdStudentNavigation = p.IdStudentNavigation}).ToList();
+                IdStudentNavigation = p.IdStudentNavigation
+            }).ToList();
 
             return View(viewModel);
         }

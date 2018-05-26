@@ -41,7 +41,7 @@ function search_suggestion(search) {
     setTimeout(() => {
         $.ajax({
             type: "GET",
-            url: '/Home/SearchSuggestions?search_by=' + search.value,
+            url: '/Home/SearchSuggestions?q=' + search.value,
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
@@ -90,7 +90,7 @@ function renderSuggestions(search, projects) {
             link.className += " list-group-item project-title-search";
             link.innerHTML = "<b style='color:dimgrey'>Sem correspondências para \"" + search + "\"</b>";
             link.appendChild(document.createElement("br"));
-            link.href = "/Project/List?search_by=" + search;
+            link.href = "/Projects?q=" + search;
 
             //var spanleft = document.createElement("span");
             //spanleft.innerHTML = "<b>Ver todos os resultados</b>";

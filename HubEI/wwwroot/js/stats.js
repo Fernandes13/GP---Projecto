@@ -19,7 +19,15 @@
     });
     
 
-    renderProjectTechnologies();
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/Top10Technologies',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+    }).done(function (res) {
+        renderProjectTechnologies(JSON.parse(res));
+    });
+    
 }
 
 function renderStudentsDistricts(stats) {
@@ -76,22 +84,8 @@ function renderProjectMarks(marks) {
     });
 }
 
-function renderProjectTechnologies() {
+function renderProjectTechnologies(technologies) {
     var context = document.getElementById("project_technologies_chart").getContext('2d');
-
-    var technologies = [];
-
-    $.ajax({
-        type: "GET",
-        url: '/Statistics/Top10Technologies',
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        async: false,
-    }).done(function (res) {
-        JSON.parse(res).forEach(function (tech) {
-            technologies.push(tech);
-        });
-    });
 
     var technologyNames = [];
     var technologyCount = [];
@@ -149,11 +143,6 @@ function renderProjectTechnologies() {
         }
     });
 }
-
-
-
-
-
 
 
 $(document).ready(function () {

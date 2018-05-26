@@ -16,3 +16,32 @@
         color: #007bff;
     }
 }
+
+.project-list-title h1 {
+    margin-top: 20%;
+    margin-left: 7%;
+    font-size:36px;
+}
+
+
+.search-form{
+    display:inline-block;
+    margin-top:2%;
+}
+
+.search-filter-button {
+    font-size: 15px;
+}
+
+#input-technologies {
+    padding-left: 1%;
+    font-size: 14px !important;
+}
+
+.form-control{
+    font-size:16px;
+}
+
+.marks-filter{
+    width:32%;
+}
