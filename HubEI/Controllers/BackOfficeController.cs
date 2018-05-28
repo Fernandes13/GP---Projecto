@@ -353,26 +353,27 @@ namespace HubEI.Controllers
                         await _context.SaveChangesAsync();
                     }
 
-                    foreach (var formFile in viewModel.Attachments)
-                    {
-                        if (formFile.Length > 0)
+                        foreach (var formFile in viewModel.Attachments)
                         {
-                            using (var memoryStream = new MemoryStream())
+                            if (formFile.Length > 0)
                             {
-                                await formFile.CopyToAsync(memoryStream);
-                                var document = new ProjectDocument
+                                using (var memoryStream = new MemoryStream())
                                 {
-                                    IdProject = viewModel.Project.IdProject,
-                                    Document = memoryStream.ToArray(),
-                                    FileName = formFile.FileName,
-                                    FileSize = Convert.ToDouble(Convert.ToDecimal(formFile.Length)/1024m/1024m)
-                                };
+                                    await formFile.CopyToAsync(memoryStream);
+                                    var document = new ProjectDocument
+                                    {
+                                        IdProject = viewModel.Project.IdProject,
+                                        Document = memoryStream.ToArray(),
+                                        FileName = formFile.FileName,
+                                        FileSize = Convert.ToDouble(Convert.ToDecimal(formFile.Length) / 1024m / 1024m)
+                                    };
 
-                                await _context.ProjectDocument.AddAsync(document);
-                                await _context.SaveChangesAsync();
+                                    await _context.ProjectDocument.AddAsync(document);
+                                    await _context.SaveChangesAsync();
+                                }
                             }
                         }
-                    }
+                    
 
                     viewModel.Project.ProjectDocument = new List<ProjectDocument>();
                 }
@@ -473,19 +474,22 @@ namespace HubEI.Controllers
                 byte[] file = null;
                 List<ProjectDocument> attachments = new List<ProjectDocument>();
 
-                foreach (var formFile in model.Attachments)
+                if(model.Attachments != null)
                 {
-                    if (formFile.Length > 0)
+                    foreach (var formFile in model.Attachments)
                     {
-                        using (var memoryStream = new MemoryStream())
+                        if (formFile.Length > 0)
                         {
-                            await formFile.CopyToAsync(memoryStream);
-                            attachments.Add(new ProjectDocument
+                            using (var memoryStream = new MemoryStream())
                             {
-                                Document = memoryStream.ToArray(),
-                                FileName = formFile.FileName,
-                                FileSize = formFile.Length/1024/1024
-                            });
+                                await formFile.CopyToAsync(memoryStream);
+                                attachments.Add(new ProjectDocument
+                                {
+                                    Document = memoryStream.ToArray(),
+                                    FileName = formFile.FileName,
+                                    FileSize = formFile.Length / 1024 / 1024
+                                });
+                            }
                         }
                     }
                 }
