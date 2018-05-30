@@ -40,7 +40,7 @@
             <tbody>
                 @foreach (var student in Model.Students)
                 {
-                    <tr>
+                    <tr class="clickable-tr" data-toggle="modal" href="#editStudentModal" id="edit_@student.IdStudent" onclick="editStudent(this.id)">
                         <td>
                             <span class="custom-checkbox">
                                 <input type="checkbox" id="cb_@student.IdStudent" name="students" value="1">
