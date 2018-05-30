@@ -98,3 +98,7 @@
         opacity:1;
     }
 }
+
+.clickable-tr:hover{
+    cursor:pointer;
+}
