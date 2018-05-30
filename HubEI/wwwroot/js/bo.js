@@ -428,7 +428,6 @@ $("#edit-project-form").keypress(function (e) {
 
 
 function setFormValidations() {
-    console.log("correu");
         'use strict';
         
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -440,10 +439,10 @@ function setFormValidations() {
                         event.preventDefault();
                         event.stopPropagation();
                     }
+
                     form.classList.add('was-validated');
                 }, false);
             });
-        
-    
 }
+
 
