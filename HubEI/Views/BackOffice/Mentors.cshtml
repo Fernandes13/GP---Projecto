@@ -13,7 +13,7 @@
                     <h2><b>Orientadores</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addMentorModal" onclick="clearStudentForm();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Orientador</span></a>
+                    <a href="#addMentorModal" onclick="clearStudentForm(); setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Orientador</span></a>
                     <a href="#deleteMentorModal" onclick="deleteMentors();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                         <td>@Html.DisplayFor(modelItem => mentor.Name)</td>
                         <td>@Html.DisplayFor(modelItem => mentor.Email)</td>
                         <td>
-                            <a href="#editMentorModal" id="edit_@mentor.IdSchoolMentor" onclick="editMentor(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#editMentorModal" id="edit_@mentor.IdSchoolMentor" onclick="editMentor(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
                             <a href="#deleteMentorModal" id="@mentor.IdSchoolMentor" onclick="deleteMentor(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
                         </td>
                     </tr>
@@ -73,7 +73,7 @@
 <div id="addMentorModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="Mentor" method="post">
+            <form asp-action="Mentor" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Orientador</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -81,13 +81,17 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" asp-for="Mentor.Name" />
-                        <span asp-validation-for="Mentor.Name" class="error-message"></span>
+                        <input class="form-control" asp-for="Mentor.Name" required pattern="^[aA-zZ\s]*$"/>
+                        <div class="invalid-feedback">
+                            Por favor insira um nome válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Mentor.Email"></label>
-                        <input class="form-control" asp-for="Mentor.Email" />
-                        <span asp-validation-for="Mentor.Email" class="error-message"></span>
+                        <input type="email" class="form-control" asp-for="Mentor.Email" required/>
+                        <div class="invalid-feedback">
+                            Por favor insira um email válido!
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -103,7 +107,7 @@
 <div id="editMentorModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="EditMentor" method="post">
+            <form asp-action="EditMentor" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Orientador</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -112,13 +116,17 @@
                     <input type="hidden" id="edit-mentor-id" asp-for="Mentor.IdSchoolMentor" />
                     <div class="form-group">
                         <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" id="edit-mentor-name" asp-for="Mentor.Name" />
-                        <span asp-validation-for="Mentor.Name" class="error-message"></span>
+                        <input class="form-control" id="edit-mentor-name" asp-for="Mentor.Name" pattern="^[aA-zZ\s]*$"/>
+                        <div class="invalid-feedback">
+                            Por favor insira um nome válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Mentor.Email"></label>
                         <input class="form-control" id="edit-mentor-email" asp-for="Mentor.Email" />
-                        <span asp-validation-for="Mentor.Email" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um email válido!
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -7,7 +7,6 @@ egg
     })
     .listen();
 
-
 function showFunil() {
     var funil = document.getElementById("funil");
     var audio = new Audio('../mp3/sw.mp3');
@@ -117,6 +116,7 @@ function searchSuggestionOut(search) {
     }, 100);
     
 }
+
 
 
 

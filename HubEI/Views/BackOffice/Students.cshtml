@@ -13,7 +13,7 @@
                     <h2><b>Estudantes</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addStudentModal" onclick="clearStudentForm();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
+                    <a href="#addStudentModal" onclick="clearStudentForm(); setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Estudante</span></a>
                     <a href="#deleteStudentModal" onclick="deleteStudents();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                         <td>@Html.DisplayFor(modelItem => student.BirthDate)</td>
                         <td>@Html.DisplayFor(modelItem => student.IdStudentBranchNavigation.Description)</td>
                         <td>
-                            <a href="#editStudentModal" id="edit_@student.IdStudent" onclick="editStudent(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                            <a href="#editStudentModal" id="edit_@student.IdStudent" onclick="editStudent(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
                             <a href="#deleteStudentModal" id="@student.IdStudent" onclick="deleteStudent(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
                         </td>
                     </tr>
@@ -80,7 +80,7 @@
 <div id="addStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="Student" method="post">
+            <form asp-action="Student" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Estudante</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -88,55 +88,77 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Student.Name"></label>
-                        <input class="form-control" asp-for="Student.Name" />
-                        <span asp-validation-for="Student.Name" class="error-message"></span>
+                        <input class="form-control" asp-for="Student.Name" required pattern="^[aA-zZ\s]*$"/>
+                        <div class="invalid-feedback">
+                            Por favor insira um nome válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.StudentNumber"></label>
-                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" />
-                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
+                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="student-number" asp-for="Student.StudentNumber" type="text" required pattern="^[0-9]{9}$"/>
+                        <div class="invalid-feedback">
+                            Por favor insira um número de estudante válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.IdStudentBranchNavigation"></label>
-                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch" })
-                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "student-branch", required = "required"})
+                        <div class="invalid-feedback">
+                            Por favor insira um ramo válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.Email"></label>
-                        <input class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
-                        <span asp-validation-for="Student.Email" class="error-message"></span>
+                        <input type="email" class="form-control disabled-input" id="student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" required/>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.BirthDate"></label>
-                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" />
-                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
+                        <input class="form-control" id="student-birthdate" asp-for="Student.BirthDate" required/>
+                        <div class="invalid-feedback">
+                            Por favor insira uma data de nascimento válida!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.Telephone"></label>
-                        <input class="form-control" style="width:7em;" asp-for="Student.Telephone" />
-                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
+                        <input class="form-control" style="width:7em;" maxlength="11" asp-for="Student.Telephone" required pattern="^[0-9]{9,11}$"/>
+                        <div class="invalid-feedback">
+                            Por favor insira um número de telefone válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Address.Address1"></label>
-                        <input class="form-control" asp-for="Address.Address1" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.PostalCode"></label>
-                        <input class="form-control" style="width:7em;" asp-for="Address.PostalCode" />
-                    </div>
-                    <div class="form-group" style="display:inline-block;margin-left:5%;">
-                        <label asp-for="Address.Door"></label>
-                        <input class="form-control" style="width:4em;" asp-for="Address.Door" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.Locality"></label>
-                        <input class="form-control" style="width:12em;" asp-for="Address.Locality" />
+                        <input class="form-control" asp-for="Address.Address1" required />
+                        <div class="invalid-feedback">
+                            É necessário inserir uma rua!
+                        </div>
+
+                        <div class="form-group" style="display:inline-block">
+                            <label asp-for="Address.PostalCode"></label>
+                            <input class="form-control" style="width:7em;" asp-for="Address.PostalCode" required pattern="^[0-9]{4}-[0-9]{3}" />
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:inline-block;margin-left:5%;">
+                            <label asp-for="Address.Door"></label>
+                            <input class="form-control" style="width:4em;" asp-for="Address.Door" required />
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:inline-block;margin-left:5%;">
+                            <label asp-for="Address.Locality"></label>
+                            <input class="form-control" style="width:12em;" asp-for="Address.Locality" required />
+
+                        </div>
+                        <div class="invalid-feedback" style="margin-top:-2%">
+                            Por favor insira uma morada válida!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Address.IdDistrictNavigation"></label>
-                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district" })
-
-                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "address-district", required = "required" })
+                        <div class="invalid-feedback">
+                            Por favor insira um districto válido!
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -152,7 +174,7 @@
 <div id="editStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="EditStudent" method="post">
+            <form asp-action="EditStudent" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Estudante</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -162,56 +184,75 @@
                     <div class="form-group">
                         <label asp-for="Student.Name"></label>
                         <input class="form-control" id="edit-student-name" asp-for="Student.Name" />
-                        <span asp-validation-for="Student.Name" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um nome válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.StudentNumber"></label>
-                        <input class="form-control" id="edit-student-number" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" asp-for="Student.StudentNumber" type="text" />
-                        <span asp-validation-for="Student.StudentNumber" class="error-message"></span>
+                        <input class="form-control" style="width:7em;" maxlength="9" onkeyup="fillStudentEmail();" id="edit-student-number" asp-for="Student.StudentNumber" type="text" required pattern="^[0-9]{9}$" />
+                        <div class="invalid-feedback">
+                            Por favor insira um número de estudante válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.IdStudentBranchNavigation"></label>
-                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "edit-student-branch" })
-                        <span asp-validation-for="Student.IdStudentBranchNavigation.IdStudentBranch" class="error-message"></span>
+                        @Html.DropDownListFor(model => model.Student.IdStudentBranch, Model.Branches, "-- Seleccione o Ramo --", new { @class = "form-control", @id = "edit-student-branch", required = "required"})
+                        <div class="invalid-feedback">
+                            Por favor insira um ramo válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.Email"></label>
                         <input class="form-control disabled-input" id="edit-student-email" style="width:14.65em;text-align:right" value="@@estudantes.ips.pt" asp-for="Student.Email" />
-                        <span asp-validation-for="Student.Email" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.BirthDate"></label>
                         <input class="form-control" id="edit-student-birthdate" asp-for="Student.BirthDate" />
-                        <span asp-validation-for="Student.BirthDate" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma data de nascimento válida!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.Telephone"></label>
-                        <input class="form-control" style="width:7em;" id="edit-student-telephone" asp-for="Student.Telephone" />
-                        <span asp-validation-for="Student.Telephone" class="error-message"></span>
+                        <input class="form-control" id="edit-student-telephone" style="width:7em;" maxlength="11" asp-for="Student.Telephone" required pattern="^[0-9]{9,11}$" />
+                        <div class="invalid-feedback">
+                            Por favor insira um número de telefone válido!
+                        </div>
                     </div>
                     <input type="hidden" id="edit-student-address-id" asp-for="Student.IdAddress" />
                     <div class="form-group">
                         <label asp-for="Address.Address1"></label>
-                        <input class="form-control" id="edit-student-address" asp-for="Address.Address1" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.PostalCode"></label>
-                        <input class="form-control" style="width:7em;" id="edit-student-postalcode" asp-for="Address.PostalCode" />
-                    </div>
-                    <div class="form-group" style="display:inline-block;margin-left:5%;">
-                        <label asp-for="Address.Door"></label>
-                        <input class="form-control" style="width:4em;" id="edit-student-door" asp-for="Address.Door" />
-                    </div>
-                    <div class="form-group" style="display:inline-block">
-                        <label asp-for="Address.Locality"></label>
-                        <input class="form-control" style="width:12em;" id="edit-student-locality" asp-for="Address.Locality" />
-
+                        <input class="form-control" id="edit-student-address" asp-for="Address.Address1" required />
+                        <div class="invalid-feedback">
+                            É necessário inserir uma rua!
+                        </div>
+                        <div class="form-group" style="display:inline-block">
+                            <label asp-for="Address.PostalCode"></label>
+                            <input class="form-control" id="sedit-student-postalcode" style="width:7em;" asp-for="Address.PostalCode" required pattern="^[0-9]{4}-[0-9]{3}" />
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:inline-block;margin-left:5%;">
+                            <label asp-for="Address.Door"></label>
+                            <input class="form-control" id="edit-student-door" style="width:4em;" asp-for="Address.Door" required />
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group" style="display:inline-block;margin-left:5%;">
+                            <label asp-for="Address.Locality"></label>
+                            <input class="form-control" id="edit-student-locality" style="width:12em;" asp-for="Address.Locality" required />
+                        </div>
+                        <div class="invalid-feedback" style="margin-top:-2%;">
+                            Por favor insira uma morada válida!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Address.IdDistrictNavigation"></label>
-                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "edit-address-district" })
-
-                        <span asp-validation-for="Address.IdDistrictNavigation" class="error-message"></span>
+                        @Html.DropDownListFor(model => model.Address.IdDistrict, Model.Districts, "-- Seleccione o Districto --", new { @class = "form-control", @id = "edit-address-district", required = "required" })
+                        <div class="invalid-feedback">
+                            Por favor insira um districto válido!
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
