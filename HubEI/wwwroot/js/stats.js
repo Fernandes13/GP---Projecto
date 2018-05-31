@@ -8,7 +8,6 @@
         renderStudentsDistricts(JSON.parse(res));
     });
 
-
     $.ajax({
         type: "GET",
         url: '/Statistics/MarksStats',
