@@ -54,6 +54,9 @@ namespace HubEI.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            TempData["minDate"] = DateTime.Now.AddYears(-70).ToString("MM-dd-yyyy");
+            TempData["maxDate"] = DateTime.Now.AddYears(-18).ToString("MM-dd-yyyy");
+
             BOStudentViewModel viewModel = new BOStudentViewModel();
             var students = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation.IdDistrictNavigation);
 

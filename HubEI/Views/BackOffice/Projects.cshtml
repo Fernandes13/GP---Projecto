@@ -19,7 +19,7 @@
                     <h2><b>Projectos</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addProjectModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>
+                    <a href="#addProjectModal" onclick="setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Adicionar Projecto</span></a>
                     <a href="#deleteProjectModal" onclick="deleteProjects();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Eliminar Seleccionados</span></a>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <td>@Html.DisplayFor(modelItem => project.Grade)</td>
                     <td>@Html.DisplayFor(modelItem => project.IsVisible)</td>
                     <td>
-                        <a href="#editProjectModal" id="edit_@project.IdProject" onclick="editProject(this.id);" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
+                        <a href="#editProjectModal" id="edit_@project.IdProject" onclick="editProject(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Editar"></i></a>
                         <a href="#deleteProjectModal" id="@project.IdProject" onclick="deleteProject(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Eliminar"></i></a>
                     </td>
                 </tr>
@@ -88,7 +88,7 @@
 <div id="addProjectModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="Project" method="post" enctype="multipart/form-data" id="add-project-form">
+            <form asp-action="Project" method="post" enctype="multipart/form-data" id="add-project-form" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Adicionar Projecto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -97,26 +97,38 @@
                     <div class="form-group">
                         <label asp-for="Project.Title"></label>
                         <input class="form-control" asp-for="Project.Title" required />
-                        <span asp-validation-for="Project.Title" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um título!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
                         <textarea required class="form-control" id="project-insert-description" style="resize:none;" onkeyup="countUpInsert()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma descrição!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="O relatório do projecto é um ficheiro único que terá de estar em PDF." class="question-mark" />
                         <input class="form-control" asp-for="Report" required data-val="true" accept="application/pdf" data-val-accept="Apenas são aceites ficheiros em PDF." />
-                        <span asp-validation-for="Report" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um relatório!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.ProjectDate"></label>
-                        <input required class="form-control" asp-for="Project.ProjectDate" max=@maxDate />
-                        <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
+                        <input required class="form-control" asp-for="Project.ProjectDate" max=@maxDate/>
+                        <div class="invalid-feedback">
+                            Por favor insira uma data válida!
+                        </div>
                     </div>
                     <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
                         <input required type="text" name="technologies" id="input-technologies" class="form-control" />
+                        <div class="invalid-feedback">
+                            Por favor insira pelo menos uma tecnologia!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -125,10 +137,16 @@
                     <div class="form-group">
                         <label asp-for="Project.IdProjectType"></label>
                         @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control", required = "required" })
+                        <div class="invalid-feedback">
+                            Por favor insira um tipo de projecto válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdStudent"></label>
                         @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control", required = "required" })
+                        <div class="invalid-feedback">
+                            Por favor insira um estudante válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
@@ -137,7 +155,9 @@
                     <div class="form-group">
                         <label asp-for="Project.Grade"></label>
                         <input class="form-control" asp-for="Project.Grade" required min="10" max="20" />
-                        <span asp-validation-for="Project.Grade" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma nota válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Documentos extra relativos ao projecto, como atas. Seleccione todos os ficheiros que pretenda (terão de ser estar em formato PDF)." class="question-mark" />
@@ -168,7 +188,7 @@
 <div id="editProjectModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="EditProject" method="post" enctype="multipart/form-data" id="edit-project-form">
+            <form asp-action="EditProject" method="post" enctype="multipart/form-data" id="edit-project-form" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Projecto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
@@ -179,26 +199,38 @@
                     <div class="form-group">
                         <label asp-for="Project.Title"></label>
                         <input required class="form-control" id="edit-project-title" asp-for="Project.Title" />
-                        <span asp-validation-for="Project.Title" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um título!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Description"></label>
                         <textarea required class="form-control" id="edit-project-description" style="resize:none;" onkeyup="countUpEdit()" cols="15" rows="15" maxlength="999" asp-for="Project.Description"></textarea>
                         <span asp-validation-for="Project.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma descrição!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Report"></label><img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Caso não introduza outro documento, permanecerá o ficheiro anterior." class="question-mark" />
                         <input asp-for="Report" id="edit-project-report" type="file" />
-                        <span asp-validation-for="Report" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um relatório!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.ProjectDate"></label>
                         <input required asp-for="Project.ProjectDate" id="edit-project-date" max=@maxDate />
-                        <span asp-validation-for="Project.ProjectDate" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma data válida!
+                        </div>
                     </div>
                     <div class="form-group" id="tooltipTechnology" data-toggle="tooltip" data-placement="right" data-html="true" title="Para adicionar uma ou mais tecnologias escreva o nome da mesma e pressione <u>Enter</u>">
                         <label>Tecnologias Associadas</label>
                         <input required type="text" name="technologies" id="input-technologies-edit" class="form-control" />
+                        <div class="invalid-feedback">
+                            Por favor insira pelo menos uma tecnologia!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IsVisible"></label>
@@ -207,12 +239,16 @@
                     <div class="form-group">
                         <label asp-for="Project.IdProjectType"></label>
                         @Html.DropDownListFor(model => model.Project.IdProjectType, Model.ProjectTypes, "-- Tipo de Projecto --", new { @class = "form-control", @id = "edit-project-type", required = "required" })
-                        <span asp-validation-for="Project.IdProjectType" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um tipo de projecto válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdStudent"></label>
                         @Html.DropDownListFor(model => model.Project.IdStudent, Model.Students, "-- Estudante Autor --", new { @class = "form-control", @id = "edit-project-student", required = "required" })
-                        <span asp-validation-for="Project.IdStudent" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira um estudante válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
@@ -221,7 +257,9 @@
                     <div class="form-group">
                         <label asp-for="Project.Grade"></label>
                         <input class="form-control" asp-for="Project.Grade" id="edit-project-grade"  required min="10" max="20" />
-                        <span asp-validation-for="Project.Grade" class="error-message"></span>
+                        <div class="invalid-feedback">
+                            Por favor insira uma nota válido!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Attachments"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="Caso não introduza outros documentos, permanecerão os ficheiros anteriores." class="question-mark" />
