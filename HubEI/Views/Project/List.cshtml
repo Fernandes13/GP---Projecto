@@ -72,7 +72,7 @@
                                     @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
                                 </h4>
 
-                                @if (project.ProjectAdvisor.Count > 0)
+                               @if (project.ProjectAdvisor.Count > 0)
                                 {
                                     <b>Orientadores: </b>
                                 }
@@ -82,13 +82,13 @@
                                     if (project.ProjectAdvisor.Count == 1 || mentor.Equals(project.ProjectAdvisor.Last()))
                                     {
                                         <span>
-                                            @mentor.IdSchoolMentorNavigation.Name
+                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Project", "Mentor", new { mentor_id = mentor.IdSchoolMentor }, null)
                                         </span>
                                     }
                                     else
                                     {
                                         <span>
-                                            @mentor.IdSchoolMentorNavigation.Name e
+                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Project", "Mentor", new { mentor_id = mentor.IdSchoolMentor }, null) e
                                         </span>
                                     }
                                 }
