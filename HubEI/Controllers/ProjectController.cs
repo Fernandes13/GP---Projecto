@@ -177,7 +177,8 @@ namespace HubEI.Controllers
                 IdStudent = p.IdStudent,
                 IdCompanyNavigation = p.IdCompanyNavigation,
                 IdProjectTypeNavigation = p.IdProjectTypeNavigation,
-                IdStudentNavigation = p.IdStudentNavigation
+                IdStudentNavigation = p.IdStudentNavigation,
+                ProjectAdvisor = p.ProjectAdvisor
             }).ToList();
 
             return View(viewModel);

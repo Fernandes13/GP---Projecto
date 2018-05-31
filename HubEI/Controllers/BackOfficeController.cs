@@ -512,7 +512,8 @@ namespace HubEI.Controllers
                     IsVisible = model.Project.IsVisible,
                     IdCompany = model.Project.IdCompany,
                     IdProjectType = model.Project.IdProjectType,
-                    IdStudent = model.Project.IdStudent
+                    IdStudent = model.Project.IdStudent,
+                    Grade = model.Project.Grade
                 };
 
                 _context.Add(project);
