@@ -231,3 +231,11 @@ nav a:hover{
     color: dimgrey !important;
 }
 
+.loading{
+    width:40px;
+    height:40px;
+    position:absolute;
+    z-index:999;
+    margin-left:20%;
+    margin-top:30%;
+}

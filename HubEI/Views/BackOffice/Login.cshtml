@@ -1,8 +1,4 @@
 ﻿@model HubEI.Models.ViewModels.LoginViewModel
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
 
 <div class="col-md-2 offset-md-10 mt-4 container-style">
     <div class="text-center mb-5">
@@ -23,7 +19,7 @@
             <span>@TempData["Login-Message"]</span>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block btn-dark bg-dark text-white">Entrar</button>
+            <button type="submit" formtarget="_blank" class="btn btn-primary btn-block btn-dark bg-dark text-white">Entrar</button>
         </div>
         @*<div class="checkbox">
             <label asp-for="RememberMe"><input asp-for="RememberMe" type="checkbox"> Keep me logged-in</label>
