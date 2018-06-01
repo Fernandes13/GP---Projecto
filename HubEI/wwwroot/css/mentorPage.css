@@ -1,0 +1,16 @@
+﻿.portlet {
+    background-color: white;
+    border: 1px solid #e7ecf1 !important;
+    border-radius: 4px;
+}
+
+img {
+    float: none;
+    margin: 0 auto;
+    margin-top:5%;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important
+}
