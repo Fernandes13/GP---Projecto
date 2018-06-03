@@ -79,6 +79,7 @@
             -->
     </div>
 </div>
+
 <div id="addStudentModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
@@ -210,7 +211,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Student.BirthDate"></label>
-                        <input type="date" class="form-control" id="edit-student-birthdate" asp-for="Student.BirthDate" min="@minDate max=@maxDate/>
+                        <input type="date" class="form-control" id="edit-student-birthdate" asp-for="Student.BirthDate" min="@minDate" max=@maxDate/>
                         <div class="invalid-feedback">
                             Por favor insira uma data de nascimento válida!
                         </div>
