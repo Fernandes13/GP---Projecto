@@ -38,22 +38,31 @@ function toggleLogin() {
 
 function search_suggestion(search) {
     setTimeout(() => {
+        if (search.value.length == 0) {
+            clearSuggestions();
+            $(".loading-suggestions").hide();
+        }
+
+        $(".loading-suggestions").show();
         $.ajax({
             type: "GET",
             url: '/Home/SearchSuggestions?q=' + search.value,
             contentType: "application/json; charset=utf-8",
             dataType: "html",
         }).done(function (res) {
+            $(".loading-suggestions").hide();
+            console.log(JSON.parse(res));
             renderSuggestions(search.value, JSON.parse(res));
         });
-    }, 30);
+        
+    }, 100);
+    
 }
 
 
 function renderSuggestions(search, projects) {
     clearSuggestions();
     var suggestions = document.getElementById("search-suggestions");
-
     if (search.length > 0) {
         if (projects.length > 0) {
             projects.forEach(function (project) {
@@ -63,16 +72,16 @@ function renderSuggestions(search, projects) {
                 link.href = "/Project?project_id=" + project.idProject;
 
                 var spanleft = document.createElement("span");
-                spanleft.innerHTML = "<b>" + project.idStudentNavigation.name + "</b>";
+                spanleft.innerHTML = "<b>" + project.studentName + "</b>";
                 spanleft.className += " float-lg-left";
 
 
                 var spanright = document.createElement("span");
-                spanright.innerHTML = project.projectDate.split("T")[0];
+                spanright.innerHTML = project.date.split("T")[0];
                 spanright.className += " float-lg-right";
 
                 var spanleft_type = document.createElement("span");
-                spanleft_type.innerHTML = "" + project.idProjectTypeNavigation.description + "";
+                spanleft_type.innerHTML = "" + project.type + "";
                 spanleft_type.className += " float-lg-left";
 
                 link.appendChild(document.createElement("br"));

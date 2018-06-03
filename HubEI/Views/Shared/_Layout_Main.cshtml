@@ -39,7 +39,7 @@
                         <input type="text" class="form-control"
                                autocomplete="off"
                                placeholder="Pesquisa"
-                               onblur="searchSuggestionOut(this)" onfocus="search_suggestion(this);"
+                               onblur="searchSuggestionOut(this)"
                                onkeydown="search_suggestion(this);" name="q" id="srch-term">
                         <div class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">
@@ -49,6 +49,9 @@
                     </div>
                 </form>
                 <div class="list-group" id="search-suggestions">
+                    <a href="#" class="list-group-item loading-suggestions hide">                     
+                            <img class="loading-gif" src="~/images/loading.gif" />
+                    </a>
                     @*<a href="#" class="list-group-item">
                             *CENA 1
                             <span class="glyphicon glyphicon-camera"></span> CENA 1 <span class="badge badge-secondary">100</span>

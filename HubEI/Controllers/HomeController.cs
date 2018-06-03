@@ -250,7 +250,14 @@ namespace HubEI.Controllers
             var projects = _context.Project.Where(p => p.Title.Contains(q))
                 .Include(p => p.IdStudentNavigation)
                 .Include(p => p.IdProjectTypeNavigation)
-                .ToList();
+                .Select(p => new
+                {
+                    p.IdProject,
+                    p.Title,
+                    StudentName = p.IdStudentNavigation.Name,
+                    Type = p.IdProjectTypeNavigation.Description,
+                    Date = p.ProjectDate
+                }).ToList();
 
 
             return Json(projects.Take(4));

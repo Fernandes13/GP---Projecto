@@ -239,3 +239,12 @@ nav a:hover{
     margin-left:20%;
     margin-top:30%;
 }
+
+.loading-suggestions {
+    padding-left: 43%;
+}
+
+.loading-gif{
+    width:35px;
+    height:35px;
+}
