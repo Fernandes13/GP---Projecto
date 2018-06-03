@@ -1,16 +1,61 @@
 ﻿.portlet {
     background-color: white;
-    border: 1px solid #e7ecf1 !important;
     border-radius: 4px;
+    padding-bottom: 60%;
+    margin-top: 45%;
 }
 
-img {
-    float: none;
-    margin: 0 auto;
+    .portlet img {
+        float: none;
+        margin: 0 auto;
+        width: 50%;
+        height: 50%;
+        top: 3vw;
+        -webkit-border-radius: 50% !important;
+        -moz-border-radius: 50% !important;
+        position: relative;
+        border-radius: 50% !important;
+    }
+
+.portlet-body{
     margin-top:5%;
+}
+
+.portlet-body table{
+    margin-bottom:25%;
+}
+
+.profile-usertitle {
+    top: 4vw;
+    position: relative;
+    margin: 0 auto;
     width: 50%;
-    height: 50%;
-    -webkit-border-radius: 50% !important;
-    -moz-border-radius: 50% !important;
-    border-radius: 50% !important
+}
+
+.profile-name {
+    text-align: center;
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+.profile-email {
+    margin-left: -15%;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.listContainer {
+    margin-top: 4%;
+}
+
+.grade{
+    font-weight:bold;
+    color:cornflowerblue;
+}
+
+.projects {
+    background-color: white;
+    border-radius: 4px;
+    top: 4.1vw;
+    min-height: 49vh
 }
