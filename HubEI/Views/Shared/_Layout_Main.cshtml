@@ -95,19 +95,22 @@
         </div>
     </nav>
 
-    @if (TempData["Got-Error"] == "true")
+    @if (TempData["Got-Error"] != null)
     {
-        <div class="mt-6 col-md-9 offset-md-3 fixed-top show" id="loginForm">
-            @Html.Partial("../BackOffice/Login.cshtml")
-        </div>
+        @if (TempData["Got-Error"] == "true")
+        {
+            <div class="mt-6 col-md-9 offset-md-3 fixed-top show" id="loginForm">
+                @Html.Partial("../BackOffice/Login.cshtml")
+            </div>
 
-    }
-    else
-    {
-        <div class="mt-6 col-md-9 offset-md-3 fixed-top hide" id="loginForm">
-            @Html.Partial("../BackOffice/Login.cshtml")
-        </div>
+        }
+        else
+        {
+            <div class="mt-6 col-md-9 offset-md-3 fixed-top hide" id="loginForm">
+                @Html.Partial("../BackOffice/Login.cshtml")
+            </div>
 
+        }
     }
 
 

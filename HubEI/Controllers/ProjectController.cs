@@ -184,8 +184,7 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
-        
-        [HttpGet]
+        [Route("Mentor")]
         public IActionResult Mentor([FromQuery] string mentor_id)
         {
             SchoolMentor mentor = _context.SchoolMentor.Where(x => x.IdSchoolMentor.ToString() == mentor_id).FirstOrDefault();
@@ -196,6 +195,7 @@ namespace HubEI.Controllers
 
             var average = projects.Average(x => x.Grade);
             Console.WriteLine(average);
+
             return View(new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven= average});
         }
     }
