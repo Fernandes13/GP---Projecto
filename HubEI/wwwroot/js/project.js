@@ -249,7 +249,7 @@ function renderMentors(mentors) {
             var li = document.createElement("li");
             var a = document.createElement("a");
             a.textContent = mentors[i].IdSchoolMentorNavigation.Name;
-            a.setAttribute("href", "#");
+            a.setAttribute("href", "/Mentor?mentor_id=" + mentors[i].IdSchoolMentorNavigation.IdSchoolMentor);
             li.appendChild(a);
             firstRowUl.appendChild(li);
         }
@@ -260,7 +260,7 @@ function renderMentors(mentors) {
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 a.textContent = mentors[i].IdSchoolMentorNavigation.Name;
-                a.setAttribute("href", "#");
+                a.setAttribute("href", "/Mentor?mentor_id=" + mentors[i].IdSchoolMentorNavigation.IdSchoolMentor);
                 li.appendChild(a);
                 secondRowUl.appendChild(li);
             }
