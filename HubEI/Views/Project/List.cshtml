@@ -82,13 +82,13 @@
                                     if (project.ProjectAdvisor.Count == 1 || mentor.Equals(project.ProjectAdvisor.Last()))
                                     {
                                         <span>
-                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Project", "Mentor", new { mentor_id = mentor.IdSchoolMentor }, null)
+                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Mentor", "Project", new { mentor_id = mentor.IdSchoolMentor.ToString() }, null)
                                         </span>
                                     }
                                     else
                                     {
                                         <span>
-                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Project", "Mentor", new { mentor_id = mentor.IdSchoolMentor }, null) e
+                                            @Html.ActionLink(mentor.IdSchoolMentorNavigation.Name, "Mentor", "Project", new { mentor_id = mentor.IdSchoolMentor.ToString() }, null) e
                                         </span>
                                     }
                                 }

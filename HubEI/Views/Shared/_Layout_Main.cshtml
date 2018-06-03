@@ -1,5 +1,8 @@
 ﻿@using HubEI.Helpers
 
+@{ 
+    ViewData["Got-Error"] = "false";
+}
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +20,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mentorPage.css" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -95,9 +99,7 @@
         </div>
     </nav>
 
-    @if (TempData["Got-Error"] != null)
-    {
-        @if (TempData["Got-Error"] == "true")
+        @if (ViewData["Got-Error"].ToString() == "true")
         {
             <div class="mt-6 col-md-9 offset-md-3 fixed-top show" id="loginForm">
                 @Html.Partial("../BackOffice/Login.cshtml")
@@ -111,7 +113,7 @@
             </div>
 
         }
-    }
+
 
 
 

@@ -1,67 +1,71 @@
-﻿@model HubEI.Models.ViewModels.ProjectMentorViewModel
+﻿@model HubEI.Models.ViewModels.LoginViewModel
 @{
 }
 
 
-
-<div class="col-md-12">
-    <div class="col-md-4">
-        <div class="portlet light profile-sidebar-portlet bordered">
-            <div class="profile-userpic">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-responsive" alt="">
-            </div>
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">@Model.Mentor.Name</div>
-                <div class="profile-usertitle-job">@Model.Mentor.Email</div>
-            </div>
-            <div class="profile-usermenu">
-                <ul class="nav">
-                    <li class="active">
-                        <a href="#">
-                            <i class="icon-home"></i> Project List
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="portlet light bordered">
-            <div class="portlet-title tabbable-line">
-                <div class="caption caption-md">
-                    <i class="icon-globe theme-font hide"></i>
-                    <span class="caption-subject font-blue-madison bold uppercase">Project List</span>
+<div class="container">
+    <br />
+    <div class="row align-content-center align-items-center">
+        <div class="col-md-4">
+            <div class="portlet align-items-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-responsive" alt="">
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">@Model.mentorViewModel.Mentor.Name</div>
+                    <div class="profile-usertitle-job">@Model.mentorViewModel.Mentor.Email</div>
+                </div>
+                <div class="profile-usermenu">
+                    <ul class="">
+                        <li class="">
+                            <a>
+                                <i class=""></i> Project List
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="portlet-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Student Name</th>
-                            <th>Title</th>
-                            <th>Start Date</th>
-                            <th>Nota</th>
-                            <th>Views</th>
-                            <th>Downloads</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Project project in Model.Projects)
-                        {
+        </div>
+        <div class="col-md-8">
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption caption-md">
+                        <i class="icon-globe theme-font hide"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Project List</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>project.IdProject</td>
-                                <td>project.IdStudentNavigation.Name</td>
-                                <td>project.Title</td>
-                                <td>project.ProjectDate</td>
-                                <td>project.Grade</td>
-                                <td>project.Views</td>
-                                <td>project.Downloads</td>
+                                <th>Id</th>
+                                <th>Student Name</th>
+                                <th>Title</th>
+                                <th>Start Date</th>
+                                <th>Nota</th>
+                                <th>Views</th>
+                                <th>Downloads</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Project project in Model.mentorViewModel.Projects)
+                            {
+                                <tr>
+                                    <th scope="row">@project.IdProject</th>
+                                    <td>@project.IdStudentNavigation.Name</td>
+                                    <td>@project.Title</td>
+                                    <td>@project.ProjectDate.ToShortDateString()</td>
+                                    <td>@project.Grade</td>
+                                    <td>@project.Views</td>
+                                    <td>@project.Downloads</td>
+                                </tr>
 
-                        }
+                            }
+                            <tr>
+                                <td>Average Grade:</td>
+                                <td>@Model.mentorViewModel.AverageGradeGiven</td>
+                            </tr>
                         </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

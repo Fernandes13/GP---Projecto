@@ -185,18 +185,22 @@ namespace HubEI.Controllers
         }
 
         [Route("Mentor")]
+        [HttpGet]
         public IActionResult Mentor([FromQuery] string mentor_id)
         {
             SchoolMentor mentor = _context.SchoolMentor.Where(x => x.IdSchoolMentor.ToString() == mentor_id).FirstOrDefault();
 
-            ICollection<ProjectAdvisor> projectAdvisors = _context.ProjectAdvisor.Where(x => x.IdSchoolMentor.ToString() == mentor_id).ToList();
+            ICollection<ProjectAdvisor> projectAdvisors = _context.ProjectAdvisor.Include(x => x.IdProjectNavigation)
+                                                                                 .Include(y => y.IdSchoolMentorNavigation)
+                                                                                 .Where(x => x.IdSchoolMentor.ToString() == mentor_id).ToList();
 
-            ICollection<Project> projects = _context.Project.Where(p => _context.ProjectAdvisor.Any(pa => pa.IdProject == p.IdProject)).ToList();
+            ICollection<Project> projects = _context.Project.Include(p => p.IdStudentNavigation)
+                                                            .Include(x => x.ProjectAdvisor)
+                                                    .Where(p => _context.ProjectAdvisor.Where(x => x.IdSchoolMentor.ToString() == mentor_id).Any(pa => pa.IdProject == p.IdProject)).ToList();
 
             var average = projects.Average(x => x.Grade);
             Console.WriteLine(average);
-
-            return View(new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven= average});
+            return View(new LoginViewModel{ mentorViewModel= new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven = average } });
         }
     }
 }
