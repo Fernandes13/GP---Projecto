@@ -1,4 +1,4 @@
-﻿@model HubEI.Models.ViewModels.ProjectMentorViewModel
+﻿@model HubEI.Models.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Mentor";
 }
@@ -11,8 +11,8 @@
             <div class="portlet align-items-center">
                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-responsive" alt="">
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">@Model.Mentor.Name</div>
-                    <div class="profile-usertitle-job">@Model.Mentor.Email</div>
+                    <div class="profile-usertitle-name">@Model.mentorViewModel.Mentor.Name</div>
+                    <div class="profile-usertitle-job">@Model.mentorViewModel.Mentor.Email</div>
                 </div>
                 <div class="profile-usermenu">
                     <ul class="">
@@ -47,7 +47,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Project project in Model.Projects)
+                            @foreach (Project project in Model.mentorViewModel.Projects)
                             {
                                 <tr>
                                     <th scope="row">@project.IdProject</th>
@@ -62,7 +62,7 @@
                             }
                             <tr>
                                 <td>Average Grade:</td>
-                                <td>@Model.AverageGradeGiven</td>
+                                <td>@Model.mentorViewModel.AverageGradeGiven</td>
                             </tr>
                         </tbody>
                     </table>

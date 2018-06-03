@@ -65,8 +65,8 @@ namespace HubEI.Controllers
 
                 if (state == LoginState.EMAIL_NOTFOUND || state == LoginState.CONNECTION_FAILED || state == LoginState.WRONG_PASSWORD) //Email não encontrado, ou password inválida
                 {
-                    TempData["Login-Message"] = state.GetMessage();
-                    TempData["Got-Error"] = "true";
+                    ViewData["Login-Message"] = state.GetMessage();
+                    ViewData["Got-Error"] = "true";
 
                     //return View();
                 }

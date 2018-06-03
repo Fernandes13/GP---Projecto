@@ -200,7 +200,7 @@ namespace HubEI.Controllers
 
             var average = projects.Average(x => x.Grade);
             Console.WriteLine(average);
-            return View(new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven= average});
+            return View(new LoginViewModel{ mentorViewModel= new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven = average } });
         }
     }
 }
