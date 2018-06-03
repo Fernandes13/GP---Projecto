@@ -1,21 +1,21 @@
 ﻿.portlet {
     background-color: white;
     border-radius: 4px;
-    padding-bottom: 60%;
-    margin-top: 45%;
+    padding-bottom: 25%;
+    margin-top:21.5%;
 }
 
-    .portlet img {
-        float: none;
-        margin: 0 auto;
-        width: 50%;
-        height: 50%;
-        top: 3vw;
-        -webkit-border-radius: 50% !important;
-        -moz-border-radius: 50% !important;
-        position: relative;
-        border-radius: 50% !important;
-    }
+.portlet img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    top: 3vw;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    position: relative;
+    border-radius: 50% !important;
+}
 
 .portlet-body{
     margin-top:5%;
@@ -29,7 +29,7 @@
     top: 4vw;
     position: relative;
     margin: 0 auto;
-    width: 50%;
+    width: 70%;
 }
 
 .profile-name {
@@ -39,9 +39,8 @@
 }
 
 .profile-email {
-    margin-left: -15%;
-    font-style: italic;
-    font-weight: bold;
+    margin-left: 0;
+        font-weight: bold;
     text-align: center;
 }
 
@@ -52,11 +51,11 @@
 .grade{
     font-weight:bold;
     color:cornflowerblue;
+    display:block;
 }
 
 .projects {
     background-color: white;
     border-radius: 4px;
     top: 4.1vw;
-    min-height: 49vh
 }
