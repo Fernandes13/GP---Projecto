@@ -19,6 +19,7 @@ namespace HubEI.Models
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudentBranch> StudentBranch { get; set; }
         public virtual DbSet<Technology> Technology { get; set; }
+        public virtual DbSet<RgpdInfo> RgpdInfo { get; set; }
 
         public HUBEI_DBContext(DbContextOptions<HUBEI_DBContext> options)
         : base(options)
@@ -356,10 +357,26 @@ namespace HubEI.Models
                 entity.Property(e => e.IdTechnology)
                     .HasColumnName("id_technology");
 
+
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description")
                     .HasMaxLength(99);
+            });
+
+            modelBuilder.Entity<RgpdInfo>(entity =>
+            {
+                entity.Property(e => e.IdTerm)
+                    .HasColumnName("id_term");
+
+                entity.ToTable("rgpd_info");
+
+                entity.HasKey(e => e.IdTerm);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasMaxLength(3999);
             });
         }
     }

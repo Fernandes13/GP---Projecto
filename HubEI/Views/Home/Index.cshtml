@@ -2,6 +2,8 @@
 
 }
 
+<script src="~/js/index.js"></script>
+
 @*<header class="business-header" style="padding-top:4%;">
     <div class="container">
         <div class="row">
@@ -64,3 +66,22 @@
     </div>
     <!-- /.row -->
 </div>*@
+
+<div id="rpgdModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="overflow-y: initial !important">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">We value your privacy</h3>
+            </div>
+            <div class="modal-body" style="height: 80vh; overflow-y: auto;">
+                @Html.Raw(ViewData["RgpdInfo"])
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

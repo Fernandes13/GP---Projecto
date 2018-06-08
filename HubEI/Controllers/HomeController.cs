@@ -30,6 +30,10 @@ namespace HubEI.Controllers
 
         public IActionResult Index()
         {
+            var rgpdInfo = _context.RgpdInfo.FirstOrDefault();
+
+            ViewData["RgpdInfo"] = rgpdInfo.Description;
+
             return View();
         }
 
