@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace HubEI.Controllers
 {
@@ -27,14 +28,24 @@ namespace HubEI.Controllers
             _hostingEnvironment = HostingEnvironment;
         }
 
-
         public IActionResult Index()
         {
             var rgpdInfo = _context.RgpdInfo.FirstOrDefault();
 
+            ViewBag.rgpdCookie = Request.Cookies["rgpd"];
+
             ViewData["RgpdInfo"] = rgpdInfo.Description;
 
             return View();
+        }
+
+        public IActionResult SaveRPGCookie()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.Now.AddDays(365);
+            Response.Cookies.Append("rgpd", "true", options);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult About()
@@ -87,8 +98,6 @@ namespace HubEI.Controllers
 
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-
                    
                     return RedirectToAction("Index", "BackOffice");
                 }
