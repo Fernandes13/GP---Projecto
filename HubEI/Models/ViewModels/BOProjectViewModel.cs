@@ -29,5 +29,8 @@ namespace HubEI.Models.ViewModels
 
         [Display(Name = "Anexos")]
         public List<IFormFile> Attachments { get; set; }
+
+        [Display(Name = "Company Email for Privacy Notification")]
+        public String CompanyEmail { get; set; }
     }
 }

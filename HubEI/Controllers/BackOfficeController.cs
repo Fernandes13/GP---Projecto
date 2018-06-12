@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-
+using System.Text;
 
 namespace HubEI.Controllers
 {
@@ -543,12 +543,31 @@ namespace HubEI.Controllers
 
                 _context.SaveChanges();
 
+                if(model.Project.IdCompany != 0)
+                {
+                    SendCompanyEmail(model.CompanyEmail, model.Project.Title, model.Project.IdStudent);
+                }
 
                 return RedirectToAction("Projects", "BackOffice");
-
             }
 
             return RedirectToAction("Projects", "BackOffice");
+        }
+
+        public void SendCompanyEmail(string email, string projectTitle, long studentId)
+        {
+            var studentName = _context.Student.Where(s => s.IdStudent == studentId).Select(s => s.Name).FirstOrDefault();
+
+            var strbBody = new StringBuilder();
+            strbBody.AppendLine("To whom this may concern,<br><br>");
+            strbBody.AppendFormat(@"We are pleased to announce that a project that was developed under your company by " + studentName + " with the title '" + projectTitle + "'");
+            strbBody.AppendFormat(@" was submitted to our platform, HubEI. Due to the Terms and Conditions of the Polytechnic Institute of Setúbal");
+            strbBody.AppendFormat(@" all the information about this project, including the contents of the documents developed by the author");
+            strbBody.AppendFormat(@" are to be made public in our platform. Please reply to this email, informing if you do or do not consent with this.");
+            strbBody.AppendFormat(@" Thank you kindly, in advance.<br><br>");
+            strbBody.AppendLine(@"Best Regards,<br>HubEI Team");
+
+            Email.SendEmail(email, "Publish permission regarding data protection", strbBody.ToString());
         }
 
         [HttpPost]

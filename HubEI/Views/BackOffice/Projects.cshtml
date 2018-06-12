@@ -120,7 +120,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.ProjectDate"></label>
-                        <input required class="form-control" asp-for="Project.ProjectDate" max=@maxDate/>
+                        <input required class="form-control" asp-for="Project.ProjectDate" max=@maxDate />
                         <div class="invalid-feedback">
                             Por favor insira uma data válida!
                         </div>
@@ -152,7 +152,14 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Empresa Associada --", new { @id="company-select",  @class = "form-control", @onChange = "onChangeCompany()" })
+                    </div>
+                    <div class="form-group" id="company_email_div" style="display: none">
+                        <label asp-for="CompanyEmail"></label>
+                        <input type="email" class="form-control" id="company-email" asp-for="CompanyEmail" />
+                        <div class="invalid-feedback">
+                            Please insert a valid e-mail!
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Grade"></label>
