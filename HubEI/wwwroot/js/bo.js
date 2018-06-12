@@ -449,3 +449,15 @@ function setFormValidations() {
                 }, false);
             });
 }
+
+function onChangeCompany()
+{
+    var select = document.getElementById("company-select");
+
+    if (select.selectedIndex != 0) {
+        document.getElementById("company_email_div").style.display = "block";
+    }
+    else {
+        document.getElementById("company_email_div").style.display = "none";
+    }
+}
