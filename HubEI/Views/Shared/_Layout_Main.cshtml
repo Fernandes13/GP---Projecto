@@ -38,7 +38,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control"
                                autocomplete="off"
-                               placeholder="Pesquisa"
+                               placeholder="Search"
                                onblur="searchSuggestionOut(this)"
                                onkeydown="search_suggestion(this);" name="q" id="srch-term">
                         <div class="input-group-btn">
@@ -67,15 +67,15 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link @Html.IsSelected(actions: "List", controllers: "Project")" asp-area="" asp-controller="Project" asp-action="List">Projectos</a>
+                        <a class="nav-link @Html.IsSelected(actions: "List", controllers: "Project")" asp-area="" asp-controller="Project" asp-action="List">Projects</a>
                     </li>
 
                     <li class="nav-item" @Html.IsSelected(actions: "Index", controllers: "Empresas")>
-                        <a class="nav-link" href="#">Empresas</a>
+                        <a class="nav-link" href="#">Companies</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link @Html.IsSelected(actions: "Index", controllers: "Statistics")" asp-area="" asp-controller="Statistics" asp-action="Index">
-                            Estatísticas
+                            Statistics
                         </a>
                     </li>
                     @*<li class="nav-item">
@@ -121,11 +121,6 @@
 
 
     @RenderBody()
-    @*<hr />
-        <footer>
-            <p>&copy; 2018 - HubEI</p>
-        </footer>
-    *@
 
     <div id="funil" class="rows funil">
         <img src="~/images/funil/0.jpg" />

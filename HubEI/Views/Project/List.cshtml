@@ -9,46 +9,45 @@
 <script src="/js/fm.tagator.jquery.js"></script>
 
 <div class="container">
-    <div class="row">
-        <div class="project-list-title col-lg-6">
-            <h1>Lista de Projectos Submetidos</h1>
-        </div>
-        <div class="search-form col-lg-6">
-            <div class="card" style="padding:0%;">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label class="font-weight-bold">Título</label>
-                        <input class="form-control" type="text" id="search-query" name="q" value="@Context.Request.Query["q"]">
-                    </div>
 
-                    <div class="form-group">
-                        <label class="font-weight-bold">Tecnologias</label>
-                        <br />
-                        <input type="text" class="form-control" name="technologies" id="input-technologies" value="@Context.Request.Query["technologies"]" />
-                    </div>
-                    <div class="form-group">
-                        <label class="font-weight-bold">Avaliação (valores)</label>
-                        <br />
-                        <select class="form-control marks-filter" id="marks_range" name="marks" value="@Context.Request.Query["marks"]">
-                            <option value="0_20" >0 - 20 </option>
-                            <option value="0_5">0 - 5 </option>
-                            <option value="6_10">6 - 10 </option>
-                            <option value="11_15">11 - 15 </option>
-                            <option value="16_20">16 - 20 </option>
-                        </select>
-                    </div>
-                    <button href='javascript:;' onclick="filterSearch();" class="search-filter-button btn btn-primary float-lg-right">Pesquisar</button>
+    <h1 style="margin-left:1.5%;">Submitted Projects List</h1>
+    <button style="font-size:15px;margin-left:1.5%;" class="btn d-block btn-primary" type="button" data-toggle="collapse" data-target="#filters" aria-expanded="false" aria-controls="filters">
+        Filters
+    </button>
+    <div class="collapse search-form col-lg-7" id="filters">
+        <div class="card" style="padding:0%;">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="font-weight-bold">Project Name</label>
+                    <input autocomplete="off" class="form-control" type="text" id="search-query" name="q" value="@Context.Request.Query["q"]">
                 </div>
 
+                <div class="form-group">
+                    <label class="font-weight-bold">Technologies</label>
+                    <br />
+                    <input type="text" class="form-control" name="technologies" id="input-technologies" value="@Context.Request.Query["technologies"]" />
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Evaluation</label>
+                    <br />
+                    <select class="form-control marks-filter" id="marks_range" name="marks" value="@Context.Request.Query["marks"]">
+                        <option value="0_20">0 - 20 </option>
+                        <option value="0_5">0 - 5 </option>
+                        <option value="6_10">6 - 10 </option>
+                        <option value="11_15">11 - 15 </option>
+                        <option value="16_20">16 - 20 </option>
+                    </select>
+                </div>
+                <button href='javascript:;' onclick="filterSearch();" class="search-filter-button btn btn-primary float-lg-right">Apply Filters</button>
             </div>
+
         </div>
     </div>
-
     @if (Model.Projects.ToList().Count == 0)
     {
         <div class="col-lg-12" style="margin-top:9%;">
             <div>
-                <h1 style="margin-left:33%;">Nenhum resultado encontrado</h1>
+                <h1 style="margin-left:33%;">No results found.</h1>
             </div>
         </div>
     }
@@ -68,13 +67,13 @@
                                     @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
                                 </h4>
                                 <h4 class="card-sub-title">
-                                    <b>Autor: </b>
+                                    <b>Author: </b>
                                     @Html.ActionLink(@project.IdStudentNavigation.Name, "Project", "Project", new { project_id = project.IdProject }, null)
                                 </h4>
 
-                               @if (project.ProjectAdvisor.Count > 0)
+                                @if (project.ProjectAdvisor.Count > 0)
                                 {
-                                    <b>Orientadores: </b>
+                                    <b>Mentors: </b>
                                 }
 
                                 @foreach (var mentor in project.ProjectAdvisor)
@@ -93,9 +92,9 @@
                                     }
                                 }
                                 <br />
-                                <b>Empresa: </b>
+                                <b>Company: </b>
                                 @project.IdCompanyNavigation.Name
-                                <p><b>Data: </b>@project.ProjectDate.ToString("dd/MM/yyyy")</p>
+                                <p><b>Date: </b>@project.ProjectDate.ToString("dd/MM/yyyy")</p>
                                 <p class="card-text">@project.Description</p>
                             </div>
                             @*<div class="card">

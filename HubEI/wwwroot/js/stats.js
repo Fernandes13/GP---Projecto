@@ -76,7 +76,7 @@ function renderProjectMarks(marks) {
             labels: ["0", "1", "2", "3", "4", "5", "6", "7","8","9","10","11","12","13","14","15","16","17","18","19","20"],
             datasets: [
                 {
-                    label: "Avaliação Atribuída",
+                    label: "Evalutation",
                     fillColor: "rgba(220,220,220,0.2)",
                     strokeColor: "rgba(220,220,220,1)",
                     pointColor: "rgba(220,220,220,1)",
@@ -110,7 +110,7 @@ function renderProjectTechnologies(stats) {
             labels: technologyNames,
             datasets: [
                 {
-                    label: "# de utilizações",
+                    label: "# of uses",
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
