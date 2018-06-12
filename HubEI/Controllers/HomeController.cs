@@ -36,7 +36,7 @@ namespace HubEI.Controllers
 
             ViewData["RgpdInfo"] = rgpdInfo.Description;
 
-            var topProjects = _context.Project
+            var topProjects = _context.Project.Where(p=>p.IsVisible)
                 .OrderByDescending(p => p.Downloads)
                 .OrderByDescending(p => p.Views)
                 .Select(p=> new Project
