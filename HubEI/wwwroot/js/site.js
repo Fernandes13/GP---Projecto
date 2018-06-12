@@ -96,7 +96,7 @@ function renderSuggestions(search, projects) {
         else {
             var link = document.createElement("a");
             link.className += " list-group-item project-title-search";
-            link.innerHTML = "<b style='color:dimgrey'>Sem correspondências para \"" + search + "\"</b>";
+            link.innerHTML = "<b style='color:dimgrey'>No results for \"" + search + "\"</b>";
             link.appendChild(document.createElement("br"));
             link.href = "/Projects?q=" + search;
 

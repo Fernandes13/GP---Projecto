@@ -36,7 +36,22 @@ namespace HubEI.Controllers
 
             ViewData["RgpdInfo"] = rgpdInfo.Description;
 
-            return View();
+            var topProjects = _context.Project
+                .OrderByDescending(p => p.Downloads)
+                .OrderByDescending(p => p.Views)
+                .Select(p=> new Project
+                {
+                    Description = p.Description,
+                    Title = p.Title,
+                    IdProject = p.IdProject
+                })
+                .ToList().GetRange(0,3);
+
+
+            return View(new LoginViewModel
+            {
+                Projects = topProjects
+            });
         }
 
         public IActionResult SaveRPGCookie()
@@ -46,20 +61,6 @@ namespace HubEI.Controllers
             Response.Cookies.Append("rgpd", "true", options);
 
             return RedirectToAction("Index");
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
         }
 
         public IActionResult Error()
