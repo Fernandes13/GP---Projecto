@@ -260,6 +260,8 @@ nav a:hover{
     opacity: 0.85;
     margin-left: -15%;
     border-radius:1%;
+    height:20%;
+    padding-top:0;
 }
 
 .carousel-caption h1 {
