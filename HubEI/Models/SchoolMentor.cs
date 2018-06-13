@@ -14,11 +14,11 @@ namespace HubEI.Models
 
         public long IdSchoolMentor { get; set; }
 
-        [Display(Name = "Nome")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage = "O campo tem de ser um email")]
+        [EmailAddress(ErrorMessage = "Field has to be an email")]
         public string Email { get; set; }
 
         [JsonIgnore]

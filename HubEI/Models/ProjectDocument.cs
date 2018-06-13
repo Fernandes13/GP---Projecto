@@ -10,10 +10,10 @@ namespace HubEI.Models
         public byte[] Document { get; set; }
         public long IdProject { get; set; }
 
-        [Display(Name = "Nome")]
+        [Display(Name = "Name")]
         public string FileName { get; set; }
 
-        [Display(Name = "Tamanho")]
+        [Display(Name = "Size")]
         public double FileSize { get; set; }
 
         public Project IdProjectNavigation { get; set; }

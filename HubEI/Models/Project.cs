@@ -17,46 +17,46 @@ namespace HubEI.Models
 
         public long IdProject { get; set; }
 
-        [Required(ErrorMessage = "É necessário definir o título do projecto!")]
-        [Display(Name = "Título")]
+        [Required(ErrorMessage = "")]
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "É necessário definir a descrição do projecto!")]
-        [Display(Name = "Descrição")]
+        [Required(ErrorMessage = "You need to set the project's description!")]
+        [Display(Name = "Description")]
         [MaxLength(999)]
         public string Description { get; set; }
 
-        [Display(Name = "Relatório")]
+        [Display(Name = "Report")]
         public byte[] Report { get; set; }
 
-        [Display(Name = "Data")]
+        [Display(Name = "Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        [Required(ErrorMessage = "É necessário definir a data do projecto!")]
+        [Required(ErrorMessage = "You need to set the project's date!")]
         [DataType(DataType.Date)]
         [IsDateBeforeToday]
         public DateTime ProjectDate { get; set; }
 
-        [Display(Name = "Visível")]
+        [Display(Name = "Is Visible")]
         public bool IsVisible { get; set; }
 
-        [Display(Name = "Nota")]
+        [Display(Name = "Grade")]
         public short Grade { get; set; }
 
-        [Display(Name = "Tipo de Projecto")]
-        [Required(ErrorMessage = "É necessário definir o tipo de projecto!")]
+        [Display(Name = "Type of Project")]
+        [Required(ErrorMessage = "You need to set the project's type!")]
         public long IdProjectType { get; set; }
 
-        [Display(Name = "Estudante")]
-        [Required(ErrorMessage = "É necessário definir o tipo de projecto!")]
+        [Display(Name = "Student")]
+        [Required(ErrorMessage = "You need to set the project's author!")]
         public long IdStudent { get; set; }
 
-        [Display(Name = "Empresa")]
+        [Display(Name = "Company")]
         public long IdCompany { get; set; }
 
-        [Display(Name = "Visualizações")]
+        [Display(Name = "Views")]
         public int Views { get; set; }
 
-        [Display(Name = "Transferências")]
+        [Display(Name = "Downloads")]
         public int Downloads { get; set; }
 
         public Company IdCompanyNavigation { get; set; }

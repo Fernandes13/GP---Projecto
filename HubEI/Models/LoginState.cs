@@ -23,11 +23,11 @@ namespace HubEI.Models
             switch (s)
             {
                 case LoginState.EMAIL_NOTFOUND:
-                    return "Email não registado";
+                    return "Email not registered";
                 case LoginState.WRONG_PASSWORD:
-                    return "Palavra-passe incorreta";
+                    return "Wrong password";
                 case LoginState.CONNECTION_FAILED:
-                    return "Conexão falhada";
+                    return "Connection failed";
                 default:
                     return "";
             }

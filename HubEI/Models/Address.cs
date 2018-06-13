@@ -15,22 +15,22 @@ namespace HubEI.Models
 
         public long IdAddress { get; set; }
 
-        [Display(Name = "Código Postal")]
+        [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
-        [Display(Name = "Morada")]
+        [Display(Name = "Address")]
         public string Address1 { get; set; }
 
-        [Display(Name = "Porta")]
+        [Display(Name = "Door")]
         public string Door { get; set; }
 
-        [Display(Name = "Localidade")]
+        [Display(Name = "Locality")]
         public string Locality { get; set; }
 
 
         public long IdDistrict { get; set; }
 
-         [Display(Name = "Distrito")]
+         [Display(Name = "District")]
         public District IdDistrictNavigation { get; set; }
         public ICollection<Company> Company { get; set; }
 

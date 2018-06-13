@@ -14,7 +14,7 @@ namespace HubEI.Models
 
         public long IdStudentBranch { get; set; }
 
-        [Display(Name = "Ramo")]
+        [Display(Name = "Branch")]
         public string Description { get; set; }
 
         [JsonIgnore] 
