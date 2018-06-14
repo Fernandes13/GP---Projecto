@@ -68,6 +68,15 @@ namespace HubEI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Privacy()
+        {
+            var rgpdInfo = _context.RgpdInfo.FirstOrDefault();
+
+            ViewData["RgpdInfo"] = rgpdInfo.Description;
+
+            return View("Privacy");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
