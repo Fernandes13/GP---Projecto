@@ -3,9 +3,9 @@
     $('[data-toggle="tooltip"]').tooltip({ 'trigger': 'hover' });
 
     $('table tbody td input[type=checkbox]').click(function (e) {
-        // How to check if checkbox was clicked before doing the alert below?
         e.stopPropagation();
     });
+
 
     var cb_selected_count = 0;
 
