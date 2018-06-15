@@ -17,7 +17,6 @@ namespace HubEI.Models
 
         public long IdProject { get; set; }
 
-        [Required(ErrorMessage = "")]
         [Display(Name = "Title")]
         public string Title { get; set; }
 
