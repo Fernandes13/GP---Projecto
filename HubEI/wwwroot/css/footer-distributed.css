@@ -5,15 +5,15 @@
     width: 100%;
     text-align: left;
     font: normal 16px sans-serif;
-    padding: 25px 50px;
-    height:65px;
+    padding: 15px 50px;
+    height:45px;
 }
 
-    .footer-distributed .footer-left p {
-        color: #eee;
-        font-size: 14px;
-        margin: 0;
-    }
+.footer-distributed .footer-left p {
+    color: #eee;
+    font-size: 14px;
+    margin: 0;
+}
 
 /* Footer links */
 
@@ -30,27 +30,6 @@
 	line-height: 1.8;
 	text-decoration: none;
 	color:  inherit;
-}
-
-.footer-distributed .footer-right{
-	float: right;
-	margin-top: 1px;
-	max-width: 180px;
-}
-
-.footer-distributed .footer-right a{
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	background-color:  #33383b;
-	border-radius: 2px;
-
-	font-size: 20px;
-	color: #ffffff;
-	text-align: center;
-	line-height: 35px;
-
-	margin-left: 3px;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
