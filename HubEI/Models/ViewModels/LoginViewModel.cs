@@ -28,6 +28,9 @@ namespace HubEI.Models.ViewModels
 
         public Project Project { get; set; }
         public IEnumerable<Project> Projects { get; set; }
+
+        public IEnumerable<CompaniesListViewModel> Companies { get; set; }
+
         public ProjectMentorViewModel mentorViewModel;
     }
 }

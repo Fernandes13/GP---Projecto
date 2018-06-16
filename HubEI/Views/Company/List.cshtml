@@ -1,0 +1,36 @@
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
+
+<div class="container">
+    <h1> Registered Companies </h1>
+
+
+    @foreach (HubEI.Models.ViewModels.CompaniesListViewModel c in Model.Companies)
+    {
+        <div class="shadow-lg bg-light rounded col-lg-12 company" style="padding:1%;">
+
+            <div class="row">
+                <div class="col-lg-8">
+                    @Html.ActionLink(c.Company.Name, "Company", "Company", new { company_id = c.Company.IdCompany }, null)
+                    <p>@c.Company.Description</p>
+                </div>
+                <div class="col-lg-4">
+                    <h3 class="font-weight-bold">Business Areas</h3>
+
+                    <br />
+                    <h3 class="font-weight-bold">Main Projects</h3>
+
+                    @foreach (var project in c.Projects)
+                    {
+                        <div class="row company-projects" style="margin-left:1%;">
+                            @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
