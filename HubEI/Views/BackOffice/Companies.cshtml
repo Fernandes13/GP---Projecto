@@ -1,4 +1,4 @@
-﻿@model HubEI.Models.ViewModels.BOMentorViewModel
+﻿@model HubEI.Models.ViewModels.BOCompanyViewModel
 @{
     Layout = "~/Views/Shared/_Layout_BO.cshtml";
 }
@@ -10,11 +10,11 @@
         <div class="table-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2><b>Mentors</b></h2>
+                    <h2><b>Comapnies</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addMentorModal" onclick="clearStudentForm(); setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Add Mentor</span></a>
-                    <a href="#deleteMentorModal" onclick="deleteMentors();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Delete Selected</span></a>
+                    <a href="#addCompanyModal" onclick="clearCompanyForm(); setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Add Company</span></a>
+                    <a href="#deleteCompanyModal" onclick="deleteCompanies();" id="btn-remove-selected" class="btn btn-danger" data-toggle="modal"><i class="fa fa-fw fa-minus-circle"></i> <span>Delete Selected</span></a>
                 </div>
             </div>
         </div>
@@ -29,26 +29,26 @@
                             <label for="selectAll"></label>
                         </span>
                     </th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.Mentors.FirstOrDefault().Name)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.Mentors.FirstOrDefault().Email)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().IdAddressNavigation.IdDistrict)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var mentor in Model.Mentors)
+                @foreach (var mentor in Model.Companies)
                 {
                     <tr>
                         <td>
                             <span class="custom-checkbox">
-                                <input type="checkbox" id="cb_@mentor.IdSchoolMentor" name="mentors" value="1">
+                                <input type="checkbox" id="cb_@mentor.IdSchoolCompany" name="mentors" value="1">
                                 <label for="checkbox1"></label>
                             </span>
                         </td>
                         <td>@Html.DisplayFor(modelItem => mentor.Name)</td>
                         <td>@Html.DisplayFor(modelItem => mentor.Email)</td>
                         <td>
-                            <a href="#editMentorModal" id="edit_@mentor.IdSchoolMentor" onclick="editMentor(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
-                            <a href="#deleteMentorModal" id="@mentor.IdSchoolMentor" onclick="deleteMentor(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
+                            <a href="#editCompanyModal" id="edit_@mentor.IdSchoolCompany" onclick="editCompany(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
+                            <a href="#deleteCompanyModal" id="@mentor.IdSchoolCompany" onclick="deleteCompany(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
                         </td>
                     </tr>
                 }
@@ -70,25 +70,25 @@
             -->
     </div>
 </div>
-<div id="addMentorModal" class="modal fade">
+<div id="addCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="Mentor" method="post" class="needs-validation" novalidate>
+            <form asp-action="Company" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Mentor</h4>
+                    <h4 class="modal-title">Add Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" asp-for="Mentor.Name" required pattern="^[A-Z]{1}\D{2,30}$"/>
+                        <label asp-for="Company.Name"></label>
+                        <input class="form-control" asp-for="Company.Name" required pattern="^[aA-zZ\s]*$"/>
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Mentor.Email"></label>
-                        <input type="email" class="form-control" asp-for="Mentor.Email" required/>
+                        <label asp-for="Company.Email"></label>
+                        <input type="email" class="form-control" asp-for="Company.Email" required/>
                         <div class="invalid-feedback">
                             Please insert a valid email!
                         </div>
@@ -104,26 +104,26 @@
 </div>
 
 
-<div id="editMentorModal" class="modal fade">
+<div id="editCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:125%;">
-            <form asp-action="EditMentor" method="post" class="needs-validation" novalidate>
+            <form asp-action="EditCompany" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Mentor</h4>
+                    <h4 class="modal-title">Edit Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="edit-mentor-id" asp-for="Mentor.IdSchoolMentor" />
+                    <input type="hidden" id="edit-mentor-id" asp-for="Company.IdSchoolCompany" />
                     <div class="form-group">
-                        <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" id="edit-mentor-name" asp-for="Mentor.Name" required pattern="^[A-Z]{1}\D{2,30}$"/>
+                        <label asp-for="Company.Name"></label>
+                        <input class="form-control" id="edit-mentor-name" asp-for="Company.Name" pattern="^[aA-zZ\s]*$"/>
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Mentor.Email"></label>
-                        <input class="form-control" id="edit-mentor-email" asp-for="Mentor.Email" />
+                        <label asp-for="Company.Email"></label>
+                        <input class="form-control" id="edit-mentor-email" asp-for="Company.Email" />
                         <div class="invalid-feedback">
                             Please insert a valid email!
                         </div>
@@ -139,12 +139,12 @@
 </div>
 
 
-<div id="deleteMentorModal" class="modal fade">
+<div id="deleteCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete Mentor(s)</h4>
+                    <h4 class="modal-title">Delete Company(s)</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
@@ -153,7 +153,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" onclick="eliminatePendingMentors()" class="btn btn-danger" value="Delete">
+                    <input type="submit" onclick="eliminatePendingCompanies()" class="btn btn-danger" value="Delete">
                 </div>
             </form>
         </div>

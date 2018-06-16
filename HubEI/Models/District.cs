@@ -14,5 +14,7 @@ namespace HubEI.Models
         public string Description { get; set; }
 
         public ICollection<Address> Address { get; set; }
+
+        public ICollection<Company> Company { get; set; }
     }
 }

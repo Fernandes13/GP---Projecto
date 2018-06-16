@@ -231,7 +231,7 @@ function eliminatePendingMentors() {
                 url: '/BackOffice/Mentors',
                 dataType: "html",
             }).done(function (res) {
-
+                //window.location.reload();
             });
         });
     });
