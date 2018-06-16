@@ -81,7 +81,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" asp-for="Mentor.Name" required pattern="^[aA-zZ\s]*$"/>
+                        <input class="form-control" asp-for="Mentor.Name" required pattern="^[A-Z]{1}\D{2,30}$"/>
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
@@ -116,7 +116,7 @@
                     <input type="hidden" id="edit-mentor-id" asp-for="Mentor.IdSchoolMentor" />
                     <div class="form-group">
                         <label asp-for="Mentor.Name"></label>
-                        <input class="form-control" id="edit-mentor-name" asp-for="Mentor.Name" pattern="^[aA-zZ\s]*$"/>
+                        <input class="form-control" id="edit-mentor-name" asp-for="Mentor.Name" required pattern="^[A-Z]{1}\D{2,30}$"/>
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
