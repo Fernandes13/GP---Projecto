@@ -140,7 +140,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Estudante adicionado com sucesso.";
+            TempData["AlertMessage"] = "Student added successfully.";
 
             return RedirectToAction("Students", "BackOffice");
         }
@@ -162,7 +162,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Estudante editado com sucesso.";
+            TempData["AlertMessage"] = "Student edited succesfully.";
 
             return RedirectToAction("Students", "BackOffice");
         }
@@ -175,7 +175,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Estudante eliminado com sucesso.";
+            TempData["AlertMessage"] = "Student eliminated successfully.";
 
             return Json("Success");
         }
@@ -225,7 +225,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Orientador adicionado com sucesso.";
+            TempData["AlertMessage"] = "Mentor added successfully.";
 
             return RedirectToAction("Mentors", "BackOffice");
         }
@@ -253,7 +253,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Orientador editado com sucesso.";
+            TempData["AlertMessage"] = "Mentor edited successfully.";
 
             return RedirectToAction("Mentors", "BackOffice");
         }
@@ -267,7 +267,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Orientador eliminado com sucesso.";
+            TempData["AlertMessage"] = "Mentor deleted successfully.";
 
             return Json("Success");
         }
@@ -388,7 +388,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Projecto editado com sucesso.";
+            TempData["AlertMessage"] = "Project edited successfully.";
 
             return RedirectToAction("Projects", "BackOffice");
         }
@@ -694,7 +694,7 @@ namespace HubEI.Controllers
             _context.SaveChanges();
 
             TempData["HasAlert"] = "true";
-            TempData["AlertMessage"] = "Projecto eliminado com sucesso.";
+            TempData["AlertMessage"] = "Project eliminated successfully.";
 
             return Json("Success");
         }
@@ -706,6 +706,97 @@ namespace HubEI.Controllers
             return Json(technologies);
         }
 
-    }
+        public IActionResult Companies()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
 
+                return RedirectToAction("Index", "Home");
+            }
+
+            BOCompanyViewModel viewModel = new BOCompanyViewModel();
+            var companies = _context.Company;
+
+            viewModel.Companies = companies;
+            viewModel.Districts = PopulateDistricts();
+
+
+            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Company(BOCompanyViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            Company company = new Company
+            {
+                IdCompany = model.Company.IdCompany,
+                Name = model.Company.Name,
+                Description = model.Company.Description,
+                IdDistrict = model.Company.IdDistrict
+            };
+
+            _context.Company.Add(company);
+
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Company added successfully.";
+
+            return RedirectToAction("Companies", "BackOffice");
+        }
+
+        [HttpGet]
+        public JsonResult GetCompany([FromQuery] string company_id)
+        {
+            Company company = _context.Company.Where(st => st.IdCompany.ToString() == company_id).FirstOrDefault();
+
+            return Json(company);
+        }
+
+        [HttpPost]
+        public IActionResult EditCompany(BOCompanyViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Got-Error"] = "true";
+                TempData["Login-Message"] = "É necessário iniciar sessão";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            _context.Company.Update(model.Company);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Company edited successfully.";
+
+            return RedirectToAction("Companies", "BackOffice");
+        }
+
+        [HttpDelete]
+        public IActionResult Company([FromQuery]string CompanyId)
+        {
+            Company aux_company = _context.Company.Where(std => std.IdCompany.ToString() == CompanyId).FirstOrDefault();
+            Console.WriteLine(aux_company);
+            _context.Company.Remove(aux_company);
+            _context.SaveChanges();
+
+            TempData["HasAlert"] = "true";
+            TempData["AlertMessage"] = "Company deleted successfully.";
+
+            return Json("Success");
+        }
+    }
 }

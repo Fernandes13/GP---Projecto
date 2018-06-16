@@ -10,7 +10,7 @@
         <div class="table-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2><b>Comapnies</b></h2>
+                    <h2><b>Companies</b></h2>
                 </div>
                 <div class="col-sm-6">
                     <a href="#addCompanyModal" onclick="clearCompanyForm(); setFormValidations();" class="btn btn-success" data-toggle="modal"><i class="fa fa-fw fa-plus-circle"></i> <span>Add Company</span></a>
@@ -30,25 +30,25 @@
                         </span>
                     </th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().Name)</th>
-                    <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().IdAddressNavigation.IdDistrict)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().IdDistrictNavigation)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var mentor in Model.Companies)
+                @foreach (var company in Model.Companies)
                 {
                     <tr>
                         <td>
                             <span class="custom-checkbox">
-                                <input type="checkbox" id="cb_@mentor.IdSchoolCompany" name="mentors" value="1">
+                                <input type="checkbox" id="cb_@company.IdCompany" name="companies" value="1">
                                 <label for="checkbox1"></label>
                             </span>
                         </td>
-                        <td>@Html.DisplayFor(modelItem => mentor.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => mentor.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => company.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => company.IdDistrictNavigation.Description)</td>
                         <td>
-                            <a href="#editCompanyModal" id="edit_@mentor.IdSchoolCompany" onclick="editCompany(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
-                            <a href="#deleteCompanyModal" id="@mentor.IdSchoolCompany" onclick="deleteCompany(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
+                            <a href="#editCompanyModal" id="edit_@company.IdCompany" onclick="editCompany(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
+                            <a href="#deleteCompanyModal" id="@company.IdCompany" onclick="deleteCompany(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
                         </td>
                     </tr>
                 }
@@ -81,16 +81,24 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Company.Name"></label>
-                        <input class="form-control" asp-for="Company.Name" required pattern="^[aA-zZ\s]*$"/>
+                        <input class="form-control" asp-for="Company.Name" required pattern="^[aA-zZ\s]*$" />
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Company.Email"></label>
-                        <input type="email" class="form-control" asp-for="Company.Email" required/>
+                        <label asp-for="Company.Description"></label>
+                        <textarea required class="form-control" id="company-insert-description" style="resize:none;" onkeyup="countUpInsertCompany()" cols="15" rows="15" maxlength="999" asp-for="Company.Description"></textarea>
+                        <span asp-validation-for="Company.Description" class="error-message"></span><span id="insert-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                         <div class="invalid-feedback">
-                            Please insert a valid email!
+                            Please insert a description!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Company.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Company.IdDistrict, Model.Districts, "-- Select a District --", new { @class = "form-control", @id = "address-district", required = "required" })
+                        <div class="invalid-feedback">
+                            Please insert a valid district!
                         </div>
                     </div>
                 </div>
@@ -113,19 +121,27 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="edit-mentor-id" asp-for="Company.IdSchoolCompany" />
+                    <input type="hidden" id="edit-company-id" asp-for="Company.IdCompany" />
                     <div class="form-group">
                         <label asp-for="Company.Name"></label>
-                        <input class="form-control" id="edit-mentor-name" asp-for="Company.Name" pattern="^[aA-zZ\s]*$"/>
+                        <input class="form-control" id="edit-company-name" asp-for="Company.Name" pattern="^[aA-zZ\s]*$" />
                         <div class="invalid-feedback">
                             Please insert a valid name!
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Company.Email"></label>
-                        <input class="form-control" id="edit-mentor-email" asp-for="Company.Email" />
+                        <label asp-for="Company.Description"></label>
+                        <textarea required class="form-control" id="edit-company-description" style="resize:none;" onkeyup="countUpEditCompany()" cols="15" rows="15" maxlength="999" asp-for="Company.Description"></textarea>
+                        <span asp-validation-for="Company.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                         <div class="invalid-feedback">
-                            Please insert a valid email!
+                            Please insert a description!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Company.IdDistrictNavigation"></label>
+                        @Html.DropDownListFor(model => model.Company.IdDistrict, Model.Districts, "-- Select a District --", new { @class = "form-control", @id = "edit-company-district", required = "required" })
+                        <div class="invalid-feedback">
+                            Please insert a valid district!
                         </div>
                     </div>
                 </div>
@@ -144,7 +160,7 @@
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete Company(s)</h4>
+                    <h4 class="modal-title">Delete Company(ies)</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
                 </div>
                 <div class="modal-body">

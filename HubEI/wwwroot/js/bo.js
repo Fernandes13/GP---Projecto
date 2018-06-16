@@ -76,6 +76,18 @@ function countUpEdit() {
     var myCounter = document.getElementById("edit-desc-count").textContent = length + "/" + maxLength;
 }
 
+function countUpInsertCompany() {
+    var length = $('#company-insert-description').val().length;
+    var maxLength = document.getElementById("company-insert-description").maxLength;
+    var myCounter = document.getElementById("insert-desc-count").textContent = length + "/" + maxLength;
+}
+
+function countUpEditCompany() {
+    var length = $('#edit-company-description').val().length;
+    var maxLength = document.getElementById("edit-company-description").maxLength;
+    var myCounter = document.getElementById("edit-desc-count").textContent = length + "/" + maxLength;
+}
+
 function fillStudentEmail() {
     var number = document.getElementById("student-number").value;
 
@@ -329,7 +341,7 @@ function fillMentorsList(mentors) {
 
     mentors.forEach(mentor => {
         var checkbox = document.getElementById("edit-project-mentor-" + mentor.idSchoolMentor);
-        if (checkbox != null) {
+        if (checkbox !== null) {
             checkbox.checked = true;
         }
     });
@@ -419,14 +431,14 @@ function deleteProjects() {
 }
 
 $("#add-project-form").keypress(function (e) {
-    if (e.which == 13) {
+    if (e.which === 13) {
         return false;
     }
 });
 
 
 $("#edit-project-form").keypress(function (e) {
-    if (e.which == 13) {
+    if (e.which === 13) {
         return false;
     }
 });
@@ -460,4 +472,68 @@ function onChangeCompany()
     else {
         document.getElementById("company_email_div").style.display = "none";
     }
+}
+
+var companies_choices = [];
+
+function deleteCompany(id) {
+    companies_choices = [id];
+}
+
+function editCompany(id) {
+    id = id.replace('edit_', '');
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/GetCompany?company_id=' + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+    }).done(function (res) {
+        fillCompanyForm(JSON.parse(res));
+    });
+}
+
+
+function fillCompanyForm(company) {
+    var company_id = document.getElementById("edit-company-id");
+    company_id.value = company.idCompany;
+
+    var company_name = document.getElementById("edit-company-name");
+    company_name.value = company.name;
+
+    var company_description = document.getElementById("edit-company-description");
+    company_description.value = company.description;
+
+    var company_district = document.getElementById("edit-company-district");
+    company_district.value = company.idDistrict;
+}
+
+function eliminatePendingCompanies() {
+    companies_choices.forEach(function (company) {
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/Company?CompanyId=' + company,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+            $.ajax({
+                type: "GET",
+                url: '/BackOffice/Companies',
+                dataType: "html",
+            }).done(function (res) {
+                //window.location.reload();
+            });
+        });
+    });
+}
+
+function deleteCompanies() {
+
+    var companies = document.getElementsByName('companies');
+
+    companies.forEach(function (company) {
+        if (company.checked)
+            companies_choices.push(company.id.replace('cb_', ''));
+    })
+
+    console.log(companies_choices);
 }

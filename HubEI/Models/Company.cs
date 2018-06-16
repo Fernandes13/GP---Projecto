@@ -17,7 +17,7 @@ namespace HubEI.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
         [Display(Name = "District")]
