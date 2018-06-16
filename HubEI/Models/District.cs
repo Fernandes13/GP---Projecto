@@ -7,6 +7,7 @@ namespace HubEI.Models
     {
         public District()
         {
+            Company = new HashSet<Company>();
             Address = new HashSet<Address>();
         }
 

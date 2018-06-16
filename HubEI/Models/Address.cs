@@ -9,7 +9,6 @@ namespace HubEI.Models
     {
         public Address()
         {
-            Company = new HashSet<Company>();
             Student = new HashSet<Student>();
         }
 
