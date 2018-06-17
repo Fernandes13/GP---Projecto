@@ -30,6 +30,7 @@
                         </span>
                     </th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().Email)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Companies.FirstOrDefault().IdDistrictNavigation)</th>
                     <th>Actions</th>
                 </tr>
@@ -37,20 +38,21 @@
             <tbody>
                 @foreach (var company in Model.Companies)
                 {
-                    <tr>
-                        <td>
-                            <span class="custom-checkbox">
-                                <input type="checkbox" id="cb_@company.IdCompany" name="companies" value="1">
-                                <label for="checkbox1"></label>
-                            </span>
-                        </td>
-                        <td>@Html.DisplayFor(modelItem => company.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => company.IdDistrictNavigation.Description)</td>
-                        <td>
-                            <a href="#editCompanyModal" id="edit_@company.IdCompany" onclick="editCompany(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
-                            <a href="#deleteCompanyModal" id="@company.IdCompany" onclick="deleteCompany(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="cb_@company.IdCompany" name="companies" value="1">
+                            <label for="checkbox1"></label>
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => company.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => company.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => company.IdDistrictNavigation.Description)</td>
+                    <td>
+                        <a href="#editCompanyModal" id="edit_@company.IdCompany" onclick="editCompany(this.id); setFormValidations();" class="edit" data-toggle="modal"><i class="fa fa-edit custom-tooltip" data-toggle="tooltip" title="Edit"></i></a>
+                        <a href="#deleteCompanyModal" id="@company.IdCompany" onclick="deleteCompany(this.id);" class="delete" data-toggle="modal"><i class="fa fa-trash " data-toggle="tooltip" title="Delete"></i></a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -95,6 +97,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Company.Email"></label>
+                        <input type="email" class="form-control" id="company-insert-email" asp-for="Company.Email" required/>
+                        <div class="invalid-feedback">
+                            Please insert a valid e-mail!
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Company.IdDistrictNavigation"></label>
                         @Html.DropDownListFor(model => model.Company.IdDistrict, Model.Districts, "-- Select a District --", new { @class = "form-control", @id = "address-district", required = "required" })
                         <div class="invalid-feedback">
@@ -135,6 +144,13 @@
                         <span asp-validation-for="Company.Description" class="error-message"></span><span id="edit-desc-count" name="count" style="font-size:1vmax;"> 0/999</span>
                         <div class="invalid-feedback">
                             Please insert a description!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Company.Email"></label>
+                        <input type="email" class="form-control" id="edit-company-email" asp-for="Company.Email" required />
+                        <div class="invalid-feedback">
+                            Please insert a valid e-mail!
                         </div>
                     </div>
                     <div class="form-group">

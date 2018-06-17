@@ -8,6 +8,7 @@ namespace HubEI.Models
     {
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<BusinessArea> BusinessArea { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<District> District { get; set; }
         public virtual DbSet<Project> Project { get; set; }
@@ -20,7 +21,7 @@ namespace HubEI.Models
         public virtual DbSet<StudentBranch> StudentBranch { get; set; }
         public virtual DbSet<Technology> Technology { get; set; }
         public virtual DbSet<RgpdInfo> RgpdInfo { get; set; }
-        public virtual DbSet<BusinessArea> BusinessArea { get; set; }
+        
 
         public HUBEI_DBContext(DbContextOptions<HUBEI_DBContext> options)
         : base(options)
@@ -90,6 +91,19 @@ namespace HubEI.Models
                     .HasMaxLength(16);
             });
 
+            modelBuilder.Entity<BusinessArea>(entity =>
+            {
+                entity.HasKey(e => e.IdBusinessArea);
+
+                entity.Property(e => e.IdBusinessArea)
+                    .HasColumnName("id_business_area");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasMaxLength(99);
+            });
+
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.HasKey(e => e.IdCompany);
@@ -101,6 +115,11 @@ namespace HubEI.Models
                     .IsRequired()
                     .HasColumnName("description")
                     .HasMaxLength(500);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(99);
 
                 entity.Property(e => e.IdDistrict).HasColumnName("id_district");
 
@@ -146,6 +165,8 @@ namespace HubEI.Models
                 entity.Property(e => e.Grade).HasColumnName("grade");
 
                 entity.Property(e => e.IdCompany).HasColumnName("id_company");
+
+                entity.Property(e => e.IdBusinessArea).HasColumnName("id_business_area");
 
                 entity.Property(e => e.IdProjectType).HasColumnName("id_project_type");
 
@@ -371,19 +392,7 @@ namespace HubEI.Models
                     .HasMaxLength(99);
             });
 
-            modelBuilder.Entity<BusinessArea>(entity =>
-            {
-                entity.HasKey(e => e.IdBusinessArea);
-
-                entity.Property(e => e.IdBusinessArea)
-                    .HasColumnName("id_business_area");
-
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasMaxLength(99);
-            });
+            
 
             modelBuilder.Entity<RgpdInfo>(entity =>
             {

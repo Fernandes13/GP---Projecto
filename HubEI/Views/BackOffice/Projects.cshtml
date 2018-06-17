@@ -152,14 +152,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id="company-select",  @class = "form-control", @onChange = "onChangeCompany()" })
-                    </div>
-                    <div class="form-group" id="company_email_div" style="display: none">
-                        <label asp-for="CompanyEmail"></label>
-                        <input type="email" class="form-control" id="company-email" asp-for="CompanyEmail" />
-                        <div class="invalid-feedback">
-                            Please insert a valid e-mail!
-                        </div>
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id="company-select",  @class = "form-control" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.Grade"></label>

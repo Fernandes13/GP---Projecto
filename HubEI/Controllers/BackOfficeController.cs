@@ -285,7 +285,8 @@ namespace HubEI.Controllers
             BOProjectViewModel viewModel = new BOProjectViewModel();
             var projects = _context.Project.Include(s => s.IdCompanyNavigation)
                                             .Include(s => s.IdProjectTypeNavigation)
-                                            .Include(s => s.IdStudentNavigation);
+                                            .Include(s => s.IdStudentNavigation)
+                                            .Include(s => s.IdBusinessAreaNavigation).ToList();
 
 
             viewModel.Projects = projects;
@@ -545,7 +546,7 @@ namespace HubEI.Controllers
 
                 if(model.Project.IdCompany != 0)
                 {
-                    SendCompanyEmail(model.CompanyEmail, model.Project.Title, model.Project.IdStudent);
+                    SendCompanyEmail(model.Project.IdCompany, model.Project.Title, model.Project.IdStudent);
                 }
 
                 return RedirectToAction("Projects", "BackOffice");
@@ -554,8 +555,11 @@ namespace HubEI.Controllers
             return RedirectToAction("Projects", "BackOffice");
         }
 
-        public void SendCompanyEmail(string email, string projectTitle, long studentId)
+        public void SendCompanyEmail(long idCompany, string projectTitle, long studentId)
         {
+            var email = _context.Company.Where(c => c.IdCompany == idCompany).Select(c => c.Email).SingleOrDefault();
+
+
             var studentName = _context.Student.Where(s => s.IdStudent == studentId).Select(s => s.Name).FirstOrDefault();
 
             var strbBody = new StringBuilder();
@@ -744,7 +748,8 @@ namespace HubEI.Controllers
                 IdCompany = model.Company.IdCompany,
                 Name = model.Company.Name,
                 Description = model.Company.Description,
-                IdDistrict = model.Company.IdDistrict
+                IdDistrict = model.Company.IdDistrict,
+                Email = model.Company.Email
             };
 
             _context.Company.Add(company);

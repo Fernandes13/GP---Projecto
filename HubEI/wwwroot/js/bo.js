@@ -462,18 +462,6 @@ function setFormValidations() {
             });
 }
 
-function onChangeCompany()
-{
-    var select = document.getElementById("company-select");
-
-    if (select.selectedIndex != 0) {
-        document.getElementById("company_email_div").style.display = "block";
-    }
-    else {
-        document.getElementById("company_email_div").style.display = "none";
-    }
-}
-
 var companies_choices = [];
 
 function deleteCompany(id) {
@@ -502,6 +490,9 @@ function fillCompanyForm(company) {
 
     var company_description = document.getElementById("edit-company-description");
     company_description.value = company.description;
+
+    var company_email = document.getElementById("edit-company-email");
+    company_email.value = company.email;
 
     var company_district = document.getElementById("edit-company-district");
     company_district.value = company.idDistrict;

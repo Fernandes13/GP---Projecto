@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HubEI.Models
 {
-    public partial class BusinessArea
+    [Table("Business_area")]
+    public class BusinessArea
     {
         public BusinessArea()
         {
