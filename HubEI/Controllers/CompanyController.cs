@@ -38,9 +38,33 @@ namespace HubEI.Controllers
 
             foreach (var c in companies)
             {
+                var maxChars = 460;
+                c.Description = c.Description.Length <= maxChars ? c.Description : c.Description.Substring(0, maxChars) + "...";
+
                 var businessareas = new List<BusinessArea>();
 
-                var projects = _context.Project
+                var projects_count = _context.Project.Where(p => p.IdCompany == c.IdCompany).Count();
+
+                var projects = new List<Project>();
+
+                if (projects_count >= 3)
+                {
+                    projects = _context.Project
+                        .Where(p => p.IdCompany == c.IdCompany)
+                        .Select(p => new Project
+                        {
+                            IdProject = p.IdProject,
+                            Title = p.Title
+                        })
+                        .OrderByDescending(p => p.Views)
+                        .OrderByDescending(p => p.Downloads)
+                        .ToList()
+                        .GetRange(0, 3);
+
+                }
+                else
+                {
+                     projects = _context.Project
                     .Where(p => p.IdCompany == c.IdCompany)
                     .Select(p => new Project
                     {
@@ -50,21 +74,24 @@ namespace HubEI.Controllers
                     .OrderByDescending(p => p.Views)
                     .OrderByDescending(p => p.Downloads)
                     .ToList()
-                    .GetRange(0, 3);
+                    .GetRange(0, projects_count);
+                }
 
+                var businessAreas = new HashSet<BusinessArea>();
 
+                foreach(Project p in _context.Project.Where(p => p.IdCompany == c.IdCompany).Include(p=>p.IdBusinessAreaNavigation))
+                {
+                    businessAreas.Add(p.IdBusinessAreaNavigation);
+
+                }
 
                 list.Add(new CompaniesListViewModel
                 {
                     Company = c,
-                    Projects = projects
+                    Projects = projects,
+                    BusinessAreas = businessAreas.ToList()                    
                 });
             }
-
-
-
-
-
 
             viewModel.Companies = list;
 

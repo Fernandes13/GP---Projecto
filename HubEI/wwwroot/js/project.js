@@ -192,7 +192,7 @@ function renderTechnologies(id, technologies) {
             var li = document.createElement("li");
             var a = document.createElement("a");
             a.textContent = technologies[i].IdTechnologyNavigation.Description;
-            a.setAttribute("href", "#");
+            a.setAttribute("href", "/Projects?q=&technologies=" + technologies[i].IdTechnologyNavigation.Description + "&marks=0_20");
             li.appendChild(a);
             firstRowUl.appendChild(li);
         }
@@ -203,7 +203,7 @@ function renderTechnologies(id, technologies) {
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 a.textContent = technologies[i].IdTechnologyNavigation.Description;
-                a.setAttribute("href", "#");
+                a.setAttribute("href", "/Projects?q=&technologies=" + technologies[i].IdTechnologyNavigation.Description + "&marks=0_20");
                 li.appendChild(a);
                 secondRowUl.appendChild(li);
             }
