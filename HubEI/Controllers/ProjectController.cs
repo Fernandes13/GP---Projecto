@@ -29,6 +29,7 @@ namespace HubEI.Controllers
             Project project = _context.Project.Include(s => s.IdCompanyNavigation)
                                               .Include(s => s.IdProjectTypeNavigation)
                                               .Include(s => s.IdStudentNavigation)
+                                              .Include(s => s.IdBusinessAreaNavigation)
                                               .Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
             var projectAdvisors = _context.ProjectAdvisor.Where(pa => pa.IdProject.ToString() == project_id)
