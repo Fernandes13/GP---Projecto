@@ -102,5 +102,17 @@ namespace HubEI.Controllers
 
             return Json(query);
         }
+
+        [HttpGet]
+        public JsonResult Top5BusinessAreas()
+        {
+            var query = from a in _context.Project
+                        group a by a.IdBusinessAreaNavigation.Description into baGroup
+                        select new { name = baGroup.Key, Count = baGroup.Count() };
+
+            query = query.Take(5);
+
+            return Json(query);
+        }
     }
 }
