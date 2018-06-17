@@ -35,6 +35,16 @@
         async: false,
     }).done(function (res) {
         renderMentorsAverage(JSON.parse(res));
+        });
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/Top5BusinessAreas',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        async: false,
+    }).done(function (res) {
+        renderTopBusinessAreas(JSON.parse(res));
     });
 }
 
@@ -53,6 +63,36 @@ function renderStudentsDistricts(stats) {
         type: 'doughnut',
         data: {
             labels: districts,
+            datasets: [
+                {
+                    data: counts,
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
+
+function renderTopBusinessAreas(stats)
+{
+    var areas = [];
+    var counts = [];
+
+    stats.forEach(function (stat) {
+        areas.push(stat.name);
+        counts.push(stat.count);
+    });
+
+    var context = document.getElementById("business_areas_chart").getContext('2d');
+
+    var myLineChart = new Chart(context, {
+        type: 'doughnut',
+        data: {
+            labels: areas,
             datasets: [
                 {
                     data: counts,
