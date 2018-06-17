@@ -84,6 +84,20 @@ namespace HubEI.Controllers
 
         }
 
+        private IEnumerable<SelectListItem> PopulateBusinessAreas()
+        {
+            List<SelectListItem> bareasSelectList = new List<SelectListItem>();
+
+            var baList = _context.BusinessArea;
+
+            foreach (BusinessArea sb in baList)
+            {
+                bareasSelectList.Add(new SelectListItem { Value = sb.IdBusinessArea.ToString(), Text = sb.Description });
+            }
+
+            return bareasSelectList;
+        }
+
         private IEnumerable<SelectListItem> PopulateDistricts()
         {
             List<SelectListItem> districtsSelectList = new List<SelectListItem>();
@@ -293,6 +307,7 @@ namespace HubEI.Controllers
             viewModel.Companies = PopulateCompanies();
             viewModel.ProjectTypes = PopulateProjectTypes();
             viewModel.Students = PopulateStudents();
+            viewModel.BusinessAreas = PopulateBusinessAreas();
 
             var mentors = _context.SchoolMentor.ToList();
 

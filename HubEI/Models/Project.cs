@@ -58,6 +58,7 @@ namespace HubEI.Models
         [Display(Name = "Downloads")]
         public int Downloads { get; set; }
 
+        [Display(Name = "Business Area")]
         public long IdBusinessArea { get; set; }
 
         public Company IdCompanyNavigation { get; set; }

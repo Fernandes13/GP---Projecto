@@ -310,6 +310,9 @@ function fillProjectForm(project) {
     var project_company = document.getElementById("edit-project-company");
     project_company.value = project.idCompany;
 
+    var project_ba = document.getElementById("edit-project-businessarea");
+    project_ba.value = project.idBusinessArea;
+
     var project_grade = document.getElementById("edit-project-grade");
     project_grade.value = project.grade;
 

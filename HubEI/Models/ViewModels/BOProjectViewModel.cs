@@ -23,6 +23,7 @@ namespace HubEI.Models.ViewModels
         public IEnumerable<SelectListItem> Companies { get; set; }
         public IEnumerable<SelectListItem> Students { get; set; }
         public IEnumerable<SelectListItem> ProjectTypes { get; set; }
+        public IEnumerable<SelectListItem> BusinessAreas { get; set; }
 
         [Display(Name = "Teacher Mentors")]
         public List<MentorsCheckBox> Mentors { get; set; }
