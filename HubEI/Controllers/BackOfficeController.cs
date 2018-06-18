@@ -529,7 +529,8 @@ namespace HubEI.Controllers
                     IdCompany = model.Project.IdCompany,
                     IdProjectType = model.Project.IdProjectType,
                     IdStudent = model.Project.IdStudent,
-                    Grade = model.Project.Grade
+                    Grade = model.Project.Grade,
+                    IdBusinessArea = model.Project.IdBusinessArea
                 };
 
                 _context.Add(project);
