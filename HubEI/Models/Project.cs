@@ -61,6 +61,9 @@ namespace HubEI.Models
         [Display(Name = "Business Area")]
         public long IdBusinessArea { get; set; }
 
+        [Display(Name = "Video")]
+        public byte[] Video { get; set; }
+
         public Company IdCompanyNavigation { get; set; }
         public ProjectType IdProjectTypeNavigation { get; set; }
         public Student IdStudentNavigation { get; set; }

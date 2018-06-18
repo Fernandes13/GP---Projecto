@@ -491,6 +491,8 @@ namespace HubEI.Controllers
             if (ModelState.IsValid)
             {
                 byte[] file = null;
+                byte[] video = null;
+
                 List<ProjectDocument> attachments = new List<ProjectDocument>();
 
                 if(model.Attachments != null)
@@ -519,6 +521,12 @@ namespace HubEI.Controllers
                     file = memoryStream.ToArray();
                 }
 
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.Video.CopyToAsync(memoryStream);
+                    video = memoryStream.ToArray();
+                }
+
                 var project = new Project
                 {
                     Title = model.Project.Title,
@@ -530,7 +538,8 @@ namespace HubEI.Controllers
                     IdProjectType = model.Project.IdProjectType,
                     IdStudent = model.Project.IdStudent,
                     Grade = model.Project.Grade,
-                    IdBusinessArea = model.Project.IdBusinessArea
+                    IdBusinessArea = model.Project.IdBusinessArea,
+                    Video = video
                 };
 
                 _context.Add(project);

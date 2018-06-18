@@ -30,5 +30,7 @@ namespace HubEI.Models.ViewModels
 
         [Display(Name = "Attachments")]
         public List<IFormFile> Attachments { get; set; }
+
+        public IFormFile Video { get; set; }
     }
 }

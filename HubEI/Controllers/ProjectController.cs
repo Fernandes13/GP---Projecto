@@ -65,6 +65,13 @@ namespace HubEI.Controllers
             return new FileContentResult(file, "application/pdf");
         }
 
+        public IActionResult GetProjectVideo(string project_id)
+        {
+            byte[] file = _context.Project.Where(p => p.IdProject.ToString() == project_id).Select(p => p.Video).FirstOrDefault();
+
+            return new FileContentResult(file, "video/mp4");
+        }
+
         public FileResult DownloadReport(int projectId)
         {
             Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();

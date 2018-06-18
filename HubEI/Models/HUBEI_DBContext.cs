@@ -174,6 +174,8 @@ namespace HubEI.Models
 
                 entity.Property(e => e.IsVisible).HasColumnName("is_visible");
 
+                entity.Property(e => e.Video).HasColumnName("video");
+
                 entity.Property(e => e.ProjectDate)
                     .HasColumnName("project_date")
                     .HasColumnType("date");
