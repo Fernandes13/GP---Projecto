@@ -58,9 +58,13 @@ namespace HubEI.Models
         [Display(Name = "Downloads")]
         public int Downloads { get; set; }
 
+        [Display(Name = "Business Area")]
+        public long IdBusinessArea { get; set; }
+
         public Company IdCompanyNavigation { get; set; }
         public ProjectType IdProjectTypeNavigation { get; set; }
         public Student IdStudentNavigation { get; set; }
+        public BusinessArea IdBusinessAreaNavigation { get; set; }
         public ICollection<ProjectAdvisor> ProjectAdvisor { get; set; }
         public ICollection<ProjectDocument> ProjectDocument { get; set; }
         public ICollection<ProjectTechnology> ProjectTechnology { get; set; }

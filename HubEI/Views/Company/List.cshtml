@@ -1,0 +1,61 @@
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
+
+<div class="container" style="padding-bottom:1.5%;">
+    <h1 style="width:100%;text-align:center;"> Registered Companies </h1>
+
+
+    @foreach (HubEI.Models.ViewModels.CompaniesListViewModel c in Model.Companies)
+    {
+        <div class="shadow-lg bg-light rounded col-lg-8 company" style="padding:1%;margin-left:16%;margin-top:1.5%;">
+
+            <div class="row">
+                <div class="col-lg-8">
+                    @Html.ActionLink(c.Company.Name, "Company", "Company", new { company_id = c.Company.IdCompany }, null)
+                    <p>@c.Company.Description</p>
+                </div>
+                <div class="col-lg-4">
+                    <h3 class="font-weight-bold">Business Areas</h3>
+                    @if (c.BusinessAreas.Count > 0)
+                    {
+                        @foreach (var area in c.BusinessAreas)
+                        {
+                            <div class="row company-projects" style="margin-left:1%;">
+                                <a href="#">@area.Description</a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row company-projects" style="margin-left:1%;">
+                            <p>No areas registered.</p>
+                        </div>
+
+                    }
+                    <br />
+                    <h3 class="font-weight-bold">Main Projects</h3>
+
+                    @if (c.Projects.Count > 0)
+                    {
+                        @foreach (var project in c.Projects)
+                        {
+                            <div class="row company-projects" style="margin-left:1%;">
+                                @Html.ActionLink(@project.Title, "Project", "Project", new { project_id = project.IdProject }, null)
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row company-projects" style="margin-left:1%;">
+                            <p>No projects registered</p>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>

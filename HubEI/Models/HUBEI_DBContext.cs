@@ -8,6 +8,7 @@ namespace HubEI.Models
     {
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<BusinessArea> BusinessArea { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<District> District { get; set; }
         public virtual DbSet<Project> Project { get; set; }
@@ -20,6 +21,7 @@ namespace HubEI.Models
         public virtual DbSet<StudentBranch> StudentBranch { get; set; }
         public virtual DbSet<Technology> Technology { get; set; }
         public virtual DbSet<RgpdInfo> RgpdInfo { get; set; }
+        
 
         public HUBEI_DBContext(DbContextOptions<HUBEI_DBContext> options)
         : base(options)
@@ -89,6 +91,19 @@ namespace HubEI.Models
                     .HasMaxLength(16);
             });
 
+            modelBuilder.Entity<BusinessArea>(entity =>
+            {
+                entity.HasKey(e => e.IdBusinessArea);
+
+                entity.Property(e => e.IdBusinessArea)
+                    .HasColumnName("id_business_area");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasMaxLength(99);
+            });
+
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.HasKey(e => e.IdCompany);
@@ -101,18 +116,23 @@ namespace HubEI.Models
                     .HasColumnName("description")
                     .HasMaxLength(500);
 
-                entity.Property(e => e.IdAddress).HasColumnName("id_address");
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(99);
+
+                entity.Property(e => e.IdDistrict).HasColumnName("id_district");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasMaxLength(99);
 
-                entity.HasOne(d => d.IdAddressNavigation)
+                entity.HasOne(d => d.IdDistrictNavigation)
                     .WithMany(p => p.Company)
-                    .HasForeignKey(d => d.IdAddress)
+                    .HasForeignKey(d => d.IdDistrict)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_C_address");
+                    .HasConstraintName("fk_C_district");
             });
 
             modelBuilder.Entity<District>(entity =>
@@ -146,6 +166,8 @@ namespace HubEI.Models
 
                 entity.Property(e => e.IdCompany).HasColumnName("id_company");
 
+                entity.Property(e => e.IdBusinessArea).HasColumnName("id_business_area");
+
                 entity.Property(e => e.IdProjectType).HasColumnName("id_project_type");
 
                 entity.Property(e => e.IdStudent).HasColumnName("id_student");
@@ -178,6 +200,12 @@ namespace HubEI.Models
                     .HasForeignKey(d => d.IdProjectType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_P_project_type");
+
+                entity.HasOne(d => d.IdBusinessAreaNavigation)
+                    .WithMany(p => p.Project)
+                    .HasForeignKey(d => d.IdBusinessArea)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_P_businessArea");
 
                 entity.HasOne(d => d.IdStudentNavigation)
                     .WithMany(p => p.Project)
@@ -363,6 +391,8 @@ namespace HubEI.Models
                     .HasColumnName("description")
                     .HasMaxLength(99);
             });
+
+            
 
             modelBuilder.Entity<RgpdInfo>(entity =>
             {

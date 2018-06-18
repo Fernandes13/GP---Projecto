@@ -14,7 +14,7 @@ namespace HubEI.Models.ViewModels
 
         public Project Project { get; set; }
 
-        [Required(ErrorMessage = "É necessário introduzir o relatório do projecto!")]
+        [Required(ErrorMessage = "You need to submit the project's report!")]
         [Display(Name = "Relatório")]
         [IsFilePDF]
         public IFormFile Report { get; set; }
@@ -23,14 +23,12 @@ namespace HubEI.Models.ViewModels
         public IEnumerable<SelectListItem> Companies { get; set; }
         public IEnumerable<SelectListItem> Students { get; set; }
         public IEnumerable<SelectListItem> ProjectTypes { get; set; }
+        public IEnumerable<SelectListItem> BusinessAreas { get; set; }
 
-        [Display(Name = "Docentes Orientadores")]
+        [Display(Name = "Teacher Mentors")]
         public List<MentorsCheckBox> Mentors { get; set; }
 
-        [Display(Name = "Anexos")]
+        [Display(Name = "Attachments")]
         public List<IFormFile> Attachments { get; set; }
-
-        [Display(Name = "Company Email for Privacy Notification")]
-        public String CompanyEmail { get; set; }
     }
 }

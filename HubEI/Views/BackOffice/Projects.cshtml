@@ -41,7 +41,7 @@
                     <th>@Html.DisplayNameFor(modelItem => Model.Project.IdProjectType)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Project.Grade)</th>
                     <th>@Html.DisplayNameFor(modelItem => Model.Project.IsVisible)</th>
-                    <th>Acções</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -152,13 +152,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id="company-select",  @class = "form-control", @onChange = "onChangeCompany()" })
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id = "company-select", @class = "form-control" })
                     </div>
-                    <div class="form-group" id="company_email_div" style="display: none">
-                        <label asp-for="CompanyEmail"></label>
-                        <input type="email" class="form-control" id="company-email" asp-for="CompanyEmail" />
+                    <div class="form-group">
+                        <label asp-for="Project.IdBusinessArea"></label>
+                        @Html.DropDownListFor(model => model.Project.IdBusinessArea, Model.BusinessAreas, "-- Business Area --", new { @class = "form-control", required = "required" })
                         <div class="invalid-feedback">
-                            Please insert a valid e-mail!
+                            Please insert a valid business area!
                         </div>
                     </div>
                     <div class="form-group">
@@ -264,8 +264,15 @@
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @class = "form-control", @id = "edit-project-company", required = "required" })
                     </div>
                     <div class="form-group">
+                        <label asp-for="Project.IdBusinessArea"></label>
+                        @Html.DropDownListFor(model => model.Project.IdBusinessArea, Model.BusinessAreas, "-- Business Area --", new { @class = "form-control", @id = "edit-project-businessarea", required = "required" })
+                        <div class="invalid-feedback">
+                            Please insert a valid business area!
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Project.Grade"></label>
-                        <input class="form-control" asp-for="Project.Grade" id="edit-project-grade"  required min="10" max="20" />
+                        <input class="form-control" asp-for="Project.Grade" id="edit-project-grade" required min="10" max="20" />
                         <div class="invalid-feedback">
                             Please insert a valid grade!
                         </div>
