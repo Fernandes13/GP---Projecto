@@ -1,5 +1,13 @@
 ﻿$(document).ready(function () {
 
+    $("#video-insert").change(function () {
+        checkVideo("video-insert");
+    });
+
+    $("#video-update").change(function () {
+        checkVideo("video-update");
+    });
+
     $('[data-toggle="tooltip"]').tooltip({ 'trigger': 'hover' });
 
     $('table tbody td input[type=checkbox]').click(function (e) {
@@ -63,6 +71,33 @@
         autocomplete: technologies
     });
 });
+
+function checkVideo(id)
+{
+    if (document.getElementById(id).value != null) {
+        var file = document.getElementById(id).files[0];
+
+        var error = false;
+
+        var fileExtension = getFileExtension(file.name).toLowerCase();
+
+        if ((file.size / 1024 / 1024) > 15) {
+            error = true;
+            alert("File size needs to be less than 15MB!");
+        } else if (fileExtension != "mp4" && fileExtension != "flv" && fileExtension != "avi" && fileExtension != "wmv") {
+            error = true;
+            alert("Incorrect file type! Needs to be either MP4, FLV, AVI or WMV.");
+        }
+
+        if (error)
+            document.getElementById(id).value = null;
+    }
+}
+
+function getFileExtension(fileName)
+{
+    return fileName.substring(fileName.length - 3, fileName.length);
+}
 
 function countUpInsert() {
     var length = $('#project-insert-description').val().length;

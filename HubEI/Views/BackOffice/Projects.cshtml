@@ -185,7 +185,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Video"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="The project's report is a single MP4, FLV, AVI or WMV file." class="question-mark" />
-                        <input class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
+                        <input id="video-insert" class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -299,7 +299,7 @@
 
                     <div class="form-group">
                         <label asp-for="Video"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="In case you don't insert a different file, the original will remain." class="question-mark" />
-                        <input class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
+                        <input id="video-update" class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
                     </div>
                 </div>
                 <div class="modal-footer">
