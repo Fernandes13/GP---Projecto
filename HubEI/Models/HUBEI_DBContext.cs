@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HubEI.Models
 {
+    /// <summary>
+    /// Database Context
+    /// </summary>
+    /// <remarks></remarks>
     public partial class HUBEI_DBContext : DbContext
     {
         public virtual DbSet<Address> Address { get; set; }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace HubEI.Models.ViewModels
 {
+    /// <summary>
+    ///  Class used to provide student and address models to the View.
+    /// </summary>
     public class BOStudentViewModel
     {
         public Student Student { get; set; }

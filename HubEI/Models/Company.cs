@@ -5,6 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HubEI.Models
 {
+    /// <summary>
+    /// Classe que representa uma empresa registada na aplicação.
+    /// </summary>
+    /// <remarks></remarks>
     public partial class Company
     {
         public Company()
@@ -12,17 +16,35 @@ namespace HubEI.Models
             Project = new HashSet<Project>();
         }
 
+        /// <summary>
+        /// Chave primária da empresa registado.
+        /// </summary>
+        /// <value>Chave primária da empresa registado.</value>
         public long IdCompany { get; set; }
 
-        [Display(Name = "Name")]
+        /// <summary>
+        /// Nome da empresa.
+        /// </summary>
+        /// <value>Nome da empresa.</value>
         public string Name { get; set; }
 
-        [Display(Name = "Email")]
+        /// <summary>
+        /// Email da empresa.
+        /// Deverá ser um email válido.
+        /// </summary>
+        /// <value>Email da empresa.</value>
         public string Email { get; set; }
 
-        [Display(Name = "Description")]
+        /// <summary>
+        /// Descrição da empresa.
+        /// </summary>
+        /// <value>Descrição da empresa.</value>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Chave estrangeira da <see cref="HubEI.Models.District" /> do estudante.
+        /// </summary>
+        /// <value>Chave estrangeira da morada do estudante.</value>
         [Display(Name = "District")]
         public long IdDistrict { get; set; }
 

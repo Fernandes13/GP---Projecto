@@ -654,10 +654,13 @@ namespace HubEI.Controllers
                     file = memoryStream.ToArray();
                 }
 
-                using (var memoryStream = new MemoryStream())
+                if(model.Video != null)
                 {
-                    await model.Video.CopyToAsync(memoryStream);
-                    video = memoryStream.ToArray();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.Video.CopyToAsync(memoryStream);
+                        video = memoryStream.ToArray();
+                    }
                 }
 
                 var project = new Project
@@ -704,7 +707,7 @@ namespace HubEI.Controllers
 
                 if (model.Project.IdCompany != 0)
                 {
-                    SendCompanyEmail(model.Project.IdCompany, model.Project.Title, model.Project.IdStudent);
+                    SendCompanyEmail((long)model.Project.IdCompany, model.Project.Title, model.Project.IdStudent);
                 }
 
                 return RedirectToAction("Projects", "BackOffice");

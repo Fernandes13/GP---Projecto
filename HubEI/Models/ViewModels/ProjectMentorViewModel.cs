@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace HubEI.Models.ViewModels
 {
+    /// <summary>
+    ///  Class used to provide project and mentor models to the View.
+    /// </summary>
     public class ProjectMentorViewModel
     {
         public SchoolMentor Mentor;
