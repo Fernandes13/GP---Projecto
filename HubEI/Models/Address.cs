@@ -13,7 +13,6 @@ namespace HubEI.Models
     {
         public Address()
         {
-            Company = new HashSet<Company>();
             Student = new HashSet<Student>();
         }
 
@@ -59,7 +58,7 @@ namespace HubEI.Models
 
         [Display(Name = "District")]
         public District IdDistrictNavigation { get; set; }
-        public ICollection<Company> Company { get; set; }
+        
 
         [JsonIgnore] 
         public ICollection<Student> Student { get; set; }

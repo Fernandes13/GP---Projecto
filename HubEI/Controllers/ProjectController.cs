@@ -29,6 +29,7 @@ namespace HubEI.Controllers
             Project project = _context.Project.Include(s => s.IdCompanyNavigation)
                                               .Include(s => s.IdProjectTypeNavigation)
                                               .Include(s => s.IdStudentNavigation)
+                                              .Include(s => s.IdBusinessAreaNavigation)
                                               .Where(p => p.IdProject.ToString() == project_id).FirstOrDefault();
 
             var projectAdvisors = _context.ProjectAdvisor.Where(pa => pa.IdProject.ToString() == project_id)
@@ -62,6 +63,13 @@ namespace HubEI.Controllers
             byte[] file = _context.Project.Where(p => p.IdProject.ToString() == project_id).Select(p => p.Report).FirstOrDefault();
 
             return new FileContentResult(file, "application/pdf");
+        }
+
+        public IActionResult GetProjectVideo(string project_id)
+        {
+            byte[] file = _context.Project.Where(p => p.IdProject.ToString() == project_id).Select(p => p.Video).FirstOrDefault();
+
+            return new FileContentResult(file, "video/mp4");
         }
 
         public FileResult DownloadReport(int projectId)

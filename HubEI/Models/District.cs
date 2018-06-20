@@ -11,6 +11,7 @@ namespace HubEI.Models
     {
         public District()
         {
+            Company = new HashSet<Company>();
             Address = new HashSet<Address>();
         }
 
@@ -27,5 +28,7 @@ namespace HubEI.Models
         public string Description { get; set; }
 
         public ICollection<Address> Address { get; set; }
+
+        public ICollection<Company> Company { get; set; }
     }
 }

@@ -1,5 +1,13 @@
 ﻿$(document).ready(function () {
 
+    $("#video-insert").change(function () {
+        checkVideo("video-insert");
+    });
+
+    $("#video-update").change(function () {
+        checkVideo("video-update");
+    });
+
     $('[data-toggle="tooltip"]').tooltip({ 'trigger': 'hover' });
 
     $('table tbody td input[type=checkbox]').click(function (e) {
@@ -64,6 +72,33 @@
     });
 });
 
+function checkVideo(id)
+{
+    if (document.getElementById(id).value != null) {
+        var file = document.getElementById(id).files[0];
+
+        var error = false;
+
+        var fileExtension = getFileExtension(file.name).toLowerCase();
+
+        if ((file.size / 1024 / 1024) > 15) {
+            error = true;
+            alert("File size needs to be less than 15MB!");
+        } else if (fileExtension != "mp4" && fileExtension != "flv" && fileExtension != "avi" && fileExtension != "wmv") {
+            error = true;
+            alert("Incorrect file type! Needs to be either MP4, FLV, AVI or WMV.");
+        }
+
+        if (error)
+            document.getElementById(id).value = null;
+    }
+}
+
+function getFileExtension(fileName)
+{
+    return fileName.substring(fileName.length - 3, fileName.length);
+}
+
 function countUpInsert() {
     var length = $('#project-insert-description').val().length;
     var maxLength = document.getElementById("project-insert-description").maxLength;
@@ -73,6 +108,18 @@ function countUpInsert() {
 function countUpEdit() {
     var length = $('#edit-project-description').val().length;
     var maxLength = document.getElementById("edit-project-description").maxLength;
+    var myCounter = document.getElementById("edit-desc-count").textContent = length + "/" + maxLength;
+}
+
+function countUpInsertCompany() {
+    var length = $('#company-insert-description').val().length;
+    var maxLength = document.getElementById("company-insert-description").maxLength;
+    var myCounter = document.getElementById("insert-desc-count").textContent = length + "/" + maxLength;
+}
+
+function countUpEditCompany() {
+    var length = $('#edit-company-description').val().length;
+    var maxLength = document.getElementById("edit-company-description").maxLength;
     var myCounter = document.getElementById("edit-desc-count").textContent = length + "/" + maxLength;
 }
 
@@ -231,7 +278,7 @@ function eliminatePendingMentors() {
                 url: '/BackOffice/Mentors',
                 dataType: "html",
             }).done(function (res) {
-
+                //window.location.reload();
             });
         });
     });
@@ -298,6 +345,9 @@ function fillProjectForm(project) {
     var project_company = document.getElementById("edit-project-company");
     project_company.value = project.idCompany;
 
+    var project_ba = document.getElementById("edit-project-businessarea");
+    project_ba.value = project.idBusinessArea;
+
     var project_grade = document.getElementById("edit-project-grade");
     project_grade.value = project.grade;
 
@@ -329,7 +379,7 @@ function fillMentorsList(mentors) {
 
     mentors.forEach(mentor => {
         var checkbox = document.getElementById("edit-project-mentor-" + mentor.idSchoolMentor);
-        if (checkbox != null) {
+        if (checkbox !== null) {
             checkbox.checked = true;
         }
     });
@@ -419,14 +469,14 @@ function deleteProjects() {
 }
 
 $("#add-project-form").keypress(function (e) {
-    if (e.which == 13) {
+    if (e.which === 13) {
         return false;
     }
 });
 
 
 $("#edit-project-form").keypress(function (e) {
-    if (e.which == 13) {
+    if (e.which === 13) {
         return false;
     }
 });
@@ -450,14 +500,69 @@ function setFormValidations() {
             });
 }
 
-function onChangeCompany()
-{
-    var select = document.getElementById("company-select");
+var companies_choices = [];
 
-    if (select.selectedIndex != 0) {
-        document.getElementById("company_email_div").style.display = "block";
-    }
-    else {
-        document.getElementById("company_email_div").style.display = "none";
-    }
+function deleteCompany(id) {
+    companies_choices = [id];
+}
+
+function editCompany(id) {
+    id = id.replace('edit_', '');
+    $.ajax({
+        type: "GET",
+        url: '/BackOffice/GetCompany?company_id=' + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+    }).done(function (res) {
+        fillCompanyForm(JSON.parse(res));
+    });
+}
+
+
+function fillCompanyForm(company) {
+    var company_id = document.getElementById("edit-company-id");
+    company_id.value = company.idCompany;
+
+    var company_name = document.getElementById("edit-company-name");
+    company_name.value = company.name;
+
+    var company_description = document.getElementById("edit-company-description");
+    company_description.value = company.description;
+
+    var company_email = document.getElementById("edit-company-email");
+    company_email.value = company.email;
+
+    var company_district = document.getElementById("edit-company-district");
+    company_district.value = company.idDistrict;
+}
+
+function eliminatePendingCompanies() {
+    companies_choices.forEach(function (company) {
+        $.ajax({
+            type: "DELETE",
+            url: '/BackOffice/Company?CompanyId=' + company,
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+        }).done(function (res) {
+            $.ajax({
+                type: "GET",
+                url: '/BackOffice/Companies',
+                dataType: "html",
+            }).done(function (res) {
+                //window.location.reload();
+            });
+        });
+    });
+}
+
+function deleteCompanies() {
+
+    var companies = document.getElementsByName('companies');
+
+    companies.forEach(function (company) {
+        if (company.checked)
+            companies_choices.push(company.id.replace('cb_', ''));
+    })
+
+    console.log(companies_choices);
 }

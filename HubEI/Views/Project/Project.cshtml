@@ -39,9 +39,19 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="card mt-4">
-                <img class="card-img-top img-fluid" src="~/images/InstitutoPolitecnicoSetubal.jpg" />
+                @if(Model.Project.Video != null)
+                {
+                    <video height="10%" controls style="margin-left: auto; margin-right: auto; display: block; width: 80%; margin-top: 2%">
+                        <source src="@Url.Action("GetProjectVideo", "Project", new { project_id = Model.Project.IdProject } )" type="video/mp4">
+                            Your browser does not support the video tag.
+                    </video>
+                }
+                else
+                {
+                    <img class="card-img-top img-fluid" src="~/images/InstitutoPolitecnicoSetubal.jpg" />
+                }
+                
                 <div class="card-body">
-
                     <h1>@Model.Project.Title</h1>
                     <h3><a href="#">@Model.Project.IdStudentNavigation.Name</a> - @Model.Project.IdProjectTypeNavigation.Description, @Model.Project.ProjectDate.ToString("MMMM yyyy")</h3>
                     <p class="card-text">@Model.Project.Description</p>
@@ -49,8 +59,8 @@
             </div>
 
             <div class="card mt-4">
-                <h2 class="card-header">Relatório  
-                <a asp-controller="Project" class="float-lg-right" style="font-size:14px;margin-top:0.5%;" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Transferir Relatório</a></h2>
+                <h2 class="card-header">Report  
+                <a asp-controller="Project" class="float-lg-right" style="font-size:14px;margin-top:0.5%;" asp-action="DownloadReport" asp-route-projectId=@Model.Project.IdProject>Download Report</a></h2>
                 <div class="card-body" style="height: 1000px;">
                     <embed style="height: 100%; width: 100%" src="@Url.Action("GetProjectReport", "Project", new { project_id = Model.Project.IdProject } )" />
                 </div>
@@ -60,20 +70,20 @@
 
         <div class="col-md-4">
             <div class="card my-4">
-                <h3 class="card-header">Estatísticas</h3>
+                <h3 class="card-header">Statistics</h3>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    @Model.Project.Views visualizações
+                                    @Model.Project.Views views
                                 </li>
                             </ul>
                         </div>
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    @Model.Project.Downloads transferências
+                                    @Model.Project.Downloads downloads
                                 </li>
                             </ul>
                         </div>
@@ -82,39 +92,46 @@
             </div>
 
             <div class="card my-4">
-                <h3 class="card-header">Tecnologias Usadas</h3>
+                <h3 class="card-header">Technologies Used</h3>
                 <div class="card-body" id="technologiesBody" onload="renderTechnologies(0, @technologyJSON)">
                 </div>
             </div>
 
             <div class="card my-4">
-                <h3 class="card-header">Docentes Orientadores</h3>
+                <h3 class="card-header">Business Area</h3>
+                <div class="card-body">
+                    <a href="#">@Model.Project.IdBusinessAreaNavigation.Description</a>
+                </div>
+            </div>
+
+            <div class="card my-4">
+                <h3 class="card-header">Teacher Mentors</h3>
                 <div class="card-body" id="mentorsBody" onload="renderMentors(@mentorsJSON)">
                 </div>
             </div>
 
             <div class="card my-4">
-                <h3 class="card-header">Empresa Associada</h3>
+                <h3 class="card-header">Associated Company</h3>
                 <div class="card-body">
-                    @if(Model.Project.IdCompanyNavigation != null)
-                    {
-                        <a href="#">@Model.Project.IdCompanyNavigation.Name</a>
-                    }
-                    else
-                    {
-                        <p>Sem empresa associada.</p>
-                    }
+                    @if (Model.Project.IdCompanyNavigation != null)
+            {
+                <a href="#">@Model.Project.IdCompanyNavigation.Name</a>
+    }
+    else
+    {
+        <p>Sem empresa associada.</p>
+}
                 </div>
             </div>
 
             <div class="card my-4">
-                <h2 class="card-header">Anexos</h2>
+                <h2 class="card-header">Attachments</h2>
                 <div class="card-body">
 
-                    @for(var i = 0; i < Model.Project.ProjectDocument.Count; i++)
-                    {
-                    <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject asp-route-documentId=@Model.Project.ProjectDocument.ElementAt(i).IdProjectDocument>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
-                    }
+                    @for (var i = 0; i < Model.Project.ProjectDocument.Count; i++)
+            {
+                <p><a asp-controller="Project" asp-action="DownloadAttachment" asp-route-projectId=@Model.Project.IdProject asp-route-documentId=@Model.Project.ProjectDocument.ElementAt(i).IdProjectDocument>@shortenFileName(Model.Project.ProjectDocument.ElementAt(i).FileName) (@getFileSize(Model.Project.ProjectDocument.ElementAt(i).FileSize))</a></p>
+    }
                 </div>
             </div>
         </div>

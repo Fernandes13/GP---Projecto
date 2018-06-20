@@ -152,13 +152,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id="company-select",  @class = "form-control", @onChange = "onChangeCompany()" })
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @id = "company-select", @class = "form-control" })
                     </div>
-                    <div class="form-group" id="company_email_div" style="display: none">
-                        <label asp-for="CompanyEmail"></label>
-                        <input type="email" class="form-control" id="company-email" asp-for="CompanyEmail" />
+                    <div class="form-group">
+                        <label asp-for="Project.IdBusinessArea"></label>
+                        @Html.DropDownListFor(model => model.Project.IdBusinessArea, Model.BusinessAreas, "-- Business Area --", new { @class = "form-control", required = "required" })
                         <div class="invalid-feedback">
-                            Please insert a valid e-mail!
+                            Please insert a valid business area!
                         </div>
                     </div>
                     <div class="form-group">
@@ -182,6 +182,10 @@
                     <input type="hidden" asp-for="@Model.Mentors[i].SchoolMentor.IdSchoolMentor" />
                 </p>
 }
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Video"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="The project's report is a single MP4, FLV, AVI or WMV file." class="question-mark" />
+                        <input id="video-insert" class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -264,8 +268,15 @@
                         @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @class = "form-control", @id = "edit-project-company", required = "required" })
                     </div>
                     <div class="form-group">
+                        <label asp-for="Project.IdBusinessArea"></label>
+                        @Html.DropDownListFor(model => model.Project.IdBusinessArea, Model.BusinessAreas, "-- Business Area --", new { @class = "form-control", @id = "edit-project-businessarea", required = "required" })
+                        <div class="invalid-feedback">
+                            Please insert a valid business area!
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Project.Grade"></label>
-                        <input class="form-control" asp-for="Project.Grade" id="edit-project-grade"  required min="10" max="20" />
+                        <input class="form-control" asp-for="Project.Grade" id="edit-project-grade" required min="10" max="20" />
                         <div class="invalid-feedback">
                             Please insert a valid grade!
                         </div>
@@ -284,6 +295,11 @@
                     <input type="hidden" asp-for="@Model.Mentors[i].SchoolMentor.IdSchoolMentor" />
                 </p>
 }
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Video"></label> <img src="~/images/002-question-mark.png" data-toggle="tooltip" title="In case you don't insert a different file, the original will remain." class="question-mark" />
+                        <input id="video-update" class="form-control" asp-for="Video" data-val="true" accept="video/mp4,video/x-flv,video/msvideo,video/x-ms-wmv" data-val-accept="Only  MP4, FLV, AVI or WMV files are accepted" />
                     </div>
                 </div>
                 <div class="modal-footer">
