@@ -1,1 +1,39 @@
-﻿
+﻿@model HubEI.Models.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json
+<div class="container shadow-lg bg-light rounded col-lg-5" style="padding:1.5%;margin-top:1.5%;">
+    <h2 style="text-align:center;font-size:24px;width:100%;"> @Model.CompanyViewModel.Company.Name </h2>
+    <h4 style="text-align:center;font-size:17px;width:100%;">@Model.CompanyViewModel.Company.IdDistrictNavigation.Description</h4>
+
+    <div class="col-lg-10" style="margin-left:8%;margin-top:5%;">
+        <p style="font-size:16px;text-align:center;">@Model.CompanyViewModel.Company.Description</p>
+        <br />
+        <h3 class="font-weight-bold" style="text-align:center">Business Areas</h3>
+        @foreach (BusinessArea b in Model.CompanyViewModel.BusinessAreas)
+        {
+            <a href="#" style="font-size:16px;margin-left:30%;"> @b.Description</a><br />
+        }
+    </div>
+
+    <div class="col-lg-10" style="margin-top:4%;margin-left:8%">
+        <h3 class="font-weight-bold" style="text-align:center;">Projects</h3>
+        <table class="table table-hover" style="font-size:15px;">
+            <tr>
+                <th>Project</th>
+                <th>Author</th>
+                <th>Date</th>
+            </tr>
+            <tbody>
+                @foreach (var p in Model.CompanyViewModel.Projects)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(p.Title, "Project", "Project", new { project_id = p.IdProject }, null)</td>
+                        <td>@p.IdStudentNavigation.Name</td>
+                        <td>@p.ProjectDate.ToString("yyyy, MMMM")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

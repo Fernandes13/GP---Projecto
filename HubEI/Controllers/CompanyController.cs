@@ -21,10 +21,57 @@ namespace HubEI.Controllers
             _hostingEnvironment = HostingEnvironment;
         }
 
-        public IActionResult Index()
+
+        [Route("Company")]
+        public IActionResult Index([FromQuery] string company_id)
         {
-            return View();
+            LoginViewModel viewModel = new LoginViewModel();
+            viewModel.CompanyViewModel = new CompanyViewModel();
+
+            viewModel.CompanyViewModel.Company = _context.Company
+                .Where(c => c.IdCompany.ToString() == company_id)
+                .Include(c => c.IdDistrictNavigation)
+                .FirstOrDefault();
+
+            var projectsList = _context.Project.Where(p => p.IdCompany.ToString() == company_id)
+                .Include(p => p.IdBusinessAreaNavigation)
+                .Include(p => p.IdStudentNavigation)
+                .Select(p => new Project
+                {
+                    IdProject = p.IdProject,
+                    Title = p.Title,
+                    IdBusinessAreaNavigation = p.IdBusinessAreaNavigation,
+                    IdStudentNavigation = p.IdStudentNavigation,
+                    ProjectDate = p.ProjectDate
+                }) 
+                .OrderByDescending(p => p.Views)
+                .OrderByDescending(p => p.Downloads).ToList();
+
+
+            var businessareas = new HashSet<BusinessArea>();
+
+            foreach (var p in projectsList)
+            {
+                businessareas.Add(p.IdBusinessAreaNavigation);
+            }
+
+
+            var projects = new List<Project>();
+
+            foreach (var project in projectsList)
+            {
+                projects.Add(project);
+            }
+
+            var businessareasList = businessareas.ToList();
+
+            viewModel.CompanyViewModel.Projects = projects;
+            viewModel.CompanyViewModel.BusinessAreas = businessareasList;
+
+            return View(viewModel);
         }
+
+
 
         [Route("Companies")]
         public IActionResult List()
@@ -41,7 +88,6 @@ namespace HubEI.Controllers
                 var maxChars = 460;
                 c.Description = c.Description.Length <= maxChars ? c.Description : c.Description.Substring(0, maxChars) + "...";
 
-                var businessareas = new List<BusinessArea>();
 
                 var projects_count = _context.Project.Where(p => p.IdCompany == c.IdCompany).Count();
 
@@ -64,22 +110,22 @@ namespace HubEI.Controllers
                 }
                 else
                 {
-                     projects = _context.Project
-                    .Where(p => p.IdCompany == c.IdCompany)
-                    .Select(p => new Project
-                    {
-                        IdProject = p.IdProject,
-                        Title = p.Title
-                    })
-                    .OrderByDescending(p => p.Views)
-                    .OrderByDescending(p => p.Downloads)
-                    .ToList()
-                    .GetRange(0, projects_count);
+                    projects = _context.Project
+                   .Where(p => p.IdCompany == c.IdCompany)
+                   .Select(p => new Project
+                   {
+                       IdProject = p.IdProject,
+                       Title = p.Title
+                   })
+                   .OrderByDescending(p => p.Views)
+                   .OrderByDescending(p => p.Downloads)
+                   .ToList()
+                   .GetRange(0, projects_count);
                 }
 
                 var businessAreas = new HashSet<BusinessArea>();
 
-                foreach(Project p in _context.Project.Where(p => p.IdCompany == c.IdCompany).Include(p=>p.IdBusinessAreaNavigation))
+                foreach (Project p in _context.Project.Where(p => p.IdCompany == c.IdCompany).Include(p => p.IdBusinessAreaNavigation))
                 {
                     businessAreas.Add(p.IdBusinessAreaNavigation);
 
@@ -89,7 +135,7 @@ namespace HubEI.Controllers
                 {
                     Company = c,
                     Projects = projects,
-                    BusinessAreas = businessAreas.ToList()                    
+                    BusinessAreas = businessAreas.ToList()
                 });
             }
 
@@ -97,5 +143,8 @@ namespace HubEI.Controllers
 
             return View(viewModel);
         }
+
+
+
     }
 }
