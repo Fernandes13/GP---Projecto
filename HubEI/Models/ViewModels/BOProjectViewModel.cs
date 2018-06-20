@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace HubEI.Models.ViewModels
 {
+    /// <summary>
+    ///  Class used to provide project related models to the View.
+    /// </summary>
+    /// 
     public class BOProjectViewModel
     {
 
