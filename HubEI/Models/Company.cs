@@ -34,6 +34,10 @@ namespace HubEI.Models
         /// <value>Descrição da empresa.</value>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Chave estrangeira da <see cref="HubEI.Models.District" /> do estudante.
+        /// </summary>
+        /// <value>Chave estrangeira da morada do estudante.</value>
         [Display(Name = "District")]
         public long IdDistrict { get; set; }
 
