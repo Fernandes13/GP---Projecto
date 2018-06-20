@@ -45,13 +45,23 @@ namespace XUnit_HubEI
                 IdDistrict = 1
             });
 
-            //_context.Student.Add(new Student()
-            //{
-            //    IdStudent = 1,
-            //    BirthDate = new DateTime(),
-            //    Email = "email@exemplo.com",
-            //    IdAddress
-            //});
+            _context.StudentBranch.Add(new StudentBranch()
+            {
+                IdStudentBranch = 1,
+                Description = "Ramo"
+            });
+
+            _context.Student.Add(new Student()
+            {
+                IdStudent = 1,
+                BirthDate = new DateTime(),
+                Email = "email@exemplo.com",
+                IdAddress = 1,
+                IdStudentBranch = 1,
+                Name = "Estudante",
+                StudentNumber = 150221066,
+                Telephone = 911111111,
+            });
 
             _context.SaveChanges();
         }
