@@ -92,8 +92,13 @@
                                     }
                                 }
                                 <br />
-                                <b>Company: </b>
-                                @project.IdCompanyNavigation.Name
+                                @if(project.IdCompany != null)
+                                {
+                                    <b>Company: </b>
+                                    @project.IdCompanyNavigation.Name
+
+                                }
+                                
                                 <p><b>Date: </b>@project.ProjectDate.ToString("dd/MM/yyyy")</p>
                                 <p class="card-text">@project.Description</p>
                             </div>

@@ -50,7 +50,7 @@ namespace HubEI.Models
         public long IdStudent { get; set; }
 
         [Display(Name = "Company")]
-        public long IdCompany { get; set; }
+        public long? IdCompany { get; set; }
 
         [Display(Name = "Views")]
         public int Views { get; set; }

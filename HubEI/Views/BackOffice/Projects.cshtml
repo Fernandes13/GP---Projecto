@@ -265,7 +265,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdCompany"></label>
-                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @class = "form-control", @id = "edit-project-company", required = "required" })
+                        @Html.DropDownListFor(model => model.Project.IdCompany, Model.Companies, "-- Associated Company --", new { @class = "form-control", @id = "edit-project-company" })
                     </div>
                     <div class="form-group">
                         <label asp-for="Project.IdBusinessArea"></label>
