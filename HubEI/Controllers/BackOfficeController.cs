@@ -707,6 +707,7 @@ namespace HubEI.Controllers
 
                 if (model.Project.IdCompany != 0)
                 {
+                    if (model.Project.IdCompany == null) model.Project.IdCompany = 0;
                     SendCompanyEmail((long)model.Project.IdCompany, model.Project.Title, model.Project.IdStudent);
                 }
 
@@ -725,19 +726,22 @@ namespace HubEI.Controllers
         /// <remarks></remarks>
         public void SendCompanyEmail(long idCompany, string projectTitle, long studentId)
         {
-            var email = _context.Company.Where(c => c.IdCompany == idCompany).Select(c => c.Email).SingleOrDefault();
-            var studentName = _context.Student.Where(s => s.IdStudent == studentId).Select(s => s.Name).FirstOrDefault();
+            if(idCompany != 0)
+            {
+                var email = _context.Company.Where(c => c.IdCompany == idCompany).Select(c => c.Email).SingleOrDefault();
+                var studentName = _context.Student.Where(s => s.IdStudent == studentId).Select(s => s.Name).FirstOrDefault();
 
-            var strbBody = new StringBuilder();
-            strbBody.AppendLine("To whom this may concern,<br><br>");
-            strbBody.AppendFormat(@"We are pleased to announce that a project that was developed under your company by " + studentName + " with the title '" + projectTitle + "'");
-            strbBody.AppendFormat(@" was submitted to our platform, HubEI. Due to the Terms and Conditions of the Polytechnic Institute of Setúbal");
-            strbBody.AppendFormat(@" all the information about this project, including the contents of the documents developed by the author");
-            strbBody.AppendFormat(@" are to be made public in our platform. Please reply to this email, informing if you do or do not consent with this.");
-            strbBody.AppendFormat(@" Thank you kindly, in advance.<br><br>");
-            strbBody.AppendLine(@"Best Regards,<br>HubEI Team");
+                var strbBody = new StringBuilder();
+                strbBody.AppendLine("To whom this may concern,<br><br>");
+                strbBody.AppendFormat(@"We are pleased to announce that a project that was developed under your company by " + studentName + " with the title '" + projectTitle + "'");
+                strbBody.AppendFormat(@" was submitted to our platform, HubEI. Due to the Terms and Conditions of the Polytechnic Institute of Setúbal");
+                strbBody.AppendFormat(@" all the information about this project, including the contents of the documents developed by the author");
+                strbBody.AppendFormat(@" are to be made public in our platform. Please reply to this email, informing if you do or do not consent with this.");
+                strbBody.AppendFormat(@" Thank you kindly, in advance.<br><br>");
+                strbBody.AppendLine(@"Best Regards,<br>HubEI Team");
 
-            Email.SendEmail(email, "Publish permission regarding data protection", strbBody.ToString());
+                Email.SendEmail(email, "Publish permission regarding data protection", strbBody.ToString());
+            }
         }
 
         /// <summary>
