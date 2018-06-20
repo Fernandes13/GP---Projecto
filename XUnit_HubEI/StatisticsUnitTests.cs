@@ -19,7 +19,27 @@ namespace XUnit_HubEI
 
             _controller = new StatisticsController(_context, null);
 
+            _context.District.Add(new District()
+            {
+                IdDistrict = 1,
+                Description = "Margem Sul"
+            });
 
+            _context.Company.Add(new Company()
+            {
+                IdCompany = 1,
+                Description = "Esta Empresa",
+                Name = "Empresa",
+                Email = "empresa@hotmail.com",
+                IdDistrict = 1
+            });
+
+            //_context.Student.Add(new Student()
+            //{
+            //    IdAddress
+            //});
+
+            _context.SaveChanges();
         }
 
         //public IActionResult MarksStats()
