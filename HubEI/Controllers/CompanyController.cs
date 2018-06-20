@@ -10,11 +10,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HubEI.Controllers
 {
+    /// <summary>
+    /// Controller used for the actions affecting a Company. 
+    /// Has methods to List all companies registered and to check a company's details.
+    /// </summary>
+    /// <remarks></remarks>
     public class CompanyController : Controller
     {
         private readonly HUBEI_DBContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HubEI.Controllers.CompanyController" /> class. 
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="HostingEnvironment">Hosting Environment</param>
+        /// <remarks></remarks>
         public CompanyController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
         {
             _context = context;
@@ -22,6 +33,12 @@ namespace HubEI.Controllers
         }
 
 
+        /// <summary>
+        /// This methods shows details of a company that has the argument identification. 
+        /// </summary>
+        /// <param name="company_id">Company Identification</param>
+        /// <returns>View with the Company object</returns>
+        /// <remarks></remarks>
         [Route("Company")]
         public IActionResult Index([FromQuery] string company_id)
         {
@@ -43,7 +60,7 @@ namespace HubEI.Controllers
                     IdBusinessAreaNavigation = p.IdBusinessAreaNavigation,
                     IdStudentNavigation = p.IdStudentNavigation,
                     ProjectDate = p.ProjectDate
-                }) 
+                })
                 .OrderByDescending(p => p.Views)
                 .OrderByDescending(p => p.Downloads).ToList();
 
@@ -73,6 +90,11 @@ namespace HubEI.Controllers
 
 
 
+        /// <summary>
+        /// This methods shows all the registered companies in a list view.
+        /// </summary>
+        /// <returns>View with list of all registered companies</returns>
+        /// <remarks></remarks>
         [Route("Companies")]
         public IActionResult List()
         {

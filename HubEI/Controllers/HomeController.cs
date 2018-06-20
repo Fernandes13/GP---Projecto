@@ -17,17 +17,35 @@ using Microsoft.AspNetCore.Http;
 
 namespace HubEI.Controllers
 {
+    /// <summary>
+    /// Controller used for the actions affecting the website in general. 
+    /// Has methods to access the homepage, login and logout, and actions to manage the website's cookies.
+    /// </summary>
+    /// <remarks></remarks>
     public class HomeController : Controller
     {
         private readonly HUBEI_DBContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HubEI.Controllers.HomeController" /> class. 
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="HostingEnvironment">Hosting Environment</param>
+        /// <remarks></remarks>
         public HomeController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = HostingEnvironment;
         }
 
+
+        /// <summary>
+        /// This method shows the website's homepage.
+        /// It manage the privacy politics cookie, so that it only shows the message the first time a user enters the website.
+        /// </summary>
+        /// <returns>View with HomePage</returns>
+        /// <remarks></remarks>
         public IActionResult Index()
         {
             var rgpdInfo = _context.RgpdInfo.FirstOrDefault();
@@ -36,16 +54,16 @@ namespace HubEI.Controllers
 
             ViewData["RgpdInfo"] = rgpdInfo.Description;
 
-            var topProjects = _context.Project.Where(p=>p.IsVisible)
+            var topProjects = _context.Project.Where(p => p.IsVisible)
                 .OrderByDescending(p => p.Downloads)
                 .OrderByDescending(p => p.Views)
-                .Select(p=> new Project
+                .Select(p => new Project
                 {
                     Description = p.Description,
                     Title = p.Title,
                     IdProject = p.IdProject
                 })
-                .ToList().GetRange(0,3);
+                .ToList().GetRange(0, 3);
 
 
             return View(new LoginViewModel
@@ -54,6 +72,12 @@ namespace HubEI.Controllers
             });
         }
 
+        /// <summary>
+        /// This method registers the privacy politics cookie, so that it only shows the message the first time a user enters the website.
+        /// The cookie expires after a year.
+        /// </summary>
+        /// <returns>View with HomePage</returns>
+        /// <remarks></remarks>
         public IActionResult SaveRPGCookie()
         {
             CookieOptions options = new CookieOptions();
@@ -68,6 +92,11 @@ namespace HubEI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// This method fills the privacy politics message.
+        /// </summary>
+        /// <returns>Partial View with Privacy Politics message</returns>
+        /// <remarks></remarks>
         public IActionResult Privacy()
         {
             var rgpdInfo = _context.RgpdInfo.FirstOrDefault();
@@ -77,6 +106,13 @@ namespace HubEI.Controllers
             return View("Privacy");
         }
 
+
+        /// <summary>
+        /// This method executes a login in the website
+        /// </summary>
+        /// <param name="model">LoginViewModel containing username and password.</param>
+        /// <returns></returns>
+        /// <remarks></remarks>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -92,8 +128,6 @@ namespace HubEI.Controllers
                 {
                     ViewData["Login-Message"] = state.GetMessage();
                     ViewData["Got-Error"] = "true";
-
-                    //return View();
                 }
                 else
                 {
@@ -108,15 +142,15 @@ namespace HubEI.Controllers
 
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                   
+
                     return RedirectToAction("Index", "BackOffice");
                 }
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
-        /// Executa um logout, redireciconando o utilizador para a página principal da aplicação.
+        /// Executs a logout, redirecting the user to the homepage.
         /// </summary>
         /// <returns>View Home/Index</returns>
         /// <remarks></remarks>
@@ -129,7 +163,7 @@ namespace HubEI.Controllers
         }
 
         /// <summary>
-        /// Regista um novo técnico na aplicação.
+        /// Regista um novo admin na aplicação.
         /// </summary>
         /// <param name="model">Modelo</param>
         /// <returns>Retorna a View com uma mensagem de erro ou sucesso na operação.</returns>
@@ -188,7 +222,6 @@ namespace HubEI.Controllers
                     if (!strBDPW.Equals(EncryptToMD5(_strPassword)))
                         return LoginState.WRONG_PASSWORD;
 
-                    // 0x8E9F6A7E70E6DF1B3E10C81180AA763B
                 }
                 else
                 {
@@ -252,12 +285,7 @@ namespace HubEI.Controllers
             return md5.Hash;
         }
 
-        /// <summary>
-        /// Insere um novo técnico do CIMOB na aplicação.
-        /// </summary>
-        /// <param name="technician">Técnico</param>
-        /// <param name="strEmail">Email do Técnico</param>
-        /// <remarks></remarks>
+
         private async void InsertAdmin(Admin admin)
         {
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -267,7 +295,12 @@ namespace HubEI.Controllers
             }
         }
 
-        //SEARCH HANDLE
+        /// <summary>
+        /// Returns a list of projects filtered by the argument q, which compares the project title or description.
+        /// </summary>
+        /// <param name="q">Search criteria</param>
+        /// <returns>JSON object with list of projects</returns>
+        /// <remarks></remarks>
         public IActionResult SearchSuggestions([FromQuery] string q)
         {
             var projects = _context.Project.Where(p => p.Title.Contains(q))
@@ -285,12 +318,5 @@ namespace HubEI.Controllers
 
             return Json(projects.Take(4));
         }
-
-
-
-
-
-
-
     }
 }
