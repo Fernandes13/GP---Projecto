@@ -11,17 +11,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HubEI.Controllers
 {
+    /// <summary>
+    /// Controller used for the actions affecting a Project.
+    /// Has methods to list all projects, to view a project details and to manage the project attachments.
+    /// </summary>
+    /// <remarks></remarks>
     public class ProjectController : Controller
     {
         private readonly HUBEI_DBContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HubEI.Controllers.ProjectController" /> class. 
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="HostingEnvironment">Hosting Environment</param>
+        /// <remarks></remarks>
         public ProjectController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = HostingEnvironment;
         }
 
+
+        /// <summary>
+        /// Action to show a project in details.
+        /// It shows all project properties and the project mentors, technologies, and documents.
+        /// </summary>
+        /// <param name="project_id">Project Identification</param>
+        /// <returns>View with Project</returns>
+        /// <remarks></remarks>
         [Route("Project")]
         [HttpGet]
         public IActionResult Project([FromQuery] string project_id)
@@ -51,6 +70,12 @@ namespace HubEI.Controllers
             return View(new LoginViewModel { Project = project });
         }
 
+        /// <summary>
+        /// Returns the project file and the browser may download the file.
+        /// </summary>
+        /// <param name="report">File data</param>
+        /// <returns>Partial View with file</returns>
+        /// <remarks></remarks>
         public IActionResult _ProjectFile(byte[] report)
         {
             var file = File(report, "application/pdf");
@@ -58,6 +83,13 @@ namespace HubEI.Controllers
             return PartialView(file);
         }
 
+
+        /// <summary>
+        /// Action that gets the project report.
+        /// </summary>
+        /// <param name="project_id">Project unique identification</param>
+        /// <returns>Project report in file</returns>
+        /// <remarks></remarks>
         public IActionResult GetProjectReport(string project_id)
         {
             byte[] file = _context.Project.Where(p => p.IdProject.ToString() == project_id).Select(p => p.Report).FirstOrDefault();
@@ -65,6 +97,12 @@ namespace HubEI.Controllers
             return new FileContentResult(file, "application/pdf");
         }
 
+        /// <summary>
+        /// Action that gets the project video.
+        /// </summary>
+        /// <param name="project_id">Project unique identification</param>
+        /// <returns>Project video in file</returns>
+        /// <remarks></remarks>
         public IActionResult GetProjectVideo(string project_id)
         {
             byte[] file = _context.Project.Where(p => p.IdProject.ToString() == project_id).Select(p => p.Video).FirstOrDefault();
@@ -72,6 +110,12 @@ namespace HubEI.Controllers
             return new FileContentResult(file, "video/mp4");
         }
 
+        /// <summary>
+        /// Method that downloads the project report
+        /// </summary>
+        /// <param name="projectId">Project unique identification</param>
+        /// <returns>Project report file</returns>
+        /// <remarks></remarks>
         public FileResult DownloadReport(int projectId)
         {
             Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();
@@ -83,6 +127,13 @@ namespace HubEI.Controllers
             return File(project.Report, "application/pdf", project.Title + ".pdf");
         }
 
+        /// <summary>
+        /// Method that downloads a project attachment
+        /// </summary>
+        /// <param name="projectId">Project unique identification</param>
+        ///  <param name="documentId">Document unique identification</param>
+        /// <returns>Project attachment file</returns>
+        /// <remarks></remarks>
         public FileResult DownloadAttachment(int projectId, int documentId)
         {
             Project project = _context.Project.Where(p => p.IdProject == projectId).FirstOrDefault();
@@ -107,6 +158,14 @@ namespace HubEI.Controllers
             }
         }
 
+        /// <summary>
+        /// Lists submitted projects based on three filters: Title/Description, Technologias and Marks
+        /// </summary>
+        /// <param name="q">Title/Description filter criteria</param>
+        /// <param name="technologies">Technologies filter criteria</param>
+        /// <param name="marks">Evaluation filter criteria</param>
+        /// <returns>View with Projects List</returns>
+        /// <remarks></remarks>
         [Route("Projects")]
         public IActionResult List([FromQuery] string q, string technologies, string marks)
         {
@@ -139,14 +198,12 @@ namespace HubEI.Controllers
                     project.ProjectTechnology = projectTechnologies;
                 }
 
-                //var technologiesList = "";
                 var technologiesList = new List<Technology>();
 
                 var techQuery = technologies.Split(",");
 
                 foreach (var tech in techQuery)
                 {
-                    //technologiesList += _context.Technology.Where(t => t.Description == tech).Select(p => p.IdTechnology).SingleOrDefault() + ",";
                     technologiesList.Add(_context.Technology.Where(t => t.Description == tech).SingleOrDefault());
                 }
 
@@ -155,7 +212,7 @@ namespace HubEI.Controllers
 
             if (marks != null && marks != "null")
             {
-                
+
                 var marks_str = marks.Split('_');
                 projects = projects.Where(p => p.Grade >= Int32.Parse(marks_str[0]) && p.Grade <= Int32.Parse(marks_str[1]));
             }
@@ -192,6 +249,12 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Action that shows a project mentor in detail.
+        /// </summary>
+        /// <param name="mentor_id">Mentor unique identification</param>
+        /// <returns>View with mentor object</returns>
+        /// <remarks></remarks>
         [Route("Mentor")]
         [HttpGet]
         public IActionResult Mentor([FromQuery] string mentor_id)
@@ -208,7 +271,7 @@ namespace HubEI.Controllers
 
             var average = projects.Average(x => x.Grade);
             Console.WriteLine(average);
-            return View(new LoginViewModel{ mentorViewModel= new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven = average } });
+            return View(new LoginViewModel { mentorViewModel = new ProjectMentorViewModel { Mentor = mentor, Projects = projects, AverageGradeGiven = average } });
         }
     }
 }

@@ -15,17 +15,33 @@ using System.Text;
 
 namespace HubEI.Controllers
 {
+    /// <summary>
+    /// Controller used for the actions affecting the BackOffice.
+    /// </summary>
+    /// <remarks></remarks>
     public class BackOfficeController : Controller
     {
         private readonly HUBEI_DBContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HubEI.Controllers.BackOfficeController" /> class. 
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="HostingEnvironment">Hosting Environment</param>
+        /// <remarks></remarks>
         public BackOfficeController(HUBEI_DBContext context, IHostingEnvironment HostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = HostingEnvironment; 
         }
 
+
+        /// <summary>
+        /// Gets the BackOffice mainpage
+        /// </summary>
+        /// <returns>BackOffice mainpage</returns>
+        /// <remarks></remarks>
         public IActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -44,6 +60,11 @@ namespace HubEI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gets the Students Main List Backoffice page
+        /// </summary>
+        /// <returns>Students Main List Backoffice page</returns>
+        /// <remarks></remarks>
         public IActionResult Students()
         {
             if (!User.Identity.IsAuthenticated)
@@ -64,11 +85,16 @@ namespace HubEI.Controllers
             viewModel.Branches = PopulateBranches();
             viewModel.Districts = PopulateDistricts();
 
-            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
-
             return View(viewModel);
         }
 
+
+
+        /// <summary>
+        /// Populates a List with the available Branches in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateBranches()
         {
             List<SelectListItem> branchesSelectList = new List<SelectListItem>();
@@ -84,6 +110,11 @@ namespace HubEI.Controllers
 
         }
 
+        /// <summary>
+        /// Populates a List with the available Bustiness Areas in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateBusinessAreas()
         {
             List<SelectListItem> bareasSelectList = new List<SelectListItem>();
@@ -98,6 +129,11 @@ namespace HubEI.Controllers
             return bareasSelectList;
         }
 
+        /// <summary>
+        /// Populates a List with the available Districts in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateDistricts()
         {
             List<SelectListItem> districtsSelectList = new List<SelectListItem>();
@@ -113,6 +149,13 @@ namespace HubEI.Controllers
 
         }
 
+
+        /// <summary>
+        /// Gets a Student model based on student_id
+        /// </summary>
+        /// <param name="student_id">Student unique identifier</param>
+        /// <returns>Student model</returns>
+        /// <remarks></remarks>
         [HttpGet]
         public JsonResult GetStudent([FromQuery] string student_id)
         {
@@ -124,6 +167,12 @@ namespace HubEI.Controllers
             return Json(std);
         }
 
+        /// <summary>
+        /// POST a student in the database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Students Main List Backoffice view</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult Student(BOStudentViewModel model)
         {
@@ -159,6 +208,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Students", "BackOffice");
         }
 
+        /// <summary>
+        /// PUTS(UPDATES) a student in the database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Students Main List Backoffice view</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult EditStudent(BOStudentViewModel model)
         {
@@ -181,6 +236,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Students", "BackOffice");
         }
 
+        /// <summary>
+        /// DELETS a student from the database
+        /// </summary>
+        /// <param name="StudentId">Student unique identifier</param>
+        /// <returns>JSON operation success</returns>
+        /// <remarks></remarks>
         [HttpDelete]
         public IActionResult Student([FromQuery]string StudentId)
         {
@@ -194,6 +255,12 @@ namespace HubEI.Controllers
             return Json("Success");
         }
 
+
+        /// <summary>
+        /// Gets the Mentors Main List Backoffice page
+        /// </summary>
+        /// <returns>Mentors Main List Backoffice page</returns>
+        /// <remarks></remarks>
         public IActionResult Mentors()
         {
             if (!User.Identity.IsAuthenticated)
@@ -209,12 +276,17 @@ namespace HubEI.Controllers
 
             viewModel.Mentors = mentors;
 
-
-            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
-
             return View(viewModel);
         }
 
+
+
+        /// <summary>
+        /// POST a mentor in the database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Mentors Main List Backoffice page</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult Mentor(BOMentorViewModel model)
         {
@@ -244,6 +316,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Mentors", "BackOffice");
         }
 
+        /// <summary>
+        /// Gets a mentor model based on mentor_id
+        /// </summary>
+        /// <param name="mentor_id">Mentor unique identifier</param>
+        /// <returns>JSON with the mentor</returns>
+        /// <remarks></remarks>
         [HttpGet]
         public JsonResult GetMentor([FromQuery] string mentor_id)
         {
@@ -252,6 +330,13 @@ namespace HubEI.Controllers
             return Json(std);
         }
 
+
+        /// <summary>
+        /// PUTS(UPDATES) a mentor in the database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Mentors Main List Backoffice view</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult EditMentor(BOMentorViewModel model)
         {
@@ -272,6 +357,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Mentors", "BackOffice");
         }
 
+        /// <summary>
+        /// Deletes a mentor in the database
+        /// </summary>
+        /// <param name="MentorId">Mentor unique identifier</param>
+        /// <returns>JSON operation success</returns>
+        /// <remarks></remarks>
         [HttpDelete]
         public IActionResult Mentor([FromQuery]string MentorId)
         {
@@ -286,6 +377,11 @@ namespace HubEI.Controllers
             return Json("Success");
         }
 
+        /// <summary>
+        /// GETS the main projects list view
+        /// </summary>
+        /// <returns>Main projects list view</returns>
+        /// <remarks></remarks>
         public IActionResult Projects()
         {
             if (!User.Identity.IsAuthenticated)
@@ -321,6 +417,12 @@ namespace HubEI.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// PUTS(UPDATES) a project in the database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Projects Main List Backoffice view</returns>
+        /// <remarks></remarks>
         public async Task<IActionResult> EditProject(BOProjectViewModel viewModel)
         {
             if (!User.Identity.IsAuthenticated)
@@ -409,6 +511,13 @@ namespace HubEI.Controllers
             return RedirectToAction("Projects", "BackOffice");
         }
 
+
+        
+        /// <summary>
+        /// Populates a List with the available Companies in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateCompanies()
         {
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -426,6 +535,12 @@ namespace HubEI.Controllers
             }
         }
 
+        
+        /// <summary>
+        /// Populates a List with the available Students in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateStudents()
         {
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -443,6 +558,12 @@ namespace HubEI.Controllers
             }
         }
 
+        
+        /// <summary>
+        /// Populates a List with the available Project Types in the database
+        /// </summary>
+        /// <returns>Populated List</returns>
+        /// <remarks></remarks>
         private IEnumerable<SelectListItem> PopulateProjectTypes()
         {
             using (var context = new HUBEI_DBContext(new DbContextOptions<HUBEI_DBContext>()))
@@ -460,6 +581,12 @@ namespace HubEI.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets a project information in JSON
+        /// </summary>
+        /// <param name="project_id">Project unique identifier</param>
+        /// <returns>Project in JSON</returns>
+        /// <remarks></remarks>
         [HttpGet]
         public JsonResult GetProject([FromQuery] string project_id)
         {
@@ -477,6 +604,12 @@ namespace HubEI.Controllers
             return Json(project);
         }
 
+        /// <summary>
+        /// POST a project in the database.
+        /// </summary>
+        /// <param name="model">Project viewmodel.</param>
+        /// <returns>Projects list backoffice view</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public async Task<IActionResult> Project(BOProjectViewModel model)
         {
@@ -495,7 +628,7 @@ namespace HubEI.Controllers
 
                 List<ProjectDocument> attachments = new List<ProjectDocument>();
 
-                if(model.Attachments != null)
+                if (model.Attachments != null)
                 {
                     foreach (var formFile in model.Attachments)
                     {
@@ -548,7 +681,7 @@ namespace HubEI.Controllers
                 _context.Add(project);
                 await _context.SaveChangesAsync();
 
-                foreach(var attachment in attachments)
+                foreach (var attachment in attachments)
                 {
                     attachment.IdProject = project.IdProject;
                     await _context.AddAsync(attachment);
@@ -572,7 +705,7 @@ namespace HubEI.Controllers
 
                 _context.SaveChanges();
 
-                if(model.Project.IdCompany != 0)
+                if (model.Project.IdCompany != 0)
                 {
                     SendCompanyEmail((long)model.Project.IdCompany, model.Project.Title, model.Project.IdStudent);
                 }
@@ -583,11 +716,16 @@ namespace HubEI.Controllers
             return RedirectToAction("Projects", "BackOffice");
         }
 
+        /// <summary>
+        /// Sends an email to a company, indicating the privacy policies associated with the submission of a project.
+        /// </summary>
+        /// <param name="idCompany">Company's unique identifier</param>
+        /// <param name="projectTitle">Project Title</param>
+        /// <param name="studentId">Students's unique identifier</param>
+        /// <remarks></remarks>
         public void SendCompanyEmail(long idCompany, string projectTitle, long studentId)
         {
             var email = _context.Company.Where(c => c.IdCompany == idCompany).Select(c => c.Email).SingleOrDefault();
-
-
             var studentName = _context.Student.Where(s => s.IdStudent == studentId).Select(s => s.Name).FirstOrDefault();
 
             var strbBody = new StringBuilder();
@@ -602,6 +740,12 @@ namespace HubEI.Controllers
             Email.SendEmail(email, "Publish permission regarding data protection", strbBody.ToString());
         }
 
+        /// <summary>
+        /// Adds a technology to the database. If it already exists, ignores and doesn't insert.
+        /// </summary>
+        /// <param name="tech">Technology name</param>
+        /// <returns>JSON operation success</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public async Task<IActionResult> AddProjectTechnology([FromQuery] string tech)
         {
@@ -643,6 +787,12 @@ namespace HubEI.Controllers
             return Json("");
         }
 
+        /// <summary>
+        /// DELETE All project technologiy association
+        /// </summary>
+        /// <param name="project_id">Project Unique identifier</param>
+        /// <returns>JSON Sucess operation</returns>
+        /// <remarks></remarks>
         [HttpDelete]
         public IActionResult ClearProjectTechnologies([FromQuery] string project_id)
         {
@@ -652,6 +802,13 @@ namespace HubEI.Controllers
             return Json("");
         }
 
+        /// <summary>
+        /// Adds a technologies to a project.
+        /// </summary>
+        /// <param name="project_id">Project unique identifier</param>
+        /// <param name="tech">Technologie</param>
+        /// <returns>JSON - success operation</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public async Task<IActionResult> EditProjectTechnology([FromQuery] string project_id, [FromQuery] string tech)
         {
@@ -690,6 +847,12 @@ namespace HubEI.Controllers
         }
 
 
+        /// <summary>
+        /// DELETE a Project
+        /// </summary>
+        /// <param name="ProjectId">Project unique identifier</param>
+        /// <returns>JSON - Operation Success</returns>
+        /// <remarks></remarks>
         [HttpDelete]
         public IActionResult Project([FromQuery]string ProjectId)
         {
@@ -731,13 +894,22 @@ namespace HubEI.Controllers
             return Json("Success");
         }
 
+        /// <summary>
+        /// Gets the Technologies list view.
+        /// </summary>
+        /// <returns>Technologies list view</returns>
+        /// <remarks></remarks>
         public IActionResult Technologies()
         {
             var technologies = _context.Technology.ToList();
-
             return Json(technologies);
         }
 
+        /// <summary>
+        /// Gets the Companies list view.
+        /// </summary>
+        /// <returns>Companies list view</returns>
+        /// <remarks></remarks>
         public IActionResult Companies()
         {
             if (!User.Identity.IsAuthenticated)
@@ -753,13 +925,15 @@ namespace HubEI.Controllers
 
             viewModel.Companies = companies;
             viewModel.Districts = PopulateDistricts();
-
-
-            //return await PaginatedList<Technician>.CreateAsync(technicians.AsNoTracking(), intTechniciansPageNumber, intPendingPageSize);
-
             return View(viewModel);
         }
 
+        /// <summary>
+        /// POSTS a company to the database.
+        /// </summary>
+        /// <param name="model">BOCompanyViewModel company model</param>
+        /// <returns>Companies list backoffice view</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult Company(BOCompanyViewModel model)
         {
@@ -790,6 +964,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Companies", "BackOffice");
         }
 
+        /// <summary>
+        /// GET Company
+        /// </summary>
+        /// <param name="company_id">Company unique identifier</param>
+        /// <returns>Company</returns>
+        /// <remarks></remarks>
         [HttpGet]
         public JsonResult GetCompany([FromQuery] string company_id)
         {
@@ -798,6 +978,12 @@ namespace HubEI.Controllers
             return Json(company);
         }
 
+        /// <summary>
+        /// EDIT Company
+        /// </summary>
+        /// <param name="model">BOCompanyViewModel company model to edit</param>
+        /// <returns>BackOffice view companies</returns>
+        /// <remarks></remarks>
         [HttpPost]
         public IActionResult EditCompany(BOCompanyViewModel model)
         {
@@ -818,6 +1004,12 @@ namespace HubEI.Controllers
             return RedirectToAction("Companies", "BackOffice");
         }
 
+        /// <summary>
+        /// DELETE a Company
+        /// </summary>
+        /// <param name="CompanyId">Company unique identifier</param>
+        /// <returns>JSON - Operation Success</returns>
+        /// <remarks></remarks>
         [HttpDelete]
         public IActionResult Company([FromQuery]string CompanyId)
         {
