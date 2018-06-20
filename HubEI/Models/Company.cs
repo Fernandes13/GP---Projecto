@@ -29,6 +29,13 @@ namespace HubEI.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Email da empresa.
+        /// Deverá ser um email válido.
+        /// </summary>
+        /// <value>Email da empresa.</value>
+        public string Email { get; set; }
+
+        /// <summary>
         /// Descrição da empresa.
         /// </summary>
         /// <value>Descrição da empresa.</value>
