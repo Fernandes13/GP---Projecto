@@ -5,6 +5,7 @@ using HubEI.Controllers;
 using HubEI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace XUnit_HubEI
 {
@@ -66,6 +67,7 @@ namespace XUnit_HubEI
             _context.SaveChanges();
         }
 
+        [Fact]
         public List<int> MarksStats()
         {
             List<int> marks = new List<int>();

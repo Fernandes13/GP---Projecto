@@ -159,10 +159,7 @@ namespace HubEI.Controllers
         [HttpGet]
         public JsonResult GetStudent([FromQuery] string student_id)
         {
-            Student std = _context.Student
-                .Include(s => s.IdStudentBranchNavigation)
-                .Include(s => s.IdAddressNavigation)
-                .Where(st => st.IdStudent.ToString() == student_id).FirstOrDefault();
+            Student std = _context.Student.Include(s => s.IdStudentBranchNavigation).Include(s => s.IdAddressNavigation).Where(st => st.IdStudent.ToString() == student_id).FirstOrDefault();
 
             return Json(std);
         }

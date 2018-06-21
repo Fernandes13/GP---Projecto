@@ -59,13 +59,16 @@ namespace HubEI.Controllers
 
             var projectDocument = _context.ProjectDocument.Where(pt => pt.IdProject.ToString() == project_id).ToList();
 
-            project.ProjectAdvisor = projectAdvisors;
-            project.ProjectTechnology = projectTechnologies;
+            if(project != null)
+            {
+                project.ProjectAdvisor = projectAdvisors;
+                project.ProjectTechnology = projectTechnologies;
 
-            project.Views += 1;
+                project.Views += 1;
 
-            _context.Project.Update(project);
-            _context.SaveChanges();
+                _context.Project.Update(project);
+                _context.SaveChanges();
+            }
 
             return View(new LoginViewModel { Project = project });
         }
