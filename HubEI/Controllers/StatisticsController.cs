@@ -64,7 +64,7 @@ namespace HubEI.Controllers
         /// It as a Model District and a count of students.
         /// </summary>
         /// <remarks></remarks>
-        private class DistrictsStat
+        public class DistrictsStat
         {
             public District District { get; set; }
             public int count { get; set; }
@@ -90,8 +90,12 @@ namespace HubEI.Controllers
                 });
             }
 
-            stats = stats.OrderByDescending(st => st.count).ToList().GetRange(0, 5);
+            stats = stats.OrderByDescending(st => st.count).ToList();
 
+            if(stats.Count() >= 5)
+            {
+                stats = stats.GetRange(0, 5);
+            }
 
             return Json(stats);
         }
@@ -133,7 +137,9 @@ namespace HubEI.Controllers
 
             query = query.OrderByDescending(q => q.Average).Take(10);
 
-            return Json(query);
+            var list = query.ToList();
+
+            return Json(list);
         }
 
         /// <summary>
@@ -150,7 +156,9 @@ namespace HubEI.Controllers
 
             query = query.Take(5);
 
-            return Json(query);
+            var list = query.ToList();
+
+            return Json(list);
         }
     }
 }
