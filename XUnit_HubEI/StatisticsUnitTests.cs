@@ -84,12 +84,6 @@ namespace XUnit_HubEI
                 Email = "email@email.com",
             });
 
-            _context.ProjectAdvisor.Add(new ProjectAdvisor()
-            {
-                IdProject = 1,
-                IdSchoolMentor = 1
-            });
-
             _context.Project.Add(new Project()
             {
                 IdProject = 1,
@@ -105,6 +99,12 @@ namespace XUnit_HubEI
                 IdBusinessArea = 1
             });
 
+            _context.ProjectAdvisor.Add(new ProjectAdvisor()
+            {
+                IdProject = 1,
+                IdSchoolMentor = 1
+            });
+
             _context.ProjectTechnology.Add(new ProjectTechnology()
             {
                 IdProject = 1,
@@ -114,7 +114,18 @@ namespace XUnit_HubEI
             _context.SaveChanges();
         }
 
-        public List<int> MarksStats()
+        [Fact]
+        public void MarksStatsTests()
+        {
+            var marks = _controller.MarksStats();
+
+            var viewResult = marks as JsonResult;
+
+            Assert.True(((List<int>)viewResult.Value)[17] == 1);
+        }
+
+        [Fact]
+        public void DistrictsStatsTests()
         {
             var stats = _controller.DistrictsStats();
 
@@ -133,11 +144,10 @@ namespace XUnit_HubEI
 
             var viewResult = stats as JsonResult;
 
-            //var technology = ((List<ProjectTechnology>)viewResult.Value)[0];
+            var technology = ((IDictionary<String, int>)viewResult.Value).First();
 
-            //Assert.True(technology.Description == "Tecnologia");
-            //Assert.True(technology.Count == 1);
-            Assert.True(true);
+            Assert.True(technology.Key == "Tecnologia");
+            Assert.True(technology.Value == 1);
         }
 
         [Fact]
@@ -147,11 +157,10 @@ namespace XUnit_HubEI
 
             var viewResult = stats as JsonResult;
 
-            //var technology = ((Dictionary<String, double>)viewResult.Value).First();
+            var mentor = ((Dictionary<String, double>)viewResult.Value).First();
 
-            //Assert.True(technology.Description == "Tecnologia");
-            //Assert.True(technology.Count == 1);
-            Assert.True(true);
+            Assert.True(mentor.Key == "Nome");
+            Assert.True(mentor.Value == 17);
         }
 
         [Fact]
@@ -161,11 +170,10 @@ namespace XUnit_HubEI
 
             var viewResult = stats as JsonResult;
 
-            //var technology = ((List<ProjectTechnology>)viewResult.Value)[0];
+            var businessArea = ((Dictionary<String, int>)viewResult.Value).First();
 
-            //Assert.True(technology.Description == "Tecnologia");
-            //Assert.True(technology.Count == 1);
-            Assert.True(true);
+            Assert.True(businessArea.Key == "BA");
+            Assert.True(businessArea.Value == 1);
         }
     }
 }

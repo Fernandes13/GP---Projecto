@@ -108,6 +108,7 @@ namespace HubEI.Controllers
         [HttpGet]
         public JsonResult Top10Technologies()
         {
+
             var query = _context.ProjectTechnology
                         .GroupBy(pt => new {
                             pt.IdTechnology,
@@ -120,7 +121,14 @@ namespace HubEI.Controllers
 
             query = query.OrderByDescending(q => q.Count).Take(10).ToList();
 
-            return Json(query);
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+
+            query.ForEach(q =>
+            {
+                dictionary.Add(q.Description, q.Count);
+            });
+
+            return Json(dictionary);
         }
 
         /// <summary>
@@ -139,7 +147,14 @@ namespace HubEI.Controllers
 
             var list = query.ToList();
 
-            return Json(list);
+            Dictionary<string, double> dictionary = new Dictionary<string, double>();
+
+            list.ForEach(q =>
+            {
+                dictionary.Add(q.name, q.Average);
+            });
+
+            return Json(dictionary);
         }
 
         /// <summary>
@@ -158,7 +173,14 @@ namespace HubEI.Controllers
 
             var list = query.ToList();
 
-            return Json(list);
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+
+            list.ForEach(q =>
+            {
+                dictionary.Add(q.name, q.Count);
+            });
+
+            return Json(dictionary);
         }
     }
 }

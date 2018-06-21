@@ -82,10 +82,10 @@ function renderTopBusinessAreas(stats)
     var areas = [];
     var counts = [];
 
-    stats.forEach(function (stat) {
-        areas.push(stat.name);
-        counts.push(stat.count);
-    });
+    for (var value in stats) {
+        areas.push(value);
+        counts.push(stats[value]);
+    }
 
     var context = document.getElementById("business_areas_chart").getContext('2d');
 
@@ -134,15 +134,20 @@ function renderProjectMarks(marks) {
 }
 
 function renderProjectTechnologies(stats) {
+    
+
+    //console.log(stats);
+
     var context = document.getElementById("project_technologies_chart").getContext('2d');
 
     var technologyNames = [];
     var technologyCount = [];
 
-    stats.forEach(technology => {
-        technologyNames.push(technology.description);
-        technologyCount.push(technology.count);
-    });
+
+    for (var value in stats) {
+        technologyNames.push(value);
+        technologyCount.push(stats[value]);
+    }
 
     var myBarChart = new Chart(context, {
         type: 'bar',
@@ -197,10 +202,10 @@ function renderMentorsAverage(stats) {
     var mentors = [];
     var counts = [];
 
-    stats.forEach(function (stat) {
-        mentors.push(stat.name);
-        counts.push(Math.round(stat.average * 100) / 100);
-    });
+    for (var value in stats) {
+        mentors.push(value);
+        counts.push(Math.round(stats[value] * 100)/100);
+    }
 
     var context = document.getElementById("mentors_average_chart").getContext('2d');
 
